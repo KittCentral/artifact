@@ -1,0 +1,56 @@
+using UnityEngine;
+using UnityEngine.UI;
+using System;
+using System.Collections;
+
+public class GPS_Viewer : MonoBehaviour
+{
+	// declare variables
+	public GameObject GPS_Control;		// reference to the the GPS_Control game object for importing variables from GPS_Control.cs
+	GPS_Control gps_control;			// script variable repesenting GPS_Control.cs
+
+	private int elevation;
+	private int azimuth;
+
+
+	void Start()
+	{
+		// import the GPS data from GPS_Control.cs
+		gps_control = GPS_Control.GetComponent<GPS_Control>();
+		// DEBUG
+		//print(gps_control.gsv_info[0]);
+		//print(gps_control.rmc_info[0]);
+
+	}
+
+
+	void Update()
+	{
+		//print(gps_control.gsv_info[3]);
+
+		// for each satellite being tracked (# of satellites = gps_control.gsv_info[3], but often broken over many lines)
+		// test coordinates
+			// 07,73,007
+			// 21,19,4
+		{
+			// determine coordinates
+			elevation = Convert.ToInt32("21");
+			azimuth = Convert.ToInt32("19");
+
+			print (elevation);
+			print (azimuth);
+
+			// instantiate object at coordinates
+
+
+		}
+
+
+	}
+}
+
+
+
+
+
+

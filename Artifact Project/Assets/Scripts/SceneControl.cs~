@@ -1,0 +1,38 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class SceneControl : MonoBehaviour 
+{
+	public string[] Scenes =  new string[4];
+	public int targetScene;
+
+	void Start () 
+	{
+		Scenes[0] = "RSS Scene";
+		Scenes[1] = "Rolling";
+		Scenes[2] = "Calendar";
+		Scenes[3] = "GPS";
+	}
+
+	public void OpenScene(int number)
+	{
+		targetScene = number;
+		PlayerPrefs.SetInt("Target",targetScene);
+		UnityEngine.Application.LoadLevel("Loading");
+	}
+
+	IEnumerator Wait(int number)
+	{
+		yield return new WaitForSeconds(3);
+		UnityEngine.Application.LoadLevel(Scenes[number]);
+	}
+
+	void Update () 
+	{
+		if(Application.loadedLevelName == "Loading")
+		{
+			targetScene = PlayerPrefs.GetInt("Target");
+			StartCoroutine(Wait(targetScene));
+		}
+	}
+}

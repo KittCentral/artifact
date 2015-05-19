@@ -1,0 +1,24 @@
+using UnityEngine;
+using System.Collections;
+
+public class Display_Text : MonoBehaviour 
+{
+
+
+	public string eeeeeee;
+
+
+	// initalization loop
+	void Start ()
+	{
+
+	}
+
+	// frame update loop
+	void Update () 
+	{
+		eeeeeee = "this is a test";
+	}
+
+
+}

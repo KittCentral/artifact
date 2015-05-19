@@ -1,0 +1,21 @@
+using UnityEngine;
+using System.Collections;
+using System;
+
+
+public class GPS_Control : MonoBehaviour 
+{
+	private int test;
+
+	void Start () 
+	{
+		test = 5;
+	}
+
+	void Update () 
+	{
+		print(test);
+		print(test + 1);
+	}
+
+}

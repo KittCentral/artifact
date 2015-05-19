@@ -1,0 +1,54 @@
+﻿using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
+
+public class GPS_Text : MonoBehaviour 
+{
+	// declare variables
+	public GameObject time_box;
+	public Text current_time;
+	
+	//public GameObject gsv_info_obj;
+	public GameObject GPS_Control;
+	GPS_Control gps_control;
+	//public string[] gsv_info;
+
+	// this one works
+	//public GameObject GPS_Control;
+	//GPS_Control trial;
+
+
+
+	// initalization loop
+	void Start ()
+	{
+		//gps_control = gsv_info_obj.GetComponent<GPS_Control>();
+		gps_control = GPS_Control.GetComponent<GPS_Control>();
+		print(gps_control.gsv_info);
+
+		//gsv_info = raw_data.Split(',');
+
+		// this one works
+		//trial = GPS_Control.GetComponent<GPS_Control>();
+		//print(trial.aaa);
+		
+		// debug
+		//for (int i = 0; i <= 19; i++)
+		//
+		//print(gps_control.gsv_info);  // the value for this is {string[0]} and it does not work
+		//}
+		
+		current_time = time_box.GetComponent<Text>();
+		current_time.text = "No Time Data";
+		
+		
+	}
+	
+	// frame update loop
+	void Update () 
+	{
+		current_time.text = "The Time is:";
+	}
+	
+	
+}

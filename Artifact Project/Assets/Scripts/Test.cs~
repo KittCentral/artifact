@@ -1,0 +1,274 @@
+﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
+//using UnityEditor;
+
+public class Test : MonoBehaviour {
+
+	//For creating the tiles:
+	public Transform panel;
+	public GameObject tile;
+	
+	private bool[,] LoadedTiles = new bool[31,13];
+	private GameObject[,] tileCollection = new GameObject[31,13];
+	private string filename;
+	private Texture pic;
+	private RawImage imagename;
+	private RectTransform anchorSet;
+	private Vector2 Min = new Vector2(0,1);
+	private Vector2 Max = new Vector2(0,0);
+	private GameObject newTile;
+
+
+	//For the dynamic tiling:
+	public GameObject camera;
+	private Vector3 newMousePosition;
+	private Vector3 oldMousePosition;
+	private Vector3 changeInMouse = new Vector3(0,0,0);
+	private bool clicked;
+	private Vector3 cameraPosition;
+	public float speed;
+
+
+	// Use this for initialization
+	void Start () {
+//		for(int i = 0; i < 31; i++)
+//		{
+//			float newX = (i+1) / 31.0f;
+//			Max.x = newX;
+//			for(int j = 0; j < 13; j++)
+//			{
+//				float newY = 1-((j) / 13.0f);
+//				Min.y = newY - (1.0f/13.0f);
+//				Max.y = newY;
+//				print (Max.ToString() + ' ' + Min.ToString());
+//				filename = "x " + i.ToString() + " y " + j.ToString();
+//				pic = Resources.Load<Texture>(filename);
+//				
+//				newTile = (GameObject) Instantiate (tile);
+//				newTile.name = filename;
+//				newTile.transform.SetParent (panel,false);
+//				anchorSet = newTile.GetComponent<RectTransform> ();
+//				imagename = newTile.GetComponent<RawImage> ();
+//
+//				anchorSet.anchorMin = Min;
+//
+//				anchorSet.anchorMax = Max;
+//				imagename.texture = pic;
+//				//Min.y = Max.y;
+//			}
+//			Min.x = Max.x;
+//		}
+		//newTile.AddComponent<RawImage> ();
+
+
+	}
+	// Update is called once per frame
+	void Update () {
+		bool velocitySet = false;
+		cameraPosition = camera.transform.position;
+		//print (changeInMouse.ToString());
+		float currentx = cameraPosition.x / 10f;
+		float currentz = cameraPosition.z / 10f;
+		
+		int currentxInt =  Mathf.FloorToInt (currentx);
+		int currentzInt = Mathf.FloorToInt (currentz);
+		if(0 <= currentzInt && currentzInt <= 12 && 0 <= currentxInt && currentxInt <= 30)
+			StartCoroutine(dynamicTiling( currentxInt, currentzInt));
+
+		if (Input.GetKey(KeyCode.Mouse0))
+		{
+			clicked = true;
+		}
+		if(!Input.GetKey(KeyCode.Mouse0))
+		{
+			clicked = false;
+		}
+//		print ("check1");
+		print (currentxInt.ToString() + " " + currentzInt.ToString());
+		if(clicked && oldMousePosition != Input.mousePosition)
+		{
+			print ("check2");
+			//newMousePosition = Input.mousePosition;
+			changeInMouse = Input.mousePosition - oldMousePosition;
+			
+			changeInMouse.x = changeInMouse.x * (-1.0f*speed);
+			changeInMouse.z = changeInMouse.y * (-1.0f*speed);
+			changeInMouse.y = 0;
+
+			if(currentzInt > 12 || currentzInt < 0)
+			{
+				print("Out of y range");
+				if(currentz < 0.5 && changeInMouse.z < 0)
+					changeInMouse.z = -changeInMouse.z;
+				if(currentzInt > 12.5 && changeInMouse.z > 0)
+					changeInMouse.z = -changeInMouse.z;
+			}
+
+			if(currentxInt < 0 || currentxInt > 30)
+			{
+				print ("Out of x range");
+				if(currentxInt < 0 && changeInMouse.x < 0)
+					changeInMouse.x = -changeInMouse.x;
+				if(currentxInt > 30 && changeInMouse.x > 0)
+					changeInMouse.x = -changeInMouse.x;
+			}
+			//print (changeInMouse.ToString());
+			camera.rigidbody.velocity = changeInMouse;
+			velocitySet = true;
+		}
+
+		if(currentzInt > 12 || currentzInt < 0)
+		{
+			print("Out of y range");
+			if(currentzInt < 0)
+				camera.rigidbody.AddForce(new Vector3 (0,0,-currentz * 20.0f));
+			if(currentzInt > 12 && changeInMouse.z > 0)
+				 camera.rigidbody.AddForce(new Vector3(0,0,-currentz * 20.0f));
+		}
+			
+		if(currentxInt < 0 || currentxInt > 30)
+		{
+			print ("Out of x range");
+			if(currentxInt < 0 && changeInMouse.x < 0)
+				camera.rigidbody.AddForce(new Vector3(-currentx* 20.0f,0,0));
+			if(currentxInt > 30 && changeInMouse.x > 0)
+				camera.rigidbody.AddForce(new Vector3(-currentx * 20.0f,0,0));
+		}
+			//print (changeInMouse.ToString());
+			
+		oldMousePosition = Input.mousePosition;
+
+
+	
+	}
+
+	void makeTile(int i, int j)
+	{
+
+		newTile = (GameObject) Instantiate (tile);
+
+		//Set the parent to the panel.
+		newTile.transform.SetParent (panel,false);
+
+		//Get the RectTransform Component
+		anchorSet = newTile.GetComponent<RectTransform> ();
+
+		//Calculate anchors
+		//31 things in x, so each one has width 1/31. To position, multiply by i.
+
+		float newX = (i+1) / 31.0f;
+		Max.x = newX;
+		Min.x = newX - 1.0f / 31.0f;
+
+		//13 things in y, subtracting from one because it has to start in the top left.
+
+		float newY = 1-((j) / 12.0f);
+		Min.y = newY - (1.0f/12.0f);
+		Max.y = newY;
+
+		//Set anchors
+
+		anchorSet.anchorMin = Min;
+		anchorSet.anchorMax = Max;
+
+		//get rawImage component
+		imagename = newTile.GetComponent<RawImage> ();
+
+		//Load texture
+
+		filename = "x " + i.ToString() + " y " + j.ToString();
+		pic = Resources.Load<Texture>(filename);
+
+		//set texture
+
+		imagename.texture = pic;
+		imagename.SetNativeSize ();
+		//For readability, make the tile's name it's coordinate location
+
+		newTile.name = filename;
+
+		//A 2D boolean array to keep track of what tiles have and have not been loaded.
+		LoadedTiles [i, j] = true;
+
+		//A 2D GameObject array to take the Instantiated clones out of the scope of this function
+		tileCollection [i, j] = newTile;
+
+
+	}
+	
+
+
+	IEnumerator dynamicTiling(int positionx, int positionz)
+	{
+
+		cameraPosition = camera.transform.position;
+
+		float currentx = cameraPosition.x / 10f;
+		float currentz = cameraPosition.z / 10f;
+
+		int currentxInt =  Mathf.FloorToInt (currentx);
+		int currentzInt = Mathf.FloorToInt (currentz);
+		print ("Current: x " + currentxInt.ToString () + " y " + currentzInt.ToString ());
+		for(int i = -1; i <= 1; i++)
+		{
+			for(int j = -1; j <= 1; j++)
+			{
+				if(!LoadedTiles[positionx + i,13-positionz - j])
+					makeTile(positionx + i, 13-positionz - j);
+				yield return new WaitForSeconds(0.0f);
+			}
+		}
+		//return null;
+	}
+
+//
+//	
+//	IEnumerator destroy()
+//	{
+//
+//		
+//		for(int i = 0; i <= 30; i++)
+//		{
+//			for(int j = 0; j <= 12; j++)
+//			{
+//				if(LoadedTiles[i,j]) 
+//				{
+//					print ("Distance: " + (Vector3.Distance(camera.transform.position,tileCollection[i,j].transform.position)).ToString());
+//					if(Vector3.Distance(camera.transform.position,tileCollection[i,j].transform.position) > 50.0f)
+//					{
+//						Destroy(tileCollection[i,j], 0.0f);
+//						//LoadedTiles[i,j] = false;
+//					}
+//				}
+//			}
+//		}
+//		return null;
+//	}
+
+	IEnumerator waitAndSet()
+	{
+		yield return new WaitForSeconds (3);
+
+
+
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

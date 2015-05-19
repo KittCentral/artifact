@@ -1,0 +1,26 @@
+﻿using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
+
+public class GPS_Text : MonoBehaviour 
+{
+	// declare variables
+	public GameObject GPS_Text;
+	public Text sss;
+	
+	
+	// initalization loop
+	void Start ()
+	{
+		//sss = GPS_Text.GetComponentsInChildren<Text> ();
+		sss.text = "this is a start test";
+	}
+	
+	// frame update loop
+	void Update () 
+	{
+		sss.text = "this is a test update";
+	}
+	
+	
+}
