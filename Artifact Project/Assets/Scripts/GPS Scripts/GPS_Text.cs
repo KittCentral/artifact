@@ -1,4 +1,17 @@
-﻿using UnityEngine;
+﻿// This script displayes current time and coordiantes of the GPS receiver, which update dynamically.
+// This script uses 2 variables, gsv_info and rmc_info, that contain the information from the GPS receiver.
+// gsv_info and rmc_info are created in GPS_Control.cs and parsed in this script so they can be displayed on the screen.  The time is
+// adjusted to match the time in Boulder, Colorado.  This also accounts for Daylight Savings Time.
+//
+// This script assumes:
+//		that the artifact project is operating in Boulder, Colorado, in the Mountain Time Zone
+//		that a functioning GPS receiver is connected to a USB port on the artifact computer
+// 		north latitude (above Equator) = positive, east longitude (east of Prime Meridian) = positive
+//
+// This script produces:
+//		the current time and current coordinates of the GPS receiver and displays them on the screen
+
+using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections;
@@ -28,7 +41,7 @@ public class GPS_Text : MonoBehaviour
 	private string string_second1;		// second digit of the second as a string
 	private string final_time;			// time to be displayed after all formatting and adjustments
 	private bool dst = false;			// true if currently daylight savings time, otherwise false
-	//		based on the date and time zone from the operating system
+	//											// based on the date and time zone from the operating system
 	
 	public GameObject coordinate_box;	// game object for the text box displaying the current time
 	public Text current_coordinates;	// the sting that is displayed in the text box
@@ -75,7 +88,10 @@ public class GPS_Text : MonoBehaviour
 	
 	void Update () 
 	{
-		// check for import errors
+		// check for import errors, and suppress error messages
+		// Yes there will be some inital error when the program starts, because GPS_Control.cs runs much faster than
+		// SerialPort.read().  Therefore, gps_control.rmc_info[1] will not contain any data for the first few cycles through the 
+		// Update() function.  This behavior is intended.
 		try
 		{
 			error_tester = gps_control.rmc_info[1].ToCharArray();
@@ -172,5 +188,3 @@ public class GPS_Text : MonoBehaviour
 		error_thrown = false;
 	}
 }
-
-

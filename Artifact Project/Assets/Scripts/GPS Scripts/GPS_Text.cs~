@@ -1,4 +1,17 @@
-﻿using UnityEngine;
+﻿// This script displayes current time and coordiantes of the GPS receiver, which update dynamically.
+// This script uses 2 variables, gsv_info and rmc_info, that contain the information from the GPS receiver.
+// gsv_info and rmc_info are created in GPS_Control.cs and parsed in this script so they can be displayed on the screen.  The time is
+// adjusted to match the time in Boulder, Colorado.  This also accounts for Daylight Savings Time.
+//
+// This script assumes:
+//		that the artifact project is operating in Boulder, Colorado, in the Mountain Time Zone
+//		that a functioning GPS receiver is connected to a USB port on the artifact computer
+// 		north latitude (above Equator) = positive, east longitude (east of Prime Meridian) = positive
+//
+// This script produces:
+//		the current time and current coordinates of the GPS receiver and displays them on the screen
+
+using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections;
@@ -8,7 +21,9 @@ public class GPS_Text : MonoBehaviour
 	// declare variables
 	public GameObject GPS_Control;		// reference to the the GPS_Control game object for importing variables from GPS_Control.cs
 	GPS_Control gps_control;			// script variable repesenting GPS_Control.cs
-
+	private char[] error_tester;		// hold the text of an exception if it is thrown
+	private bool error_thrown;			// indicates if an import error was detected
+	
 	public GameObject time_box;			// game object for the text box displaying current time
 	public Text current_time;			// the string that is displayed in the text box
 	private char[] gps_time;			// the imported time data from GPS_Control.cs
@@ -26,7 +41,7 @@ public class GPS_Text : MonoBehaviour
 	private string string_second1;		// second digit of the second as a string
 	private string final_time;			// time to be displayed after all formatting and adjustments
 	private bool dst = false;			// true if currently daylight savings time, otherwise false
-										//		based on the date and time zone from the operating system
+	//											// based on the date and time zone from the operating system
 	
 	public GameObject coordinate_box;	// game object for the text box displaying the current time
 	public Text current_coordinates;	// the sting that is displayed in the text box
@@ -46,10 +61,10 @@ public class GPS_Text : MonoBehaviour
 	private string longitude_decimal0;	// 1st decimal (i.e. 0.0) of the longitude
 	private string longitude_decimal1;	// 2nd decimal (i.e. 0.00) of the longitude
 	private string longitude_decimal2;	// 3rd decimal (i.e. 0.000) of the longitude
-	private string longitude_decimal3;	// 4tf decimal (i.e. 0.0000) of the longitude
-	private string final_coordinates;
-
-		
+	private string longitude_decimal3;	// 4th decimal (i.e. 0.0000) of the longitude
+	private string final_coordinates;	// the completed text string containing the current coordiates
+	
+	
 	void Start ()
 	{
 		// import the GPS data from GPS_Control.cs
@@ -57,89 +72,119 @@ public class GPS_Text : MonoBehaviour
 		// DEBUG
 		//print(gps_control.gsv_info[0]);
 		//print(gps_control.rmc_info[0]);
-
+		
 		// initalize the current time
 		current_time = time_box.GetComponent<Text>();
 		current_time.text = "No Time Data";
-
+		
 		// initalize the current coordinates
 		current_coordinates = coordinate_box.GetComponent<Text>();
 		current_coordinates.text = "No Coordinate Data";
+		
+		// initalize error tracker
+		error_thrown = false;
 	}
-
-
+	
+	
 	void Update () 
 	{
-		// display current time
-		gps_time = gps_control.rmc_info[1].ToCharArray();
-
-		// convert to integers
-		int_hour0 = (int)Char.GetNumericValue(gps_time[0]);
-		int_hour1 = (int)Char.GetNumericValue(gps_time[1]);
-		int_hour = (int_hour0 * 10) + int_hour1;				//FIX might be a bug here
-		int_minute0 = (int)Char.GetNumericValue(gps_time[2]);
-		int_minute1 = (int)Char.GetNumericValue(gps_time[3]);
-		int_second0 = (int)Char.GetNumericValue(gps_time[4]);
-		int_second1 = (int)Char.GetNumericValue(gps_time[5]);
-
-		// adjust hours to local time
-		dst = DateTime.Now.IsDaylightSavingTime();
-		if (dst == true)
+		// check for import errors, and suppress error messages
+		// Yes there will be some inital error when the program starts, because GPS_Control.cs runs much faster than
+		// SerialPort.read().  Therefore, gps_control.rmc_info[1] will not contain any data for the first few cycles through the 
+		// Update() function.  This behavior is intended.
+		try
 		{
-			//subtract 6 hours
-			if ( (int_hour - 6) < 0)
-			{
-				int_hour = 24 - Math.Abs(int_hour - 6);
-			}
-			int_hour = int_hour - 6;
+			error_tester = gps_control.rmc_info[1].ToCharArray();
 		}
-		else // dst = false
+		catch (System.IndexOutOfRangeException)
 		{
-			//subtract 7 hours
-			if ( (int_hour - 7) < 0)
-			{
-				int_hour = 24 - Math.Abs(int_hour - 7);
-			}
-			int_hour = int_hour - 7;
+			error_thrown = true;
 		}
-
-		// convert to char array
-		string_hour = Convert.ToString(int_hour);
-		string_minute0 = Convert.ToString(int_minute0);
-		string_minute1 = Convert.ToString(int_minute1);
-		string_second0 = Convert.ToString(int_second0);
-		string_second1 = Convert.ToString(int_second1);
+		// DEBUG
+		//print ("Passed GPS_Text");
+		
+		// only execute if no import errors
+		if (error_thrown == false)
+		{
+			// display current time
+			gps_time = gps_control.rmc_info[1].ToCharArray();
+			// DEBUG
+			//print (gps_control.rmc_info[1]);
 			
-		final_time = string_hour + ":" + string_minute0 + string_minute1 + ":" + string_second0 + string_second1;
-		current_time.text = final_time;
-
-
-		// display current coordinates
-		raw_latitude = gps_control.rmc_info[3];
-		latitiude_direction = gps_control.rmc_info[4];
-		raw_longitude = gps_control.rmc_info[5];
-		longitude_direction = gps_control.rmc_info[6];
-
-		latitude_whole0 = Convert.ToString(raw_latitude[0]);
-		latitude_whole1 = Convert.ToString(raw_latitude[1]);
-		latitude_decimal0 = Convert.ToString(raw_latitude[2]);
-		latitude_decimal1 = Convert.ToString(raw_latitude[3]);
-		latitude_decimal2 = Convert.ToString(raw_latitude[5]); // raw_latitiude[4] = "." and that is not needed
-		latitude_decimal3 = Convert.ToString(raw_latitude[6]);
-
-		longitude_whole0 = Convert.ToString(raw_longitude[0]);
-		longitude_whole1 = Convert.ToString(raw_longitude[1]);
-		longitude_whole2 = Convert.ToString(raw_longitude[2]);
-		longitude_decimal0 = Convert.ToString(raw_longitude[3]);
-		longitude_decimal1 = Convert.ToString(raw_longitude[4]);
-		longitude_decimal2 = Convert.ToString(raw_longitude[6]); // raw_longitude[5] = "." and that is not needed
-		longitude_decimal3 = Convert.ToString(raw_longitude[7]);
-
-		final_coordinates = latitude_whole0 + latitude_whole1 + "." + latitude_decimal0 + latitude_decimal1 + latitude_decimal2 
-			+ latitude_decimal3 + " " + latitiude_direction + "\n" + longitude_whole0 + longitude_whole1 + longitude_whole2 
-			+ "." + longitude_decimal0 + longitude_decimal1 + longitude_decimal2 + longitude_decimal3 + " " + longitude_direction;
-		current_coordinates.text = final_coordinates;
-
-		//FIX what happens when no coordinate fix?
+			// convert to integers
+			int_hour0 = (int)Char.GetNumericValue(gps_time[0]);
+			int_hour1 = (int)Char.GetNumericValue(gps_time[1]);
+			int_hour = (int_hour0 * 10) + int_hour1;
+			int_minute0 = (int)Char.GetNumericValue(gps_time[2]);
+			int_minute1 = (int)Char.GetNumericValue(gps_time[3]);
+			int_second0 = (int)Char.GetNumericValue(gps_time[4]);
+			int_second1 = (int)Char.GetNumericValue(gps_time[5]);
+			
+			// adjust hours to local time in Boulder, Colorado
+			dst = DateTime.Now.IsDaylightSavingTime();
+			if (dst == true)
+			{
+				//subtract 6 hours
+				if ( (int_hour - 6) < 0)
+				{
+					int_hour = 24 - Math.Abs(int_hour - 6);
+				}
+				else  // (int_hour - 6) >= 0
+				{
+					int_hour = int_hour - 6;
+				}
+			}
+			else // dst = false
+			{
+				//subtract 7 hours
+				if ( (int_hour - 7) < 0)
+				{
+					int_hour = 24 - Math.Abs(int_hour - 7);
+				}
+				else  // (int_hour - 7) >= 0
+				{
+					int_hour = int_hour - 7;
+				}
+			}
+			
+			// convert to char array
+			string_hour = Convert.ToString(int_hour);
+			string_minute0 = Convert.ToString(int_minute0);
+			string_minute1 = Convert.ToString(int_minute1);
+			string_second0 = Convert.ToString(int_second0);
+			string_second1 = Convert.ToString(int_second1);
+			
+			final_time = string_hour + ":" + string_minute0 + string_minute1 + ":" + string_second0 + string_second1;
+			current_time.text = final_time;
+			
+			// display current coordinates
+			raw_latitude = gps_control.rmc_info[3];
+			latitiude_direction = gps_control.rmc_info[4];
+			raw_longitude = gps_control.rmc_info[5];
+			longitude_direction = gps_control.rmc_info[6];
+			
+			latitude_whole0 = Convert.ToString(raw_latitude[0]);
+			latitude_whole1 = Convert.ToString(raw_latitude[1]);
+			latitude_decimal0 = Convert.ToString(raw_latitude[2]);
+			latitude_decimal1 = Convert.ToString(raw_latitude[3]);
+			latitude_decimal2 = Convert.ToString(raw_latitude[5]); // raw_latitiude[4] = "." and that is not needed
+			latitude_decimal3 = Convert.ToString(raw_latitude[6]);
+			
+			longitude_whole0 = Convert.ToString(raw_longitude[0]);
+			longitude_whole1 = Convert.ToString(raw_longitude[1]);
+			longitude_whole2 = Convert.ToString(raw_longitude[2]);
+			longitude_decimal0 = Convert.ToString(raw_longitude[3]);
+			longitude_decimal1 = Convert.ToString(raw_longitude[4]);
+			longitude_decimal2 = Convert.ToString(raw_longitude[6]); // raw_longitude[5] = "." and that is not needed
+			longitude_decimal3 = Convert.ToString(raw_longitude[7]);
+			
+			final_coordinates = latitude_whole0 + latitude_whole1 + "." + latitude_decimal0 + latitude_decimal1 + latitude_decimal2 
+				+ latitude_decimal3 + " " + latitiude_direction + "\n" + longitude_whole0 + longitude_whole1 + longitude_whole2 
+					+ "." + longitude_decimal0 + longitude_decimal1 + longitude_decimal2 + longitude_decimal3 + " " + longitude_direction;
+			current_coordinates.text = final_coordinates;
+		}
+		
+		// reset error tracker
+		error_thrown = false;
 	}
 }
