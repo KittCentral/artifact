@@ -12,4 +12,3 @@ To work on this project:
   5) In Git, add all new or modified files to your local repository
   6) In Git, commit all changes to your local reposotory
   7) In Git push your local repository to GitHub
-
