@@ -5,12 +5,13 @@
 //
 // This script assumes:
 //		that the artifact project is operating in Boulder, Colorado, in the Mountain Time Zone
-//		that a functioning GPS receiver is connected to a USB port on the artifact computer
+//		that a functioning GPS receiver is connected to a USB port on the artifact computer, and the necessary drivers are installed
 // 		north latitude (above Equator) = positive, east longitude (east of Prime Meridian) = positive
 //
 // This script produces:
 //		the current time and current coordinates of the GPS receiver and displays them on the screen
 
+// directives
 using UnityEngine;
 using UnityEngine.UI;
 using System;
