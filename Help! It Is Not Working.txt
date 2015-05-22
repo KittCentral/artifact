@@ -1,0 +1,48 @@
+Here are some ways to resolve poential issues with the artifact project
+
+//---------------------------------------------------------------------------------------------------------------------------------------------
+Problem Location: Missing software and drivers
+Potential Issues:
+	Cannot find or open prefab models (like the GPS satellite model)
+	Cannot communicate with GPS receiver (nothing detected on ANY USB port even though the GPS receiver is plugged in)
+Potential Resolution:
+	Are all of the necessary software and drivers installed?
+	To edit that artifact project, the following is necessary.
+		Unity3D version 5 or higher with MonoDevelop version 4 or higher (https://unity3d.com/ - the free version is fine)
+		Blender 2.74 or higher (https://www.blender.org/)
+		BU-353-S4 GPS receiver driver (http://usglobalsat.com/s-172-bu-353-s4-support.aspx)
+//---------------------------------------------------------------------------------------------------------------------------------------------
+Problem Location: Astron GPS Viewer
+Potential Issues:
+	The computer cannot connect to the GPS receiver, or the communication port cannot be opened.
+	The error "IOException: Access is denied." is thrown.
+	The wrong communication port is opened.
+Potential Resolution:
+	First, make sure the driver for the USB GPS receiver is properly installed and the GPS receiver is connected to the computer through 
+	a USB port.  If that does not resolve the issue, open GPS_Control.cs, and manually set the COM port in the void Start() function 
+	around line 32.  Here is how to do that.
+
+	The current code automatically locates and sets the COM port.  If the error "IOException: Access is denied." is thrown, then this 
+	issue is probably here.  You can comment out the original code in void Start() and manually set the COM port by replacing it with 
+	the following line:
+								
+		public SerialPort com_port = new SerialPort("XXXX", 9600)
+		
+	where XXXX is the name of the COM port (ex: COM1, COM2, COM3, COM4).  To determine the correct COM port in Windows, open the 
+	Device Manager and expand the Ports(COM & LPT) section.  The serial devices are listed with their associated COM port.  The COM 
+	port number for a device is different for EVERY computer.
+//---------------------------------------------------------------------------------------------------------------------------------------------
+Problem Location: Multiple locations
+Potential Issues:
+	The displayed information does not fit the screen.
+	The Weather Tab in the RSS Scene is not visible.
+	A pink background appears around the edges of some screens.
+	The calendar in the Calendar Scene does not fill the screen.
+Potential Resolution:
+	The bulk of the artifact project was designed on other computers, because the artifact computer and projector was not purchased yet.
+	It is difficult to design a screen layout when you do not know the final screen size that will be displayed on the wall.
+
+	All display issues will need to be corrected in code or within Unity.  Once the artifact computer and projector are set up, the 
+	displayed content will need to be optimized for the projected screen.  This will probably require trial and error testing to make it
+	look good.  In addition to the layout, colors and fonts may need to be adjusted as well.
+//---------------------------------------------------------------------------------------------------------------------------------------------

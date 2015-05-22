@@ -1,5 +1,5 @@
 // This is the primary control script for the Astron GPS Viewer.  This script opens the serial port to the GPS receiver and 
-// extracts the necessary information from the NEMA strings sent by the GPS receiver.
+// extracts the necessary information from the NEMA text strings sent by the GPS receiver.
 // This script creates two variables, gsv_info and rmc_info, to hold the gathered information, and GPS_Text.cs and GPS_Viewer.cs use 
 // these variables.  More information about the NEMA strings can be found at http://aprs.gids.nl/nmea/.
 
@@ -34,11 +34,11 @@ public class GPS_Control : MonoBehaviour
 		//		this code does not detect the COM port for my USB mouse, so I suspect that is only catched device which are not used 
 		//		by other programs.  The code below automatically locates and sets the COM port.
 		//		If the error "IOException: Access is denied." is thrown, then this issue is probably here.  You can comment out the 
-		//		code below and manually set the COM port with the following line:
+		//		code below and manually set the COM port by replacing it with the following line:
 		//						
 		//			public SerialPort com_port = new SerialPort("XXXX", 9600)
 		//
-		//		where XXXX is the name of the COM port (ex: COM1, COM2, COM3, COM4)
+		//		where XXXX is the name of the COM port (ex: COM1, COM2, COM3, COM4).
 		//		To determine the correct COM port in Windows, open the Device Manager and expand the Ports(COM & LPT) section.
 		//		The serial devices are listed with their associated COM port.  The COM port number for a device is different for 
 		//		EVERY computer.

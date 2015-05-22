@@ -1,8 +1,10 @@
 # artifact
 Global Engineering Artifact Project
 
-This is the README file for the Global Engineering Artifact Project.  These file are meant to be edited with the Unity3D
-game engine (https://unity3d.com/).
+This is the README file for the Global Engineering Artifact Project.  
+All information about this project is contained in the document "Artifact Proposal.docx" in the Project Proposals folder.
+"Help! It Is Not Working.txt" contains useful information about resolving potential issues with the artifact project.
+These file are meant to be edited with the Unity3D game engine (https://unity3d.com/).
 
 To work on this project:
   1) Pull the entire project to your local repository with Git
