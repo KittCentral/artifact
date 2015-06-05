@@ -16,7 +16,7 @@ To work on this project:
   7) In Git push your local repository to GitHub
 
 Notes:
-  Try to keep file sizes below 50MB of GitHub will complain.  This can happen with the metadata file for uncompressed
+  Try to keep file sizes below 50MB or GitHub will complain.  This can happen with the metadata file for uncompressed
       textures.
   At the moment (5-20-15) the repository is about 400 MB, so keep that in mind when downloading (pulling) to your
       local repository.
