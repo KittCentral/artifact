@@ -16,6 +16,7 @@ public class ChatBox : MonoBehaviour
 	public GameObject field;
 	private InputField inputField;
 	private Vector2 scrollPosition;
+	private int counter;
 
 	void Start () 
 	{
@@ -26,10 +27,13 @@ public class ChatBox : MonoBehaviour
 
 	public void Send()
 	{
-		mess += "Me: " + ask + "\n" + "\n";
-		answer = bot.getOutput(ask);
-		mess += "Fezzik: " + answer + "\n" + "\n";
-		inputField.text = "";
+		if(counter == 0)
+		{
+			mess += "Me: " + ask + "\n" + "\n";
+			answer = bot.getOutput(ask);
+			mess += "Fezzik: " + answer + "\n" + "\n";
+			inputField.text = "";
+		}
 	}
 
 	public void changeAsk(string arg)
@@ -39,9 +43,14 @@ public class ChatBox : MonoBehaviour
 
 	void Update () 
 	{
-		if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyUp(KeyCode.KeypadEnter))
+		if(Input.GetKeyUp(KeyCode.KeypadEnter))
 		{
 			Send();
+			counter = 30;
+		}
+		if(counter != 0)
+		{
+			counter -= 1;
 		}
 		messBoard.text = mess;
 	}
