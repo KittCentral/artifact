@@ -20,7 +20,14 @@ public class EarthSpin : MonoBehaviour
 	void Update () 
 	{
 		rotation = transform.rotation;
-		Earth.transform.rotation = rotation;
+		if(rotation.eulerAngles.x<90)
+		{
+			Earth.transform.rotation = Quaternion.Euler(new Vector3(rotation.eulerAngles.x,rotation.eulerAngles.y,rotation.eulerAngles.z));
+		}
+		else
+		{
+			Earth.transform.rotation = Quaternion.Euler(new Vector3(rotation.eulerAngles.x,rotation.eulerAngles.y,rotation.eulerAngles.z));
+		}
 		CameraRay cameraRay = mainCamera.GetComponent<CameraRay>();
 		Vector3 spin = new Vector3 (0, cameraRay.earthRotation.y, 0);
 		Vector3 lift = new Vector3 (cameraRay.earthRotation.x, 0, 0);
