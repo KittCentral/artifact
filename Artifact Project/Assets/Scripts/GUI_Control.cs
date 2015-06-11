@@ -168,11 +168,11 @@ public class GUI_Control : MonoBehaviour
 		}
 		if(nb != 14)
 		{
-			background.GetComponent<Renderer>().enabled = true;
+			background.SetActive (true);
 		}
 		else
 		{
-			background.GetComponent<Renderer>().enabled = false;
+			background.SetActive (false);
 		}
 		BGSphere.transform.localScale =new Vector3(mainCamera.GetComponent<Camera>().orthographicSize*3.5f,mainCamera.GetComponent<Camera>().orthographicSize*3.5f,mainCamera.GetComponent<Camera>().orthographicSize*3.5f);
 		background.transform.localScale =new Vector3(mainCamera.GetComponent<Camera>().orthographicSize*0.3f,mainCamera.GetComponent<Camera>().orthographicSize*0.25f,mainCamera.GetComponent<Camera>().orthographicSize*0.25f);
