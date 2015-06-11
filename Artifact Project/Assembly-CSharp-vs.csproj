@@ -112,6 +112,7 @@
      <Compile Include="Assets\Scripts\News RSS\NewsRSS.cs" />
      <Compile Include="Assets\Scripts\News RSS\rssreader.cs" />
      <Compile Include="Assets\Scripts\News RSS\rsstester.cs" />
+     <Compile Include="Assets\Scripts\PlanetShading.cs" />
      <Compile Include="Assets\Scripts\SceneControl.cs" />
      <Compile Include="Assets\Scripts\SkyDome.cs" />
      <Compile Include="Assets\Scripts\Spin.cs" />
@@ -132,6 +133,7 @@
      <Compile Include="Assets\Scripts\Weather Scripts\WeatherPanel.cs" />
      <Compile Include="Assets\Scripts\gameControl.cs" />
      <None Include="Assets\StreamingAssets\About.txt" />
+     <None Include="Assets\Shaders\Planet.shader" />
      <None Include="Assets\StreamingAssets\config\Person2Substitutions.xml" />
      <None Include="Assets\AIMLBot\AIMLbot\ConfigurationFiles\Splitters.xml" />
      <None Include="Assets\AIMLBot\AIMLbot\ConfigurationFiles\DefaultPredicates.xml" />
@@ -141,10 +143,12 @@
      <None Include="Assets\StreamingAssets\config\DefaultPredicates.xml" />
      <None Include="Assets\AIMLBot\AIMLbot\ConfigurationFiles\GenderSubstitutions.xml" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
+     <None Include="Assets\Shaders\SkyFromSpace.shader" />
      <None Include="Assets\StreamingAssets\config\Settings.xml" />
      <None Include="Assets\StreamingAssets\config\Substitutions.xml" />
      <None Include="Assets\AIMLBot\AIMLbot\ConfigurationFiles\Person2Substitutions.xml" />
      <None Include="Assets\StreamingAssets\config\Splitters.xml" />
+     <None Include="Assets\Shaders\GroundFromSpace.shader" />
      <None Include="Assets\AIMLBot\AIMLbot\ConfigurationFiles\Settings.xml" />
      <None Include="Assets\StreamingAssets\config\GenderSubstitutions.xml" />
      <None Include="Assets\StreamingAssets\License.txt" />

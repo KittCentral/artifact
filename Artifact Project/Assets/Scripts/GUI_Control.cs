@@ -64,7 +64,6 @@ public class GUI_Control : MonoBehaviour
 		planetSize = 1;
 		background.GetComponent<Renderer>().material = bgTextures[nb];
 		BGSphere.GetComponent<Renderer>().material = bgTextures[nb];
-		background.SetActive(false);
 	}
 
 	public void RotationReset()
@@ -167,13 +166,13 @@ public class GUI_Control : MonoBehaviour
 				News.SetActive(true);
 			}
 		}
-		if(nb != 10)
+		if(nb != 14)
 		{
-			background.SetActive(true);
+			background.GetComponent<Renderer>().enabled = true;
 		}
 		else
 		{
-			background.SetActive(false);
+			background.GetComponent<Renderer>().enabled = false;
 		}
 		BGSphere.transform.localScale =new Vector3(mainCamera.GetComponent<Camera>().orthographicSize*3.5f,mainCamera.GetComponent<Camera>().orthographicSize*3.5f,mainCamera.GetComponent<Camera>().orthographicSize*3.5f);
 		background.transform.localScale =new Vector3(mainCamera.GetComponent<Camera>().orthographicSize*0.3f,mainCamera.GetComponent<Camera>().orthographicSize*0.25f,mainCamera.GetComponent<Camera>().orthographicSize*0.25f);
