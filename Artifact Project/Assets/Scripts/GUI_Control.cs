@@ -37,9 +37,6 @@ public class GUI_Control : MonoBehaviour
 	public Material[] earthTextures = new Material[3];
 	public Material[] bgTextures = new Material[7];
 
-	Renderer pumpkinShell;
-	Renderer earthCrust;
-
 	private const int windowNormal = 1;
 	private const int windowMinimized = 2;
 	private const int windowMaximized = 3;
