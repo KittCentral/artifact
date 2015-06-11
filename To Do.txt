@@ -1,7 +1,6 @@
 Tasks to do in the artifact project:
 
-Fezzik is janky in the responses, and it crashes
-Make a better Earth Model (more verticies)
+Fezzik might crash on occasion.
 It is raining outside and the weather app still says clear (but shows a clear background)
 Optimize the layout, font, and colors for the projected screen once the projector is set up.
 The Project Timeline section the the Artifact Proposal document needs to be updates with the current project schedule.

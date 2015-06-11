@@ -3,6 +3,7 @@ Shader "Atmosphere/GroundFromSpace"
 {
 	Properties {
 		_MainTex ("Base (RGB)", 2D) = "white" {}
+		_SeconTex ("Back (RGB)", 2D) = "black" {}
 	}
 	SubShader 
 	{
@@ -17,6 +18,7 @@ Shader "Atmosphere/GroundFromSpace"
 			#pragma fragment frag
 			
 			sampler2D _MainTex;
+			sampler2D _SeconTex;
 			
 			uniform float3 v3Translate;		// The objects world pos
 			uniform float3 v3LightPos;		// The direction vector to the light source
@@ -110,11 +112,20 @@ Shader "Atmosphere/GroundFromSpace"
 			half4 frag(v2f IN) : COLOR
 			{
 				half3 texel = tex2D(_MainTex, IN.uv).rgb;
+				half3 texel2 = tex2D(_SeconTex, IN.uv).rgb;
 				float3 col = IN.c0 + 0.25 * IN.c1;
+				int colBool = 0;
 				//Adjust color from HDR
 				col = 1.0 - exp(col * -fHdrExposure);
 				texel *= col.b;
-				return half4(texel+col,1.0);
+				texel2 *= (.2-col.b)*5;
+				if(texel2.b < 0)
+				{
+					texel2.r = 0;
+					texel2.b = 0;
+					texel2.g = 0;
+				}
+				return half4(texel+col+texel2,1.0);
 			}
 			
 			ENDCG
