@@ -23,6 +23,7 @@ public class GUI_Control : MonoBehaviour
 	public bool weatherBackground;
 	private bool zoomCheck;
 
+	public GameObject sun;
 	public GameObject earth;
 	public GameObject background;
 	public GameObject BGSphere;
@@ -33,6 +34,8 @@ public class GUI_Control : MonoBehaviour
 
 	OurRSS ourRSS;
 	CameraRay cameraRay;
+
+	Renderer earthCrust;
 	
 	public Material[] earthTextures = new Material[3];
 	public Material[] bgTextures = new Material[7];
@@ -166,10 +169,12 @@ public class GUI_Control : MonoBehaviour
 		if(nb != 14)
 		{
 			background.SetActive (true);
+			sun.SetActive (false);
 		}
 		else
 		{
 			background.SetActive (false);
+			sun.SetActive (true);
 		}
 		BGSphere.transform.localScale =new Vector3(mainCamera.GetComponent<Camera>().orthographicSize*3.5f,mainCamera.GetComponent<Camera>().orthographicSize*3.5f,mainCamera.GetComponent<Camera>().orthographicSize*3.5f);
 		background.transform.localScale =new Vector3(mainCamera.GetComponent<Camera>().orthographicSize*0.3f,mainCamera.GetComponent<Camera>().orthographicSize*0.25f,mainCamera.GetComponent<Camera>().orthographicSize*0.25f);
