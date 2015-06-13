@@ -1,5 +1,5 @@
-﻿// This script is applied to the main RSS Scene, and it initalizes a few game objectts that 
-// are used in other scripts.
+﻿// This script is applied to the main RSS Scene buttons to and lets the animator know
+// when you have zoomed in on the planet
 
 using UnityEngine;
 using System.Collections;
@@ -20,7 +20,9 @@ public class InfoFromCanvas : MonoBehaviour
 
 	void Update () 
 	{
+		//Get a Boolean for whether you have zoomed in or not
 		earthZoom = cameraray.earthZoom;
+		//Send it to the Animator
 		anim.SetBool ("Earth Zoom", earthZoom);
 	}
 }

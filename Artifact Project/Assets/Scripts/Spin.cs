@@ -1,16 +1,10 @@
-﻿// This script gives the Earth an inital eastward rotation when the RSS Scene is loaded.
+﻿// This script gives basic rotation for the loading icon.
+// It is assigned to an object called FlatEarth in Loading Scene.
 
 using UnityEngine;
-using System.Collections;
 
 public class Spin : MonoBehaviour 
 {
-	
-	void Start () 
-	{
-	
-	}
-
 	void Update () 
 	{
 		transform.Rotate(0,0,3);

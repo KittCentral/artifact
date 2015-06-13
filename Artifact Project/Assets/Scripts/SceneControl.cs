@@ -1,38 +1,15 @@
-﻿using UnityEngine;
+﻿//This script allows us to switch between scenes with the loading screen as an intermediate point
+
+using UnityEngine;
 using System.Collections;
 
 public class SceneControl : MonoBehaviour 
 {
-	public string[] Scenes =  new string[5];
+	//Initialize Scene Names
 	public int targetScene;
-
-	void Start () 
-	{
-		Scenes[0] = "RSS Scene";
-		Scenes[1] = "Rolling";
-		Scenes[2] = "Calendar";
-		Scenes[3] = "GPS Scene";
-		Scenes[4] = "Campus Map";
-	}
-
-	public void OpenScene(int number)
-	{
-		targetScene = number;
-		PlayerPrefs.SetInt("Target",targetScene);
-		UnityEngine.Application.LoadLevel("Loading");
-	}
-
-	public void Test()
-	{
-		print ("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
-	}
-
-	IEnumerator Wait(int number)
-	{
-		yield return new WaitForSeconds(3);
-		UnityEngine.Application.LoadLevel(Scenes[number]);
-	}
-
+	string[] Scenes = {"RSS Scene", "Rolling", "Calendar", "GPS Scene", "Campus Map"};
+	
+	//Checks if you are in the Loading Scene then opens the approriate Scene
 	void Update () 
 	{
 		if(Application.loadedLevelName == "Loading")
@@ -40,5 +17,20 @@ public class SceneControl : MonoBehaviour
 			targetScene = PlayerPrefs.GetInt("Target");
 			StartCoroutine(Wait(targetScene));
 		}
+	}
+
+	//Opens Loading and Puts the target in a place which doesn't change when the scene does
+	public void OpenScene(int number)
+	{
+		targetScene = number;
+		PlayerPrefs.SetInt("Target",targetScene);
+		UnityEngine.Application.LoadLevel("Loading");
+	}
+
+	//Lets the Loading run for a while before opening the next Scene
+	IEnumerator Wait(int number)
+	{
+		yield return new WaitForSeconds(3);
+		UnityEngine.Application.LoadLevel(Scenes[number]);
 	}
 }

@@ -1,4 +1,5 @@
-﻿// This script creates a sky dome in the game's world.
+﻿// This script turns the skydome's mesh inside out. This way it looks more like a dome than a sphere.
+// This script was originally pulled from the internet. Made by unknown.
 
 using UnityEngine;
 using System.Collections;

@@ -1,3 +1,6 @@
+// This script controls the atmospheric scattering for the planets it is an important part of the shaders as well
+// If you don't understand don't touch
+
 using UnityEngine;
 using System.Collections;
 
@@ -5,7 +8,6 @@ public class PlanetShading : MonoBehaviour
 {
 	public GameObject sun;
 	public Material groundMaterial;
-	public Material skyMaterial;
 	
 	public float hdrExposure = 0.8f;
 	public Vector3 waveLength = new Vector3(0.65f,0.57f,0.475f); // Wave length of sun light
@@ -31,13 +33,11 @@ public class PlanetShading : MonoBehaviour
 		outerRadius = outerScaleFactor * radius;
 		
 		InitMaterial(groundMaterial);
-		InitMaterial(skyMaterial);
 	}
 	
 	void Update () 
 	{
 		InitMaterial(groundMaterial);
-		InitMaterial(skyMaterial);
 	}
 	
 	void InitMaterial(Material mat)
@@ -66,8 +66,3 @@ public class PlanetShading : MonoBehaviour
 
 	}
 }
-
-
-
-
-

@@ -121,10 +121,10 @@
      <Compile Include="Assets\Scripts\To Delete\ScrollableList.cs" />
      <Compile Include="Assets\Scripts\To Delete\SelfScroll.cs" />
      <Compile Include="Assets\Scripts\To Delete\WolframTest.cs" />
+     <Compile Include="Assets\Scripts\To Delete\gameControl.cs" />
      <Compile Include="Assets\Scripts\Weather Scripts\OurRSS.cs" />
      <Compile Include="Assets\Scripts\Weather Scripts\WeatherIcon.cs" />
      <Compile Include="Assets\Scripts\Weather Scripts\WeatherPanel.cs" />
-     <Compile Include="Assets\Scripts\gameControl.cs" />
      <None Include="Assets\StreamingAssets\About.txt" />
      <None Include="Assets\Effects\Shaders\Planet.shader" />
      <None Include="Assets\StreamingAssets\config\Person2Substitutions.xml" />
