@@ -98,7 +98,6 @@
      <Compile Include="Assets\AIMLBot\LoaderFiles.cs" />
      <Compile Include="Assets\AIMLBot\MyScripts\ChatWindowExample1.cs" />
      <Compile Include="Assets\Scripts\Calendar.cs" />
-     <Compile Include="Assets\Scripts\CameraController.cs" />
      <Compile Include="Assets\Scripts\CameraRay.cs" />
      <Compile Include="Assets\Scripts\Campus Map Scripts\CampusMapFinal.cs" />
      <Compile Include="Assets\Scripts\ChatBox.cs" />
@@ -118,6 +117,7 @@
      <Compile Include="Assets\Scripts\Spin.cs" />
      <Compile Include="Assets\Scripts\Test Scripts\TestPic.cs" />
      <Compile Include="Assets\Scripts\To Delete\AssembleGrid.cs" />
+     <Compile Include="Assets\Scripts\To Delete\CameraController.cs" />
      <Compile Include="Assets\Scripts\To Delete\ScrollableList.cs" />
      <Compile Include="Assets\Scripts\To Delete\SelfScroll.cs" />
      <Compile Include="Assets\Scripts\To Delete\WolframTest.cs" />

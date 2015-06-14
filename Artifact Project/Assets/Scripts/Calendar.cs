@@ -9,22 +9,23 @@ using System.Collections.Generic;
 
 public class Calendar : MonoBehaviour 
 {
-	public GameObject[] cubicles = new GameObject[42];
-	private Text[] dateNum = new Text[42];
+	//Initialize the day squares
 	public GameObject[] eventObject = new GameObject[42];
+	public GameObject[] cubicles = new GameObject[42];
 	private Text[] eventText = new Text[42];
+	private Text[] dateNum = new Text[42];
+
+	//Further Initialization
 	public GameObject MonthObj;
 	private Text monthText;
 	private DateTime now;
 	DateTime firstDayOfMonth;
 	int numOfWeek;
 	int daysInMonth;
-	public int eventFontSize = 11;
+	public int eventFontSize;
 
 	private DayOfWeek[] dayList = new DayOfWeek[7]{DayOfWeek.Monday,DayOfWeek.Tuesday,DayOfWeek.Wednesday,DayOfWeek.Thursday,DayOfWeek.Friday,DayOfWeek.Saturday,DayOfWeek.Sunday};
 	private string[] monthList = new string[12]{"January","February","March","April","May","June","July","August","September","October","November","December"};
-
-
 	
 	void Start()
 	{
@@ -46,6 +47,7 @@ public class Calendar : MonoBehaviour
 		eventControl();
 	}
 
+	//This needs cleanup but its the place where the dictionary is initialized and the squares are filled with data
 	void eventControl()
 	{
 		Dictionary<DateTime,string[]> events = new Dictionary<DateTime, string[]>()
@@ -98,6 +100,7 @@ public class Calendar : MonoBehaviour
 		}
 	}
 
+	//Dictates which numbers should go where
 	void getDates()
 	{
 		for(int i=0; i<42; i++)

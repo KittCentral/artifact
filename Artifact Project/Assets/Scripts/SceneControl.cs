@@ -7,7 +7,7 @@ public class SceneControl : MonoBehaviour
 {
 	//Initialize Scene Names
 	public int targetScene;
-	string[] Scenes = {"RSS Scene", "Rolling", "Calendar", "GPS Scene", "Campus Map"};
+	string[] Scenes = {"RSS Scene", "Loading", "Calendar", "Campus Map", "GPS Scene"};
 	
 	//Checks if you are in the Loading Scene then opens the approriate Scene
 	void Update () 

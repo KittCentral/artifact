@@ -1,5 +1,5 @@
 ﻿// This is one of the most important scripts for the RSS Scene.
-// It controls the actions of each button and menue described in in CameraRay.cs.
+// It controls the actions of each button and menu described in in CameraRay.cs.
 // It also loads several dll to alow this scene to launch other programs and apps.
 
 using UnityEngine;
@@ -10,19 +10,26 @@ using System.Runtime.InteropServices;
 
 public class GUI_Control : MonoBehaviour 
 {
-	private int np;
-	private int nb;
-	private float targetAlpha;
-	private float alpha;
-	private bool GUIState;
-	private Vector3 targetBGSize;
-
-	public float planetSize;
+	//Initialize control variables
 	public bool planetButton;
 	public bool GUIHover;
-	public bool weatherBackground;
 	private bool zoomCheck;
+	public bool weatherBackground;
+	private Vector3 targetBGSize;
+	public float planetSize;
+	bool GUIState = true;
 
+	int np = 3;
+	int nb = 14;
+
+	float targetAlpha;
+	float alpha;
+
+	private const int windowNormal = 1;
+	private const int windowMinimized = 2;
+	private const int windowMaximized = 3;
+
+	//Initialize GameObjects and UI Object
 	public GameObject sun;
 	public GameObject earth;
 	public GameObject background;
@@ -32,18 +39,15 @@ public class GUI_Control : MonoBehaviour
 	public GameObject News;
 	public GameObject[] ObjectArray = new GameObject[5];
 
+	//Initialize Scripts
 	OurRSS ourRSS;
 	CameraRay cameraRay;
 
-	Renderer earthCrust;
-	
+	//Initialize Materials
 	public Material[] earthTextures = new Material[3];
 	public Material[] bgTextures = new Material[7];
-
-	private const int windowNormal = 1;
-	private const int windowMinimized = 2;
-	private const int windowMaximized = 3;
-
+	
+	//Prepare the DLL functions
 	[DllImport("user32.dll")]
 	private static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
 
@@ -52,26 +56,27 @@ public class GUI_Control : MonoBehaviour
 	
 	void Start()
 	{
+		//Hide pop-up menus at startup
 		ObjectArray[4].SetActive(false);
 		ObjectArray[5].SetActive(false);
+
+		//Link the Script variables
 		cameraRay = mainCamera.GetComponent<CameraRay>();
 		ourRSS = RSS.GetComponent<OurRSS>();
-		nb = 14;
-		np = 0;
-		GUIState = true;
-		GUIHover = false;
-		earthCrust = earth.GetComponent<Renderer> ();
-		planetSize = 1;
+
+		//Set Textures for the Backgrounds
 		background.GetComponent<Renderer>().material = bgTextures[nb];
 		BGSphere.GetComponent<Renderer>().material = bgTextures[nb];
 	}
 
+	//Function that recenters the rotation
 	public void RotationReset()
 	{
 			earth.transform.rotation = new Quaternion (0, 0, 0, 0);
 			BGSphere.transform.rotation = new Quaternion (0, 0, 0, 0);
 	}
 
+	//These two are called as you Hover over buttons using Event Systems
 	public void EnterHover()
 	{
 		GUIHover = true;
@@ -82,6 +87,7 @@ public class GUI_Control : MonoBehaviour
 		GUIHover = false;
 	}
 
+	//Used to switch planet textures but not currently used
 	public void PlanetSwitch()
 	{	
 		earth.GetComponent<Renderer>().material = earthTextures[np];
@@ -94,20 +100,31 @@ public class GUI_Control : MonoBehaviour
 			np = 0;
 		}
 		planetButton = true;
-		StartCoroutine(Wait());
+		StartCoroutine(Wait(1));
 	}
 
+	//Turns on and off parts of the UI
 	public void ObjectControl(int number)
 	{
 		ObjectArray[number].SetActive(!ObjectArray[number].activeSelf);
 	}
 
+	//These three are tests to control external applications
 	public void MinimizeWindow()
 	{
 		IntPtr hWnd = FindWindow("Notepad", "Untitled - Notepad");
 		if (!hWnd.Equals(IntPtr.Zero))
 		{
 			ShowWindowAsync(hWnd, windowMinimized);
+		}
+	}
+
+	public void MaximizeWindow()
+	{
+		IntPtr hWnd = FindWindow("Notepad", "Untitled - Notepad");
+		if (!hWnd.Equals(IntPtr.Zero))
+		{
+			ShowWindowAsync(hWnd, windowMaximized);
 		}
 	}
 
@@ -119,19 +136,26 @@ public class GUI_Control : MonoBehaviour
 			ShowWindowAsync(hWnd, windowNormal);
 		}
 	}
-	
-	IEnumerator Wait()
+
+	//Does something after a second
+	IEnumerator Wait(int i)
 	{
 		yield return new WaitForSeconds (1);
-		planetButton = false;
+		switch (i)
+		{
+		case 1:
+			planetButton = false;
+			break;
+		case 2:
+			GUIHover = false;
+			break;
+		default:
+			print("Bad index for Wait function");
+			break;
+		}
 	}
 
-	IEnumerator WaitforHover()
-	{
-		yield return new WaitForSeconds (1);
-		GUIHover = false;
-	}
-
+	//Toggles whether or not the Background is based on the weather or stars
 	public void changeWeatherBackground()
 	{
 		weatherBackground = !weatherBackground;
@@ -150,7 +174,9 @@ public class GUI_Control : MonoBehaviour
 
 	void Update () 
 	{
-		alpha = Mathf.Lerp (alpha, targetAlpha, Time.deltaTime*10);
+		alpha = targetAlpha;//Mathf.Lerp (alpha, targetAlpha, Time.deltaTime*10);
+
+		//Checks if the state of the zoom has changed and fixes things accordingly
 		if (cameraRay.earthZoom != zoomCheck)
 		{
 			if (cameraRay.earthZoom == true)
@@ -166,6 +192,8 @@ public class GUI_Control : MonoBehaviour
 				News.SetActive(true);
 			}
 		}
+
+		//Controls whether or not it looks like you are in space
 		if(nb != 14)
 		{
 			background.SetActive (true);
@@ -176,19 +204,21 @@ public class GUI_Control : MonoBehaviour
 			background.SetActive (false);
 			sun.SetActive (true);
 		}
-		BGSphere.transform.localScale =new Vector3(mainCamera.GetComponent<Camera>().orthographicSize*3.5f,mainCamera.GetComponent<Camera>().orthographicSize*3.5f,mainCamera.GetComponent<Camera>().orthographicSize*3.5f);
-		background.transform.localScale =new Vector3(mainCamera.GetComponent<Camera>().orthographicSize*0.3f,mainCamera.GetComponent<Camera>().orthographicSize*0.25f,mainCamera.GetComponent<Camera>().orthographicSize*0.25f);
-		if(np==1){planetSize = .009f;}
-		else if(np==2){planetSize = 2.61f;}
-		else if(np==3){planetSize = 1.05f;}
-		else if(np==5){planetSize = 1.88f;}
-		else if(np==6){planetSize = 0.09f;}
-		else if(np==7){planetSize = 0.11f;}
-		else if(np==8){planetSize = 0.25f;}
-		else if(np==9){planetSize = 0.26f;}
-		else if(np==10){planetSize = 5.35f;}
-		else if(np==11){planetSize = 3.07f;}
-		else {planetSize = 1;}
-		zoomCheck = cameraRay.earthZoom;
+
+		//Makes the background proportional to the camera size
+		BGSphere.transform.localScale = new Vector3(mainCamera.GetComponent<Camera>().orthographicSize*3.5f,mainCamera.GetComponent<Camera>().orthographicSize*3.5f,mainCamera.GetComponent<Camera>().orthographicSize*3.5f);
+		background.transform.localScale = new Vector3(mainCamera.GetComponent<Camera>().orthographicSize*0.3f,mainCamera.GetComponent<Camera>().orthographicSize*0.25f,mainCamera.GetComponent<Camera>().orthographicSize*0.25f);
+		float[] sizes = {.009f,2.61f,1.05f,1.0f,1.88f,.09f,.11f,.25f,.26f,5.35f,3.07f}; //Array of planet sizes
+
+		//switches planet size
+		if(np < sizes.Length)
+		{
+			planetSize = sizes [np];
+		}
+		else
+		{
+			planetSize = 1.0f;
+		}
+		zoomCheck = cameraRay.earthZoom; //Records what state the zoom was for the proceeding frame
 	}
 }

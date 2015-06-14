@@ -7,11 +7,13 @@ using UnityEngine.UI;
 
 public class NewsRSS : MonoBehaviour 
 {
+	//Initialization
 	rssreader rdr;
 	string info;
 	float movement;
 	bool infoUp;
-	bool lastCheck;
+	bool lastCheck = false;
+	public int movementSpeed;
 	public GUIStyle myStyle;
 
 	public GameObject TextPanel;
@@ -24,12 +26,12 @@ public class NewsRSS : MonoBehaviour
 	void Start()
 	{
 		TextPanel.SetActive(false);
-		lastCheck=false;
-		rdr = new rssreader("http://www.npr.org/rss/rss.php?id=1001");
+		rdr = new rssreader("http://www.npr.org/rss/rss.php?id=1001"); //draws the rss from NPR
 		TextOutput = TextBox.GetComponent<Text>();
 		guicontrol = GUICont.GetComponent<GUI_Control>();
 	}
 
+	//Shows the story for ten seconds then hides it
 	IEnumerator ButtonWait()
 	{
 		TextPanel.SetActive(true);
@@ -37,7 +39,7 @@ public class NewsRSS : MonoBehaviour
 		TextPanel.SetActive(false);
 	}
 
-
+	//Legacy GUI used to create buttons per news story
 	void OnGUI()
 	{
 		int i = 0;
@@ -53,9 +55,14 @@ public class NewsRSS : MonoBehaviour
 		}
 	}
 
+	//Ups the movement values which moves the buttons, also moves back to the start when it has gone too far
 	void Update()
 	{
-		movement = movement + 25 * Time.deltaTime;
+		movement += movementSpeed * Time.deltaTime;
+		if(movement > 500 * rdr.rowNews.item.Count + Screen.width)
+		{
+			movement -= 500 * rdr.rowNews.item.Count + Screen.width;
+		}
 		TextOutput.text = info;
 	}
 }
