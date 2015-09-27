@@ -104,6 +104,7 @@
      <Compile Include="Assets\Scripts\ChatBox.cs" />
      <Compile Include="Assets\Scripts\EarthSpin.cs" />
      <Compile Include="Assets\Scripts\Exit.cs" />
+     <Compile Include="Assets\Scripts\Explosion.cs" />
      <Compile Include="Assets\Scripts\GPS Scripts\GPS_Control.cs" />
      <Compile Include="Assets\Scripts\GPS Scripts\GPS_Text.cs" />
      <Compile Include="Assets\Scripts\GPS Scripts\GPS_Viewer.cs" />
@@ -113,6 +114,12 @@
      <Compile Include="Assets\Scripts\News RSS\rssreader.cs" />
      <Compile Include="Assets\Scripts\News RSS\rsstester.cs" />
      <Compile Include="Assets\Scripts\PlanetShading.cs" />
+     <Compile Include="Assets\Scripts\Pong\PongMovement.cs" />
+     <Compile Include="Assets\Scripts\Pong\followSpotLight.cs" />
+     <Compile Include="Assets\Scripts\Pong\pongLeftScore.cs" />
+     <Compile Include="Assets\Scripts\Pong\pongPlayer1.cs" />
+     <Compile Include="Assets\Scripts\Pong\pongPlayer2.cs" />
+     <Compile Include="Assets\Scripts\Pong\pongRightScore.cs" />
      <Compile Include="Assets\Scripts\SceneControl.cs" />
      <Compile Include="Assets\Scripts\SkyDome.cs" />
      <Compile Include="Assets\Scripts\Spin.cs" />
