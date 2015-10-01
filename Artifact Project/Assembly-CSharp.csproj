@@ -114,12 +114,8 @@
      <Compile Include="Assets\Scripts\News RSS\rssreader.cs" />
      <Compile Include="Assets\Scripts\News RSS\rsstester.cs" />
      <Compile Include="Assets\Scripts\PlanetShading.cs" />
-     <Compile Include="Assets\Scripts\Pong\PongMovement.cs" />
-     <Compile Include="Assets\Scripts\Pong\followSpotLight.cs" />
-     <Compile Include="Assets\Scripts\Pong\pongLeftScore.cs" />
-     <Compile Include="Assets\Scripts\Pong\pongPlayer1.cs" />
-     <Compile Include="Assets\Scripts\Pong\pongPlayer2.cs" />
-     <Compile Include="Assets\Scripts\Pong\pongRightScore.cs" />
+     <Compile Include="Assets\Scripts\Pong\player.cs" />
+     <Compile Include="Assets\Scripts\Pong\scoreKeeper.cs" />
      <Compile Include="Assets\Scripts\SceneControl.cs" />
      <Compile Include="Assets\Scripts\SkyDome.cs" />
      <Compile Include="Assets\Scripts\Spin.cs" />
@@ -138,6 +134,7 @@
      <Compile Include="Assets\Scripts\Weather Scripts\OurRSS.cs" />
      <Compile Include="Assets\Scripts\Weather Scripts\WeatherIcon.cs" />
      <Compile Include="Assets\Scripts\Weather Scripts\WeatherPanel.cs" />
+     <Compile Include="Assets\Scripts\followSpotLight.cs" />
      <Compile Include="Assets\Scripts\gameControl.cs" />
      <Compile Include="Assets\paintCamera.cs" />
      <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
