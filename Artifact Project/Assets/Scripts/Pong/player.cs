@@ -8,6 +8,8 @@ namespace Pong
 		public Rigidbody body;
 		public KeyCode up, down, left, right, spinR, spinL;
 		public int lowerBoundY, upperBoundY;
+		public int vertSpeed;
+		public int latSpeed;
 		
 		void Start()
 		{
@@ -19,10 +21,10 @@ namespace Pong
 			if(transform.position.x >= lowerBoundY && transform.position.x <= upperBoundY)
 			{
 				if(Input.GetKey(left))
-					body.AddForce(-10,0,0,ForceMode.Acceleration);
+					body.AddForce(-latSpeed,0,0,ForceMode.Acceleration);
 
 				if(Input.GetKey(right))
-					body.AddForce(10,0,0,ForceMode.Acceleration);
+					body.AddForce(latSpeed,0,0,ForceMode.Acceleration);
 			}
 
 			else if(transform.position.x < lowerBoundY)
@@ -32,10 +34,10 @@ namespace Pong
 				body.AddForce(-5*(transform.position.x-upperBoundY),0,0,ForceMode.Acceleration);
 
 			if(Input.GetKey(up))
-				body.AddForce(0,0,20,ForceMode.Acceleration);
+				body.AddForce(0,0,vertSpeed,ForceMode.Acceleration);
 
 			if(Input.GetKey(down))
-				body.AddForce(0,0,-20,ForceMode.Acceleration);
+				body.AddForce(0,0,-vertSpeed,ForceMode.Acceleration);
 
 			if(Input.GetKey(spinL))
 				body.AddTorque(0,30,0);
