@@ -109,6 +109,8 @@
      <Compile Include="Assets\Scripts\GPS Scripts\GPS_Text.cs" />
      <Compile Include="Assets\Scripts\GPS Scripts\GPS_Viewer.cs" />
      <Compile Include="Assets\Scripts\GUI_Control.cs" />
+     <Compile Include="Assets\Scripts\Galaxy\GalaxyControl.cs" />
+     <Compile Include="Assets\Scripts\Galaxy\Location.cs" />
      <Compile Include="Assets\Scripts\InfoFromCanvas.cs" />
      <Compile Include="Assets\Scripts\News RSS\NewsRSS.cs" />
      <Compile Include="Assets\Scripts\News RSS\rssreader.cs" />
