@@ -10,6 +10,7 @@ namespace Pong
 		public int lowerBoundY, upperBoundY;
 		public int vertSpeed;
 		public int latSpeed;
+		bool wait;
 		
 		void Start()
 		{
@@ -40,11 +41,36 @@ namespace Pong
 				body.AddForce(0,0,-vertSpeed,ForceMode.Acceleration);
 
 			if(Input.GetKey(spinL))
-				body.AddTorque(0,30,0);
+			{
+				if(body.angularVelocity.y >= 0 && wait != true)
+					body.AddTorque(0,30,0);
+				else
+				{
+					Vector3 zero = Vector3.zero;
+					body.angularVelocity = zero;
+					Wait();
+				}
+			}
 
 			if(Input.GetKey(spinR))
-				body.AddTorque(0,-30,0);
+			{
+				if(body.angularVelocity.y <= 0 && wait != true)
+					body.AddTorque(0,-30,0);
+				else
+				{
+					Vector3 zero = Vector3.zero;
+					body.angularVelocity = zero;
+					Wait();
+				}
+			}
 
+		}
+
+		IEnumerator Wait()
+		{
+			wait = true;
+			yield return new WaitForSeconds(5);
+			wait = false;
 		}
 	}
 }
