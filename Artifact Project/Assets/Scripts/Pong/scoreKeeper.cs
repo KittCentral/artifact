@@ -20,7 +20,7 @@ namespace Pong
 		public int direction;
 		int dir;
 		
-		Vector3 rot = new Vector3(0,0,0);
+		public bool resetBool;
 		int score;
 		#endregion
 
@@ -54,19 +54,27 @@ namespace Pong
 				StartCoroutine(ResetBall());
 				ResetPlayers();
 			}
+
+			if(resetBool)
+			{
+				p1.transform.position = new Vector3(Mathf.Lerp(p1.transform.position.x,7,.1f),0,Mathf.Lerp(p1.transform.position.z,0,.1f));
+				Vector3 angles1 = new Vector3(0,Mathf.Lerp(p1.transform.eulerAngles.y,0,.1f),0);
+				p1.transform.eulerAngles = angles1;
+
+				p2.transform.position = new Vector3(Mathf.Lerp(p2.transform.position.x,-7,.1f),0,Mathf.Lerp(p2.transform.position.z,0,.1f));
+				Vector3 angles2 = new Vector3(0,Mathf.Lerp(p2.transform.eulerAngles.y,0,.1f),0);
+				p2.transform.eulerAngles = angles2;
+			}
 		}
 
 		void ResetPlayers()
 		{
-			p1.transform.position = new Vector3(7,0,0);
-			p1.transform.eulerAngles = rot;
 			p1Body.velocity = Vector3.zero;
 			p1Body.angularVelocity = Vector3.zero;
-			
-			p2.transform.position = new Vector3(-7,0,0);
-			p2.transform.eulerAngles = rot;
 			p2Body.velocity = Vector3.zero;
 			p2Body.angularVelocity = Vector3.zero;
+
+			resetBool = true;
 		}
 
 		IEnumerator ResetBall()
@@ -75,6 +83,7 @@ namespace Pong
 			ballBody.velocity = new Vector3(0,0,0);
 			yield return new WaitForSeconds(1);
 			ballBody.velocity = new Vector3(5*dir,0,0);
+			resetBool = false;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Algorithms;
 
 public class paintCamera : MonoBehaviour 
 {
@@ -39,45 +40,14 @@ public class paintCamera : MonoBehaviour
 		pixelUV.y *= tex.height;
 		tex.SetPixel((int)pixelUV.x, (int)pixelUV.y, Color.black);
 		if(hold)
-			LineDraw(pixelUV,lastUV, tex);
+			Bresenham.Line(pixelUV,lastUV,LinePlot,tex);
 		tex.Apply();
 		lastUV = pixelUV;
 		hold = true;
 	}
 
-	void LineDraw(Vector2 p1, Vector2 p2, Texture2D tex)
+	bool LinePlot(int x, int y)
 	{
-		float m;
-		float dy = (int)p2.y-(int)p1.y;
-		float dx = (int)p2.x-(int)p1.x;
-		if (dx != 0)
-			m = dy/dx;
-		else
-			m = dy;
-		print ("m:" + m + " dy:" + dy + " dx:" + dx);
-		if(p1.x<p2.x)
-		{
-			for(int i = 0; i <= Mathf.Abs((int)p1.x-(int)p2.x); i++)
-			{
-				float y = m*i + p1.y;
-				for(int j = 0; j < Mathf.Abs(m)+1; j++)
-				{
-					tex.SetPixel(i+(int)p1.x, (int)y + j, color);
-				}
-				tex.Apply();
-			}
-		}
-		else
-		{
-			for(int i = Mathf.Abs((int)p1.x-(int)p2.x); i >= 0; i--)
-			{
-				float y = -m*i + p1.y;
-				for(int j = 0; j < Mathf.Abs(m)+1; j++)
-				{
-					tex.SetPixel((int)p1.x - i, (int)y + j, color);
-				}
-				tex.Apply();
-			}
-		}
+		return true;
 	}
 }

@@ -1,6 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Test Scripts\Charlie's Tests\Canvas\Bresenham.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Test Scripts\Charlie's Tests\Canvas\paintCamera.cs" Line="51" Column="14" />
+      <File FileName="Assets\Scripts\Test Scripts\Charlie's Tests\Canvas\Bresenham.cs" Line="33" Column="4" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
