@@ -1,8 +1,8 @@
-Tasks to do in the artifact project:
+Bugs within the artifact project:
 
 Fezzik might crash on occasion.
-When internet is disconnected it begins snowing
-Errors and warnings still show up that appear to have no effect but are annoying
+When internet is disconnected it begins snowing and squares begin to fall
+Errors and warnings still show up that appear to have no effect but are annoying (might be able to use #pragma)
 It is raining outside and the weather app still says clear (but shows a clear background)
 Optimize the layout, font, and colors for the projected screen once the projector is set up.
 The Project Timeline section the the Artifact Proposal document needs to be updates with the current project schedule.

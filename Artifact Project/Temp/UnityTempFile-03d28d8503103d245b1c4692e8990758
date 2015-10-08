@@ -1,0 +1,180 @@
+-debug
+-target:library
+-nowarn:0169
+-out:Temp/Assembly-CSharp.dll
+-r:"C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll"
+-r:Library/ScriptAssemblies/Assembly-CSharp-firstpass.dll
+-r:"C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll"
+-r:"C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll"
+-r:"C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll"
+-r:"C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll"
+-r:"C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll"
+-r:"C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll"
+-r:"C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll"
+-r:"C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll"
+-r:"C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll"
+-r:"C:/Program Files/Unity/Editor/Data\Managed/Mono.Cecil.dll"
+-r:"C:/Program Files/Unity/Editor/Data/PlaybackEngines/iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll"
+-define:UNITY_5_2_1
+-define:UNITY_5_2
+-define:UNITY_5
+-define:ENABLE_NEW_BUGREPORTER
+-define:ENABLE_2D_PHYSICS
+-define:ENABLE_4_6_FEATURES
+-define:ENABLE_AUDIO
+-define:ENABLE_CACHING
+-define:ENABLE_CLOTH
+-define:ENABLE_DUCK_TYPING
+-define:ENABLE_FRAME_DEBUGGER
+-define:ENABLE_GENERICS
+-define:ENABLE_HOME_SCREEN
+-define:ENABLE_IMAGEEFFECTS
+-define:ENABLE_LIGHT_PROBES_LEGACY
+-define:ENABLE_MICROPHONE
+-define:ENABLE_MULTIPLE_DISPLAYS
+-define:ENABLE_PHYSICS
+-define:ENABLE_PLUGIN_INSPECTOR
+-define:ENABLE_SHADOWS
+-define:ENABLE_SINGLE_INSTANCE_BUILD_SETTING
+-define:ENABLE_SPRITES
+-define:ENABLE_TERRAIN
+-define:ENABLE_RAKNET
+-define:ENABLE_UNET
+-define:ENABLE_UNITYEVENTS
+-define:ENABLE_VR
+-define:ENABLE_WEBCAM
+-define:ENABLE_WWW
+-define:ENABLE_CLOUD_SERVICES
+-define:ENABLE_CLOUD_SERVICES_ADS
+-define:ENABLE_CLOUD_HUB
+-define:ENABLE_CLOUD_PROJECT_ID
+-define:ENABLE_CLOUD_SERVICES_ANALYTICS
+-define:ENABLE_CLOUD_SERVICES_UNET
+-define:ENABLE_CLOUD_SERVICES_BUILD
+-define:ENABLE_CLOUD_LICENSE
+-define:ENABLE_EDITOR_METRICS
+-define:ENABLE_REFLECTION_BUFFERS
+-define:INCLUDE_DYNAMIC_GI
+-define:INCLUDE_GI
+-define:INCLUDE_IL2CPP
+-define:INCLUDE_DIRECTX12
+-define:PLATFORM_SUPPORTS_MONO
+-define:RENDER_SOFTWARE_CURSOR
+-define:ENABLE_LOCALIZATION
+-define:ENABLE_ANDROID_ATLAS_ETC1_COMPRESSION
+-define:UNITY_STANDALONE_WIN
+-define:UNITY_STANDALONE
+-define:ENABLE_SUBSTANCE
+-define:ENABLE_TEXTUREID_MAP
+-define:ENABLE_RUNTIME_GI
+-define:ENABLE_MOVIES
+-define:ENABLE_NETWORK
+-define:ENABLE_CRUNCH_TEXTURE_COMPRESSION
+-define:ENABLE_LOG_MIXED_STACKTRACE
+-define:ENABLE_UNITYWEBREQUEST
+-define:ENABLE_EVENT_QUEUE
+-define:ENABLE_WEBSOCKET_HOST
+-define:ENABLE_MONO
+-define:ENABLE_PROFILER
+-define:DEBUG
+-define:TRACE
+-define:UNITY_ASSERTIONS
+-define:UNITY_EDITOR
+-define:UNITY_EDITOR_64
+-define:UNITY_EDITOR_WIN
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/bot.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/condition.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/date.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/formal.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/gender.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/get.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/gossip.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/id.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/input.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/javascript.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/learn.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/lowercase.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/person.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/person2.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/random.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/sentence.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/set.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/size.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/sr.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/srai.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/star.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/system.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/that.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/thatstar.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/think.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/topicstar.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/uppercase.cs
+Assets/AIMLBot/AIMLbot/AIMLTagHandlers/version.cs
+Assets/AIMLBot/AIMLbot/Bot.cs
+Assets/AIMLBot/AIMLbot/Normalize/ApplySubstitutions.cs
+Assets/AIMLBot/AIMLbot/Normalize/MakeCaseInsensitive.cs
+Assets/AIMLBot/AIMLbot/Normalize/SplitIntoSentences.cs
+Assets/AIMLBot/AIMLbot/Normalize/StripIllegalCharacters.cs
+Assets/AIMLBot/AIMLbot/Properties/AssemblyInfo.cs
+Assets/AIMLBot/AIMLbot/Request.cs
+Assets/AIMLBot/AIMLbot/Result.cs
+Assets/AIMLBot/AIMLbot/User.cs
+Assets/AIMLBot/AIMLbot/Utils/AIMLLoader.cs
+Assets/AIMLBot/AIMLbot/Utils/AIMLTagHandler.cs
+Assets/AIMLBot/AIMLbot/Utils/CustomTag.cs
+Assets/AIMLBot/AIMLbot/Utils/Gender.cs
+Assets/AIMLBot/AIMLbot/Utils/MatchState.cs
+Assets/AIMLBot/AIMLbot/Utils/Node.cs
+Assets/AIMLBot/AIMLbot/Utils/SettingsDictionary.cs
+Assets/AIMLBot/AIMLbot/Utils/SubQuery.cs
+Assets/AIMLBot/AIMLbot/Utils/TagHandler.cs
+Assets/AIMLBot/AIMLbot/Utils/TextTransformer.cs
+Assets/AIMLBot/Chatbot.cs
+Assets/AIMLBot/DownloadFiles.cs
+Assets/AIMLBot/LoaderFiles.cs
+Assets/AIMLBot/MyScripts/ChatWindowExample1.cs
+Assets/Scripts/Calendar.cs
+Assets/Scripts/CameraController.cs
+Assets/Scripts/CameraRay.cs
+"Assets/Scripts/Campus Map Scripts/CampusMapFinal.cs"
+Assets/Scripts/ChatBox.cs
+Assets/Scripts/EarthSpin.cs
+Assets/Scripts/Exit.cs
+Assets/Scripts/Explosion.cs
+"Assets/Scripts/GPS Scripts/GPS_Control.cs"
+"Assets/Scripts/GPS Scripts/GPS_Text.cs"
+"Assets/Scripts/GPS Scripts/GPS_Viewer.cs"
+Assets/Scripts/GUI_Control.cs
+Assets/Scripts/Galaxy/GalaxyControl.cs
+Assets/Scripts/Galaxy/Location.cs
+Assets/Scripts/InfoFromCanvas.cs
+"Assets/Scripts/News RSS/NewsRSS.cs"
+"Assets/Scripts/News RSS/rssreader.cs"
+"Assets/Scripts/News RSS/rsstester.cs"
+Assets/Scripts/PlanetShading.cs
+Assets/Scripts/Pong/player.cs
+Assets/Scripts/Pong/scoreKeeper.cs
+Assets/Scripts/SceneControl.cs
+Assets/Scripts/SkyDome.cs
+Assets/Scripts/Spin.cs
+"Assets/Scripts/Test Scripts/Charlie's Tests/Block.cs"
+"Assets/Scripts/Test Scripts/Charlie's Tests/BlockAir.cs"
+"Assets/Scripts/Test Scripts/Charlie's Tests/BlockGrass.cs"
+"Assets/Scripts/Test Scripts/Charlie's Tests/Canvas/Bresenham.cs"
+"Assets/Scripts/Test Scripts/Charlie's Tests/Canvas/paintCamera.cs"
+"Assets/Scripts/Test Scripts/Charlie's Tests/Chunk.cs"
+"Assets/Scripts/Test Scripts/Charlie's Tests/MeshData.cs"
+"Assets/Scripts/Test Scripts/Charlie's Tests/World.cs"
+"Assets/Scripts/Test Scripts/Charlie's Tests/WorldPos.cs"
+"Assets/Scripts/Test Scripts/TestPic.cs"
+"Assets/Scripts/To Delete/AssembleGrid.cs"
+"Assets/Scripts/To Delete/ScrollableList.cs"
+"Assets/Scripts/To Delete/SelfScroll.cs"
+"Assets/Scripts/To Delete/WolframTest.cs"
+"Assets/Scripts/Weather Scripts/OurRSS.cs"
+"Assets/Scripts/Weather Scripts/WeatherIcon.cs"
+"Assets/Scripts/Weather Scripts/WeatherPanel.cs"
+Assets/Scripts/followSpotLight.cs
+Assets/Scripts/gameControl.cs
+-r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\2.0\System.Runtime.Serialization.dll"
+-r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\2.0\System.Xml.Linq.dll"
