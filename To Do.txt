@@ -4,5 +4,37 @@ Fezzik might crash on occasion.
 When internet is disconnected it begins snowing and squares begin to fall
 Errors and warnings still show up that appear to have no effect but are annoying (might be able to use #pragma)
 It is raining outside and the weather app still says clear (but shows a clear background)
-Optimize the layout, font, and colors for the projected screen once the projector is set up.
 The Project Timeline section the the Artifact Proposal document needs to be updates with the current project schedule.
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+Cleanup:
+
+Optimize the layout, font, and colors for the projected screen once the projector is set up.
+Aesthetic Rework.
+Darwin's script cleanup
+Getting someone else to work on the project
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+Necessary Features:
+
+Campus Map
+Calendar Fillout
+News Application
+Weather Application
+Kinect SDK
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+Ideas:
+Galaxy Scene dedicated to stars positions and visualization
+Country Info for discovering basic facts about our world and the cultures within it
+Upgrades for Fezzik allowing Internet access
+At least ten simplistic games(Pong)
+Global Run(Temple Run around the world)
+Sandbox Simulation, a voxel-based game for construction
+Scene within a scene display on main page
+Construction of the Conquistador
+
+---------------------------------------------------------------------------------------------------------------------------------
