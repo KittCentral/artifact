@@ -9,6 +9,7 @@ namespace Pong
 		//variable assignment
 		#region 
 		public KeyCode reset;
+		public Camera main;
 		public GameObject ball;
 		public Rigidbody ballBody;
 		public GameObject p1;
@@ -65,6 +66,8 @@ namespace Pong
 				Vector3 angles2 = new Vector3(0,Mathf.Lerp(p2.transform.eulerAngles.y,0,.1f),0);
 				p2.transform.eulerAngles = angles2;
 			}
+
+			paintCamera.DrawOnLine(main.transform.position,ball.transform.position);
 		}
 
 		void ResetPlayers()
