@@ -7,7 +7,7 @@ namespace Chess
 {
 	public class ChessControl : MonoBehaviour 
 	{
-		public CameraPositionControl cpc;
+		public CameraController cam;
 		public InputField inputField;
 		public Piece[] whitePieces = new Piece[16];
 		public Piece[] blackPieces = new Piece[16];
@@ -24,9 +24,9 @@ namespace Chess
 		void Update () 
 		{
 			if(whiteTurn)
-				cpc.Index = 0;
+				cam.SetIndex = 0;
 			else
-				cpc.Index = 1;
+				cam.SetIndex = 1;
 
 			if(Input.GetKeyUp(KeyCode.KeypadEnter) || Input.GetKeyUp(KeyCode.Return))
 				Send();
@@ -74,7 +74,7 @@ namespace Chess
 			}
 		}
 
-		int? FindWhitePiece(BoardPosition position)
+		public int? FindWhitePiece(BoardPosition position)
 		{
 			for(int i=0; i<16; i++)
 			{
@@ -84,7 +84,7 @@ namespace Chess
 			return null;
 		}
 
-		int? FindBlackPiece(BoardPosition position)
+		public int? FindBlackPiece(BoardPosition position)
 		{
 			for(int i=0; i<16; i++)
 			{

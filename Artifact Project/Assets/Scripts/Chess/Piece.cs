@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Algorithms;
 
 namespace Chess
 {
 	public class Piece : MonoBehaviour 
 	{
+		public ChessControl control;
 		BoardPosition pos;
 		protected bool hasMoved;
+		public bool whiteTeam;
 
 		public BoardPosition Pos
 		{
@@ -28,7 +31,7 @@ namespace Chess
 		public void MovePiece (BoardPosition position)
 		{
 			Move move = new Move(this.pos,position);
-			if(Check (move))
+			if(GeneralCheck (move))
 			{
 				hasMoved = true;
 				ChessControl.WhiteTurn = !ChessControl.WhiteTurn;
@@ -39,9 +42,31 @@ namespace Chess
 				Debug.Log ("Move not legal");
 		}
 
-		public virtual bool Check(Move move)
+		bool GeneralCheck(Move move)
+		{
+			int tx = move.to.TileX; int ty = move.to.TileY; int fx = move.from.TileX; int fy = move.from.TileY;
+			if((Basic.IsBetween(tx,0,7) && Basic.IsBetween(ty,0,7)) && !(tx == fx && ty == fy) && SpecificCheck (move) && EmptyCheck(move.to))
+				return true;
+			else
+				return false;
+		}
+
+		public virtual bool SpecificCheck(Move move)
 		{
 			return false;
+		}
+
+		protected bool EmptyCheck(BoardPosition position)
+		{
+			int? index;
+			if(whiteTeam)
+				index = control.FindWhitePiece(position);
+			else
+				index = control.FindBlackPiece(position);
+			if( index == null)
+				return true;
+			else
+				return false;
 		}
 	}
 }
