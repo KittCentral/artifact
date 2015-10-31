@@ -10,22 +10,25 @@ namespace Chess
 		BoardPosition pos;
 		protected bool hasMoved;
 		public bool whiteTeam;
+		Vector3 target;
 
 		public BoardPosition Pos
 		{
 			get{ return pos;}
 			
-			set
-			{ 
-				Vector3 newPos = new Vector3(value.TileX,1,value.TileY);
-				transform.localPosition = newPos;
-				pos = value;
-			}
+			set{ pos = value;}
 		}
 
 		void Start()
 		{
 			Pos = new BoardPosition((int)transform.localPosition.x,(int)transform.localPosition.z);
+			target = new Vector3(Pos.TileX,.5f,Pos.TileY);
+		}
+
+		void Update()
+		{
+			transform.localPosition = Vector3.Lerp(transform.localPosition,target,.1f);
+
 		}
 
 		public void MovePiece (BoardPosition position)
@@ -37,18 +40,46 @@ namespace Chess
 				ChessControl.WhiteTurn = !ChessControl.WhiteTurn;
 				Debug.Log("Move was made");
 				Pos = position;
+				target = new Vector3(position.TileX,.5f,position.TileY);
 			}
-			else
-				Debug.Log ("Move not legal");
 		}
 
 		bool GeneralCheck(Move move)
 		{
 			int tx = move.to.TileX; int ty = move.to.TileY; int fx = move.from.TileX; int fy = move.from.TileY;
-			if((Basic.IsBetween(tx,0,7) && Basic.IsBetween(ty,0,7)) && !(tx == fx && ty == fy) && SpecificCheck (move) && EmptyCheck(move.to))
-				return true;
+			if((Basic.IsBetween(tx,0,7) && Basic.IsBetween(ty,0,7)) && !(tx == fx && ty == fy) && EmptyCheck(move.to, whiteTeam))
+			{
+				if(KillCheck(move))
+				{
+					if(whiteTeam)
+					{
+						Piece hitPieceB = control.blackPieces[(int)control.FindBlackPiece(move.to)];
+						hitPieceB.Pos.TileX += 10;
+						Destroy(hitPieceB.gameObject);
+					}
+					else
+					{
+						Piece hitPieceW = control.whitePieces[(int)control.FindWhitePiece(move.to)];
+						hitPieceW.Pos.TileX -= 10;
+						Destroy(hitPieceW.gameObject);
+					}
+					return true;
+				}
+				else if(SpecificCheck (move))
+					return true;
+				else
+				{
+					Debug.Log ("Move not legal");
+					return false;
+				}
+			}
 			else
+			{
+				if(!EmptyCheck(move.to, whiteTeam))
+					Debug.Log ("Space is Occupied");
+				Debug.Log ("Not a valid Endpoint");
 				return false;
+			}
 		}
 
 		public virtual bool SpecificCheck(Move move)
@@ -56,7 +87,14 @@ namespace Chess
 			return false;
 		}
 
-		protected bool EmptyCheck(BoardPosition position)
+		public virtual bool KillCheck(Move move)
+		{
+			if(!EmptyCheck(move.to, !whiteTeam) && SpecificCheck(move))
+				return true;
+			return false;
+		}
+
+		protected bool EmptyCheck(BoardPosition position, bool whiteTeam)
 		{
 			int? index;
 			if(whiteTeam)

@@ -97,9 +97,9 @@
      <Compile Include="Assets\AIMLBot\DownloadFiles.cs" />
      <Compile Include="Assets\AIMLBot\LoaderFiles.cs" />
      <Compile Include="Assets\AIMLBot\MyScripts\ChatWindowExample1.cs" />
-     <Compile Include="Assets\CameraLookAt.cs" />
-     <Compile Include="Assets\CameraPositionControl.cs" />
-     <Compile Include="Assets\Scripts\Basic.cs" />
+     <Compile Include="Assets\Scripts\Algorithms\Basic.cs" />
+     <Compile Include="Assets\Scripts\Algorithms\CustomTypes.cs" />
+     <Compile Include="Assets\Scripts\Algorithms\Extension Methods.cs" />
      <Compile Include="Assets\Scripts\Calendar.cs" />
      <Compile Include="Assets\Scripts\CameraController.cs" />
      <Compile Include="Assets\Scripts\CameraRay.cs" />
@@ -115,11 +115,9 @@
      <Compile Include="Assets\Scripts\Chess\Pieces\Pawn.cs" />
      <Compile Include="Assets\Scripts\Chess\Pieces\Queen.cs" />
      <Compile Include="Assets\Scripts\Chess\Pieces\Rook.cs" />
-     <Compile Include="Assets\Scripts\CustomTypes.cs" />
      <Compile Include="Assets\Scripts\EarthSpin.cs" />
      <Compile Include="Assets\Scripts\Exit.cs" />
      <Compile Include="Assets\Scripts\Explosion.cs" />
-     <Compile Include="Assets\Scripts\Extension Methods.cs" />
      <Compile Include="Assets\Scripts\GPS Scripts\GPS_Control.cs" />
      <Compile Include="Assets\Scripts\GPS Scripts\GPS_Text.cs" />
      <Compile Include="Assets\Scripts\GPS Scripts\GPS_Viewer.cs" />

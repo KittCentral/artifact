@@ -22,20 +22,19 @@ namespace Chess
 			int dir;
 			if(changeX)
 			{
-				dir=Mathf.Abs(tx-fx)/(tx-fx)>0?1:-1;
+				dir=Mathf.Abs(tx-fx)/(tx-fx);
 				for(int i = 1; i < change; i++)
 				{
-					print (EmptyCheck(new BoardPosition(fx + i*dir,ty)));
-					if(!EmptyCheck(new BoardPosition(fx + i*dir,ty)))
+					if(!EmptyCheck(new BoardPosition(fx + i*dir,ty),whiteTeam))
 					   return false;
 				}
 			}
 			else
 			{
-				dir=Mathf.Abs(ty-fy)/(ty-fy)>0?1:-1;
+				dir=Mathf.Abs(ty-fy)/(ty-fy);
 				for(int i = 1; i < change; i++)
 				{
-					if(!EmptyCheck(new BoardPosition(tx,fy + i*dir)))
+					if(!EmptyCheck(new BoardPosition(tx,fy + i*dir),whiteTeam))
 						return false;
 				}
 			}

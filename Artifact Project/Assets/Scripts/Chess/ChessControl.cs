@@ -12,6 +12,9 @@ namespace Chess
 		public Piece[] whitePieces = new Piece[16];
 		public Piece[] blackPieces = new Piece[16];
 		string moveName;
+		string firstClick;
+		string secondClick;
+		bool secondClickBool;
 
 		static bool whiteTurn;
 		public static bool WhiteTurn { get{return whiteTurn;}  set{whiteTurn = value;} }
@@ -32,6 +35,31 @@ namespace Chess
 				Send();
 
 			moveName = inputField.text;
+
+
+			if(Input.GetMouseButtonUp(0))
+			{
+				RaycastHit hit;
+
+				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				
+				if (Physics.Raycast(ray, out hit)) 
+				{
+					Transform objectHit = hit.transform;
+
+					if(!secondClickBool)
+					{
+						firstClick = (objectHit.localPosition.x + 1) + "" + (objectHit.parent.transform.localPosition.z + 1);
+						secondClickBool = true;
+					}
+					else
+					{
+						secondClick = (objectHit.localPosition.x + 1) + "" + (objectHit.parent.transform.localPosition.z + 1);
+						secondClickBool = false;
+						MoveTry(firstClick,secondClick);
+					}
+				}
+			}
 		}
 
 		public void Send()
@@ -41,36 +69,41 @@ namespace Chess
 				char[] array = moveName.ToCharArray();
 				string first = CoordNameFromMoveName(array[0],array[1]);
 				string second = CoordNameFromMoveName(array[2],array[3]);
-				BoardPosition from = first.ToBoardPosition();
-				BoardPosition to = second.ToBoardPosition();
-				int pieceIndex;
-				if(WhiteTurn)
+				MoveTry(first,second);
+				inputField.text = "";
+			}
+		}
+
+		public void MoveTry(string first, string second)
+		{
+			BoardPosition from = first.ToBoardPosition();
+			BoardPosition to = second.ToBoardPosition();
+			int pieceIndex;
+			if(WhiteTurn)
+			{
+				if(!(FindWhitePiece(from) == null))
 				{
-					if(!(FindWhitePiece(from) == null))
-					{
-						pieceIndex = (int)FindWhitePiece(from);
-						whitePieces[pieceIndex].MovePiece(to);
-					}
-					else
-					{
-						Debug.Log ("Not a valid start");
-						return;
-					}
+					pieceIndex = (int)FindWhitePiece(from);
+					whitePieces[pieceIndex].MovePiece(to);
 				}
 				else
 				{
-					if(!(FindBlackPiece(from) == null))
-					{
-						pieceIndex = (int)FindBlackPiece(from);
-						blackPieces[pieceIndex].MovePiece(to);
-					}
-					else
-					{
-						Debug.Log ("Not a valid start");
-						return;
-					}
+					Debug.Log ("Not a valid start");
+					return;
 				}
-				inputField.text = "";
+			}
+			else
+			{
+				if(!(FindBlackPiece(from) == null))
+				{
+					pieceIndex = (int)FindBlackPiece(from);
+					blackPieces[pieceIndex].MovePiece(to);
+				}
+				else
+				{
+					Debug.Log ("Not a valid start");
+					return;
+				}
 			}
 		}
 
