@@ -154,6 +154,7 @@
      <Compile Include="Assets\Scripts\Test Scripts\Charlie&apos;s Tests\MeshData.cs" />
      <Compile Include="Assets\Scripts\Test Scripts\Charlie&apos;s Tests\World.cs" />
      <Compile Include="Assets\Scripts\Test Scripts\Charlie&apos;s Tests\WorldPos.cs" />
+     <Compile Include="Assets\Scripts\Test Scripts\REST.cs" />
      <Compile Include="Assets\Scripts\Test Scripts\TestPic.cs" />
      <Compile Include="Assets\Scripts\To Delete\AssembleGrid.cs" />
      <Compile Include="Assets\Scripts\To Delete\ScrollableList.cs" />

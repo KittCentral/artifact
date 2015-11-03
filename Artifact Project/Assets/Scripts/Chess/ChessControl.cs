@@ -14,7 +14,11 @@ namespace Chess
 		string moveName;
 		string firstClick;
 		string secondClick;
-		bool secondClickBool;
+		bool down;
+		RaycastHit hit;
+		Ray ray;
+		Piece subject;
+		Vector3 start;
 
 		static bool whiteTurn;
 		public static bool WhiteTurn { get{return whiteTurn;}  set{whiteTurn = value;} }
@@ -32,77 +36,94 @@ namespace Chess
 				cam.SetIndex = 1;
 
 			if(Input.GetKeyUp(KeyCode.KeypadEnter) || Input.GetKeyUp(KeyCode.Return))
-				Send();
+				SendFromInput();
 
 			moveName = inputField.text;
 
 
-			if(Input.GetMouseButtonUp(0))
+			if(Input.GetMouseButtonDown(0))
 			{
-				RaycastHit hit;
-
-				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				
 				if (Physics.Raycast(ray, out hit)) 
 				{
 					Transform objectHit = hit.transform;
-
-					if(!secondClickBool)
+					start = new Vector3(objectHit.position.x,.5f,objectHit.position.z);
+					firstClick = (objectHit.localPosition.x + 1) + "" + (objectHit.parent.transform.localPosition.z + 1);
+					if(!(PieceAtPoint(firstClick) == null))
 					{
-						firstClick = (objectHit.localPosition.x + 1) + "" + (objectHit.parent.transform.localPosition.z + 1);
-						secondClickBool = true;
-					}
-					else
-					{
-						secondClick = (objectHit.localPosition.x + 1) + "" + (objectHit.parent.transform.localPosition.z + 1);
-						secondClickBool = false;
-						MoveTry(firstClick,secondClick);
+						down = true;
+						subject = PieceAtPoint(firstClick);
 					}
 				}
 			}
+			if(Input.GetMouseButton(0) && down)
+			{
+				ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				
+				if (Physics.Raycast(ray, out hit)) 
+				{
+					subject.target = new Vector3(hit.point.x,2,hit.point.z);
+				}
+			}
+			if(Input.GetMouseButtonUp(0))
+			{
+				ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				
+				if (Physics.Raycast(ray, out hit) && down) 
+				{
+					Transform objectHit = hit.transform;
+					secondClick = (objectHit.localPosition.x + 1) + "" + (objectHit.parent.transform.localPosition.z + 1);
+					if(!subject.MovePiece(secondClick.ToBoardPosition()))
+					{
+						subject.target = start;
+					}
+				}
+				else
+				{
+					subject.target = start;
+				}
+				down = false;
+			}
 		}
 
-		public void Send()
+		public void SendFromInput()
 		{
 			if(moveName.Length == 4)
 			{
 				char[] array = moveName.ToCharArray();
 				string first = CoordNameFromMoveName(array[0],array[1]);
 				string second = CoordNameFromMoveName(array[2],array[3]);
-				MoveTry(first,second);
+				if(PieceAtPoint(first) == null)
+					return;
+				subject = PieceAtPoint(first);
+				subject.MovePiece(second.ToBoardPosition());
 				inputField.text = "";
 			}
 		}
 
-		public void MoveTry(string first, string second)
+		public Piece PieceAtPoint(string first)
 		{
 			BoardPosition from = first.ToBoardPosition();
-			BoardPosition to = second.ToBoardPosition();
 			int pieceIndex;
 			if(WhiteTurn)
 			{
 				if(!(FindWhitePiece(from) == null))
-				{
-					pieceIndex = (int)FindWhitePiece(from);
-					whitePieces[pieceIndex].MovePiece(to);
-				}
+					return whitePieces[(int)FindWhitePiece(from)];
 				else
 				{
 					Debug.Log ("Not a valid start");
-					return;
+					return null;
 				}
 			}
 			else
 			{
 				if(!(FindBlackPiece(from) == null))
-				{
-					pieceIndex = (int)FindBlackPiece(from);
-					blackPieces[pieceIndex].MovePiece(to);
-				}
+					return blackPieces[(int)FindBlackPiece(from)];
 				else
 				{
 					Debug.Log ("Not a valid start");
-					return;
+					return null;
 				}
 			}
 		}

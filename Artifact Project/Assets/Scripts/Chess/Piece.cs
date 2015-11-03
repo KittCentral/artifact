@@ -10,7 +10,8 @@ namespace Chess
 		BoardPosition pos;
 		protected bool hasMoved;
 		public bool whiteTeam;
-		Vector3 target;
+		public Vector3 target;
+		public GameObject explosionPrefab;
 
 		public BoardPosition Pos
 		{
@@ -28,10 +29,9 @@ namespace Chess
 		void Update()
 		{
 			transform.localPosition = Vector3.Lerp(transform.localPosition,target,.1f);
-
 		}
 
-		public void MovePiece (BoardPosition position)
+		public bool MovePiece (BoardPosition position)
 		{
 			Move move = new Move(this.pos,position);
 			if(GeneralCheck (move))
@@ -41,7 +41,9 @@ namespace Chess
 				Debug.Log("Move was made");
 				Pos = position;
 				target = new Vector3(position.TileX,.5f,position.TileY);
+				return true;
 			}
+			return false;
 		}
 
 		bool GeneralCheck(Move move)
@@ -55,12 +57,14 @@ namespace Chess
 					{
 						Piece hitPieceB = control.blackPieces[(int)control.FindBlackPiece(move.to)];
 						hitPieceB.Pos.TileX += 10;
+						Instantiate(explosionPrefab,hitPieceB.gameObject.transform.position,hitPieceB.gameObject.transform.rotation);
 						Destroy(hitPieceB.gameObject);
 					}
 					else
 					{
 						Piece hitPieceW = control.whitePieces[(int)control.FindWhitePiece(move.to)];
 						hitPieceW.Pos.TileX -= 10;
+						Instantiate(explosionPrefab,hitPieceW.gameObject.transform.position,hitPieceW.gameObject.transform.rotation);
 						Destroy(hitPieceW.gameObject);
 					}
 					return true;
