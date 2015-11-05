@@ -11,9 +11,9 @@ namespace Chess
 		public InputField inputField;
 		public Piece[] whitePieces = new Piece[16];
 		public Piece[] blackPieces = new Piece[16];
-		string moveName;
-		string firstClick;
-		string secondClick;
+		public GameObject lightExplosion;
+		public GameObject darkExplosion;
+		string moveName, firstClick, secondClick;
 		bool down;
 		RaycastHit hit;
 		Ray ray;
@@ -69,19 +69,22 @@ namespace Chess
 			if(Input.GetMouseButtonUp(0))
 			{
 				ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-				
-				if (Physics.Raycast(ray, out hit) && down) 
+				print (down);
+				if(down)
 				{
-					Transform objectHit = hit.transform;
-					secondClick = (objectHit.localPosition.x + 1) + "" + (objectHit.parent.transform.localPosition.z + 1);
-					if(!subject.MovePiece(secondClick.ToBoardPosition()))
+					if (Physics.Raycast(ray, out hit)) 
+					{
+						Transform objectHit = hit.transform;
+						secondClick = (objectHit.localPosition.x + 1) + "" + (objectHit.parent.transform.localPosition.z + 1);
+						if(!subject.MovePiece(secondClick.ToBoardPosition()))
+						{
+							subject.target = start;
+						}
+					}
+					else
 					{
 						subject.target = start;
 					}
-				}
-				else
-				{
-					subject.target = start;
 				}
 				down = false;
 			}

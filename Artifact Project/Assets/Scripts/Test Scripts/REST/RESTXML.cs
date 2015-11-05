@@ -2,46 +2,79 @@
 using System;
 using System.Xml;
 using System.Xml.XPath;
+using System.Xml.Linq;
 using System.Net;
 using System.Collections;
 
-public class REST : MonoBehaviour 
+public class RESTXML : MonoBehaviour 
 {
+	#region Keys
 	static string BingMapsKey = "Ar83wUfPWS_rWAQAQTN2UTDWQ0PPccW73r6Vc0opnqtct0-O8153Z4aW6_SAxt5Y";
+	//static string OpenWeatherKey = "fe7c73fe5a9132447a38e10f9f185b5b";
+	#endregion
 
-	void Start ()
+	#region URL Retrievers
+	/// <summary>
+	/// Bings the location.
+	/// </summary>
+	/// <returns>The XmlDocument holding necessary info</returns>
+	/// <param name="location">Location</param>
+	static public XmlDocument BingLocation (string location)
 	{
 		try
 		{
-			//Create the REST Services 'Find by Query' request
-			string locationsRequest = CreateRequest("Camano%20Island");
-			XmlDocument locationsResponse = MakeRequest(locationsRequest);
-			Debug.Log(LongAndLat(locationsResponse));
+			string request = "http://dev.virtualearth.net/REST/v1/Locations/" +
+				location +
+					"?output=xml" +
+					" &key=" + 
+					BingMapsKey;;
+			XmlDocument response = MakeRequest(request);
+			return response;
 		}
 		catch (Exception e)
 		{
 			Debug.Log(e.Message);
+			return null;
 		}
 	}
-	
-	//Create the request URL
-	public static string CreateRequest(string queryString)
+
+	/// <summary>
+	/// Bings the elevation.
+	/// </summary>
+	/// <returns>The XmlDocument holding necessary info</returns>
+	/// <param name="location">Location</param>
+	static public XmlDocument BingElevation (string location)
 	{
-		string UrlRequest = "http://dev.virtualearth.net/REST/v1/Locations/" +
-				queryString +
-				"?output=xml" +
-				" &key=" + BingMapsKey;
-		return (UrlRequest);
+		try
+		{
+			string request = "http://dev.virtualearth.net/REST/v1/Elevation/List?points=" +
+				LongAndLatUnformatted(BingLocation(location)) +
+					"&output=xml" +
+					" &key=" + 
+					BingMapsKey;;
+			XmlDocument response = MakeRequest(request);
+			return response;
+		}
+		catch (Exception e)
+		{
+			Debug.Log(e.Message);
+			return null;
+		}
 	}
+	#endregion
 	
-	//Submit the HTTP Request and return the XML response
+	#region URL to XML
+	/// <summary>
+	/// Submits HTML request
+	/// </summary>
+	/// <returns>The XmlDocument holding necessary info</returns>
+	/// <param name="requestUrl">Request URL</param>
 	public static XmlDocument MakeRequest(string requestUrl)
 	{
 		try
 		{
 			HttpWebRequest request = WebRequest.Create(requestUrl) as HttpWebRequest;
 			HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-			
 			XmlDocument xmlDoc = new XmlDocument();
 			xmlDoc.Load(response.GetResponseStream());
 			return (xmlDoc);
@@ -52,10 +85,33 @@ public class REST : MonoBehaviour
 			return null;
 		}
 	}
+	#endregion
 
+	#region XML Extractors
+	//Creates Generic Request
+	[System.Obsolete("Use specific request creator")]
+	static public string CreateRequest(string queryString)
+	{
+		/*string UrlRequest = "http://api.openweathermap.org/data/2.5/weather?q=" + 
+				queryString +
+				"&mode=xml" + 
+				"&appid=" + 
+				OpenWeatherKey;*/
+		string UrlRequest = "http://dev.virtualearth.net/REST/v1/Locations/" +
+			queryString +
+				"?output=xml" +
+				" &key=" + 
+				BingMapsKey;
+		return (UrlRequest);
+	}
+
+	/// <summary>
+	/// Extracts Longitude and Latitude from XML in readable format
+	/// </summary>
+	/// <returns>Formatted Latitude and Longitude</returns>
+	/// <param name="response">XMLDocument</param>
 	static public string LongAndLat(XmlDocument response)
 	{
-		//Create namespace manager
 		XmlNamespaceManager nsmgr = new XmlNamespaceManager(response.NameTable);
 		nsmgr.AddNamespace("rest", "http://schemas.microsoft.com/search/local/ws/rest/v1");
 		XmlNodeList locationElements = response.SelectNodes("//rest:Location", nsmgr);
@@ -66,7 +122,41 @@ public class REST : MonoBehaviour
 				locationElements.Item(0).SelectSingleNode(".//rest:Longitude", nsmgr).InnerText;
 		return output;
 	}
-	
+
+	/// <summary>
+	/// Extracts Longitude and Latitude from XML in passable format
+	/// </summary>
+	/// <returns>Unformatted Latitude and Longitude</returns>
+	/// <param name="response">XMLDocument</param>
+	static string LongAndLatUnformatted(XmlDocument response)
+	{
+		XmlNamespaceManager nsmgr = new XmlNamespaceManager(response.NameTable);
+		nsmgr.AddNamespace("rest", "http://schemas.microsoft.com/search/local/ws/rest/v1");
+		XmlNodeList locationElements = response.SelectNodes("//rest:Location", nsmgr);
+		string output = locationElements.Item(0).SelectSingleNode(".//rest:Latitude", nsmgr).InnerText + "," +
+			locationElements.Item(0).SelectSingleNode(".//rest:Longitude", nsmgr).InnerText;
+		return output;
+	}
+
+	/// <summary>
+	/// Extracts Elevation from XML in meters
+	/// </summary>
+	/// <returns>Elevation</returns>
+	/// <param name="response">XMLDocument</param>
+	static public string Elevation(XmlDocument response)
+	{
+		XmlNamespaceManager nsmgr = new XmlNamespaceManager(response.NameTable);
+		nsmgr.AddNamespace("rest", "http://schemas.microsoft.com/search/local/ws/rest/v1");
+		string output = response.SelectNodes(".//rest:int", nsmgr).Item(0).InnerText + " meters";
+		return output;
+	}
+
+	#region Original Extractor
+	/// <summary>
+	/// Extracts lots of info of possible locations for any name given
+	/// </summary>
+	/// <returns>Printed info about the Location</returns>
+	/// <param name="response">XMLDocument</param>
 	static public void ProcessResponse(XmlDocument locationsResponse)
 	{
 		//Create namespace manager
@@ -113,4 +203,6 @@ public class REST : MonoBehaviour
 			}
 		}
 	}
+	#endregion
+	#endregion
 }

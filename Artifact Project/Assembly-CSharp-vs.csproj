@@ -154,7 +154,8 @@
      <Compile Include="Assets\Scripts\Test Scripts\Charlie&apos;s Tests\MeshData.cs" />
      <Compile Include="Assets\Scripts\Test Scripts\Charlie&apos;s Tests\World.cs" />
      <Compile Include="Assets\Scripts\Test Scripts\Charlie&apos;s Tests\WorldPos.cs" />
-     <Compile Include="Assets\Scripts\Test Scripts\REST.cs" />
+     <Compile Include="Assets\Scripts\Test Scripts\REST\RESTPull.cs" />
+     <Compile Include="Assets\Scripts\Test Scripts\REST\RESTXML.cs" />
      <Compile Include="Assets\Scripts\Test Scripts\TestPic.cs" />
      <Compile Include="Assets\Scripts\To Delete\AssembleGrid.cs" />
      <Compile Include="Assets\Scripts\To Delete\ScrollableList.cs" />
@@ -164,7 +165,6 @@
      <Compile Include="Assets\Scripts\Weather Scripts\WeatherIcon.cs" />
      <Compile Include="Assets\Scripts\Weather Scripts\WeatherPanel.cs" />
      <Compile Include="Assets\Scripts\followSpotLight.cs" />
-     <Compile Include="Assets\Scripts\gameControl.cs" />
      <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />

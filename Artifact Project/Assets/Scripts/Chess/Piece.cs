@@ -11,7 +11,7 @@ namespace Chess
 		protected bool hasMoved;
 		public bool whiteTeam;
 		public Vector3 target;
-		public GameObject explosionPrefab;
+		GameObject explosionPrefab;
 
 		public BoardPosition Pos
 		{
@@ -22,6 +22,7 @@ namespace Chess
 
 		void Start()
 		{
+			explosionPrefab = whiteTeam ? control.darkExplosion : control.lightExplosion;
 			Pos = new BoardPosition((int)transform.localPosition.x,(int)transform.localPosition.z);
 			target = new Vector3(Pos.TileX,.5f,Pos.TileY);
 		}
