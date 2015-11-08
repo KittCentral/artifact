@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using REST;
 
 public class RESTPull : MonoBehaviour
 {
@@ -16,6 +17,12 @@ public class RESTPull : MonoBehaviour
 	public void ElevationCall () 
 	{
 		Debug.Log(RESTXML.Elevation(RESTXML.BingElevation(inputField.text)));
+		inputField.text = "";
+	}
+
+	public void TemperatureCall()
+	{
+		StartCoroutine(RESTXML.WeatherUndergroundCheck(inputField.text));
 		inputField.text = "";
 	}
 }

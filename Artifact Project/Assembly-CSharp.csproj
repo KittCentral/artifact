@@ -154,6 +154,7 @@
      <Compile Include="Assets\Scripts\Test Scripts\Charlie&apos;s Tests\MeshData.cs" />
      <Compile Include="Assets\Scripts\Test Scripts\Charlie&apos;s Tests\World.cs" />
      <Compile Include="Assets\Scripts\Test Scripts\Charlie&apos;s Tests\WorldPos.cs" />
+     <Compile Include="Assets\Scripts\Test Scripts\REST\CustomTypes.cs" />
      <Compile Include="Assets\Scripts\Test Scripts\REST\RESTPull.cs" />
      <Compile Include="Assets\Scripts\Test Scripts\REST\RESTXML.cs" />
      <Compile Include="Assets\Scripts\Test Scripts\TestPic.cs" />

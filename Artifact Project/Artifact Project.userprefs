@@ -1,10 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Chess\ChessControl.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Test Scripts\REST\RESTPull.cs">
     <Files>
-      <File FileName="Assets\Scripts\Test Scripts\RESTXML.cs" Line="16" Column="2" />
-      <File FileName="Assets\RESTPull.cs" Line="9" Column="2" />
-      <File FileName="Assets\Scripts\Chess\ChessControl.cs" Line="15" Column="35" />
+      <File FileName="Assets\Scripts\Test Scripts\REST\RESTPull.cs" Line="26" Column="24" />
+      <File FileName="Assets\Scripts\Test Scripts\REST\RESTXML.cs" Line="152" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
