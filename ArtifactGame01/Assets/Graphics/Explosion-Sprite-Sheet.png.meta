@@ -1,0 +1,177 @@
+fileFormatVersion: 2
+guid: 079fc45633ffc6c4a945212acefadda6
+timeCreated: 1446609406
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Explosion-Sprite-Sheet_0
+    21300002: Explosion-Sprite-Sheet_1
+    21300004: Explosion-Sprite-Sheet_2
+    21300006: Explosion-Sprite-Sheet_3
+    21300008: Explosion-Sprite-Sheet_4
+    21300010: Explosion-Sprite-Sheet_5
+    21300012: Explosion-Sprite-Sheet_6
+    21300014: Explosion-Sprite-Sheet_7
+    21300016: Explosion-Sprite-Sheet_8
+    21300018: Explosion-Sprite-Sheet_9
+    21300020: Explosion-Sprite-Sheet_10
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Explosion-Sprite-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 30
+        width: 63
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Explosion-Sprite-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 13
+        width: 81
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Explosion-Sprite-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 249
+        y: 9
+        width: 93
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Explosion-Sprite-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 374
+        y: 74
+        width: 19
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Explosion-Sprite-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 388
+        y: 34
+        width: 52
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Explosion-Sprite-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 438
+        y: 73
+        width: 18
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Explosion-Sprite-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 80
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Explosion-Sprite-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 516
+        y: 41
+        width: 32
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Explosion-Sprite-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 558
+        y: 49
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Explosion-Sprite-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 24
+        width: 19
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Explosion-Sprite-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 499
+        y: 35
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
