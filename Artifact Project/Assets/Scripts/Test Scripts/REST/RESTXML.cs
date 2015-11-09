@@ -14,6 +14,7 @@ namespace REST
 		static string BingMapsKey = "Ar83wUfPWS_rWAQAQTN2UTDWQ0PPccW73r6Vc0opnqtct0-O8153Z4aW6_SAxt5Y";
 		static string OpenWeatherKey = "fe7c73fe5a9132447a38e10f9f185b5b";
 		static string WeatherUndergroundKey = "263c2c838e821c19";
+		static string WolframAlphaKey = "YAQ7G4-AEX45XPWAL";
 		#endregion
 
 		#region URL Retrievers
@@ -119,6 +120,29 @@ namespace REST
 				          " is currently " +
 				          nodes.Item(0).SelectSingleNode("temp/english").InnerText + 
 				          " F");
+			}
+			else
+				Debug.Log ("ERROR: " + request.error);
+		}
+
+		/// <summary>
+		/// Checks the Weather at a location.
+		/// </summary>
+		/// <returns>Nothing</returns>
+		/// <param name="location">Location</param>
+		static public IEnumerator WolframAlphaCheck (string query)
+		{
+			WWW request = new WWW("http://api.wolframalpha.com/v2/query?input=" +
+			                      query +
+			                      "&appid=" +
+			                      WolframAlphaKey);
+			yield return request;
+			if(request.error == null)
+			{
+				XmlDocument response = new XmlDocument();
+				response.LoadXml(request.text);
+				XmlNodeList nodes = response.SelectNodes("//pod");
+				Debug.Log(nodes.Item(1).SelectSingleNode("subpod/plaintext").InnerText);
 			}
 			else
 				Debug.Log ("ERROR: " + request.error);

@@ -25,4 +25,10 @@ public class RESTPull : MonoBehaviour
 		StartCoroutine(RESTXML.WeatherUndergroundCheck(inputField.text));
 		inputField.text = "";
 	}
+
+	public void WolframAlphaCall()
+	{
+		StartCoroutine(RESTXML.WolframAlphaCheck(inputField.text));
+		inputField.text = "";
+	}
 }
