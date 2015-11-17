@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
+using System.Collections.Generic;
 
 public class Calendar : MonoBehaviour 
 {
@@ -260,12 +263,55 @@ public class Calendar : MonoBehaviour
 public class CalendarEvent
 {
     DateTime date;
+    [XmlAttribute("year")]
+    int year;
+    [XmlAttribute("month")]
+    int month;
+    [XmlAttribute("day")]
+    int day;
+    [XmlAttribute("info")]
     string info;
+
+    public int Year
+    {
+        get { return year; }
+        set
+        {
+            date = new DateTime(value, month, day);
+            year = value;
+        }
+    }
+
+    public int Month
+    {
+        get { return month; }
+        set
+        {
+            date = new DateTime(year, value, day);
+            month = value;
+        }
+    }
+
+    public int Day
+    {
+        get { return day; }
+        set
+        {
+            date = new DateTime(year, month, value);
+            day = value;
+        }
+    }
 
     public DateTime Date
     {
         get { return date; }
-        set { date = value; }
+        set
+        {
+            year = value.Year;
+            month = value.Month;
+            day = value.Day;
+            date = value;
+        }
     }
 
     public string Info
@@ -277,7 +323,18 @@ public class CalendarEvent
     public CalendarEvent(DateTime dateIn, string infoIn)
     {
         Date = dateIn;
+        Year = dateIn.Year;
+        Month = dateIn.Month;
+        Day = dateIn.Day;
         Info = infoIn;
     }
+}
+
+[XmlRoot("Month")]
+public class CalendarEventMonth
+{
+    [XmlArray("Events")]
+    [XmlArrayItem("Event")]
+    public List<CalendarEvent> Monsters = new List<CalendarEvent>();
 }
 #endregion
