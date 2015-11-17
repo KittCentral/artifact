@@ -2,28 +2,31 @@
 // controlled in the folder AIMLbot.
 
 using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
 public class ChatBox : MonoBehaviour 
 {
 	//Initialization
-	private Chatbot bot;
+	Chatbot bot;
 	public GameObject messBox;
-	private Text messBoard;
+	Text messBoard;
 	public string mess;
 	public string ask;
-	private string answer;
+	string answer;
 	public GameObject field;
-	private InputField inputField;
-	private Vector2 scrollPosition;
-	private int counter;
+	InputField inputField;
+	Vector2 scrollPosition;
+	int counter;
+
+    public GameObject globalSettings;
+    SceneControl sceneControl;
 
 	void Start () 
 	{
 		inputField = field.GetComponent<InputField>();
 		messBoard = messBox.GetComponent<Text>();
 		bot = new Chatbot();
+        sceneControl = globalSettings.GetComponent<SceneControl>();
 	}
 
 	//Sends the input to the response tree and saves the response
@@ -33,11 +36,16 @@ public class ChatBox : MonoBehaviour
 	{
 		if(counter == 0 && !string.Equals(ask,""))
 		{
-			mess += "Me: " + ask + "\n" + "\n";
-			answer = bot.getOutput(ask);
-			mess += "Fezzik: " + answer + "\n" + "\n";
-			inputField.text = "";
-		}
+            if (ask == "Open Paint")
+                sceneControl.OpenSceneAdditive(5);
+            else
+            {
+                mess += "Me: " + ask + "\n" + "\n";
+                answer = bot.getOutput(ask);
+                mess += "Fezzik: " + answer + "\n" + "\n";
+            }
+            inputField.text = "";
+        }
 	}
 
 	//Changes the string value based on what is typed into input
