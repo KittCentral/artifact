@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<Month xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Events>
+    <Event>
+      <Day>25</Day>
+      <Info>Christmas Day</Info>
+    </Event>
+    <Event>
+      <Day>7</Day>
+      <Info>Last Day to Add a Class with Instructor Approval</Info>
+    </Event>
+    <Event>
+      <Day>11</Day>
+      <Info>Last Day of Classes</Info>
+    </Event>
+    <Event>
+      <Day>12</Day>
+      <Info>Reading Day</Info>
+    </Event>
+    <Event>
+      <Day>13</Day>
+      <Info>Start of Final Exams</Info>
+    </Event>
+    <Event>
+      <Day>19</Day>
+      <Info>Commencement</Info>
+    </Event>
+    <Event>
+      <Day>30</Day>
+      <Info>Grades to Transcripts</Info>
+    </Event>
+  </Events>
+</Month>

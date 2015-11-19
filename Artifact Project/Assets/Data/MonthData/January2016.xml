@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<Month xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Events>
+    <Event>
+      <Day>1</Day>
+      <Info>New Year's Day</Info>
+    </Event>
+    <Event>
+      <Day>18</Day>
+      <Info>Martin Luther King, Jr.'s Birthday</Info>
+    </Event>
+    <Event>
+      <Day>4</Day>
+      <Info>Last Day to Enroll</Info>
+    </Event>
+    <Event>
+      <Day>8</Day>
+      <Info>Open Enrollment Begins</Info>
+    </Event>
+    <Event>
+      <Day>11</Day>
+      <Info>Start of Classes</Info>
+    </Event>
+    <Event>
+      <Day>20</Day>
+      <Info>Last Day to Add a Class</Info>
+    </Event>
+    <Event>
+      <Day>27</Day>
+      <Info>Last Day to Drop a Class without W</Info>
+    </Event>
+  </Events>
+</Month>

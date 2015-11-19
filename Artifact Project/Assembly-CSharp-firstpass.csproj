@@ -98,9 +98,10 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurves.shader" />
      <None Include="Assets\StreamingAssets\config\Person2Substitutions.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ScreenSpaceAmbientObscurance.shader" />
-     <None Include="Assets\Shortcuts\MonthData\February2016.xml" />
+     <None Include="Assets\Data\MonthData\December2015.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\NFAA.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\TiltShiftHdrLensBlur.shader" />
+     <None Include="Assets\Data\MonthData\January2016.xml" />
      <None Include="Assets\AIMLBot\AIMLbot\ConfigurationFiles\Splitters.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\VignetteShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfFieldScatter.shader" />
@@ -109,6 +110,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\MotionBlur.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MobileBloom.shader" />
      <None Include="Assets\AIMLBot\AIMLbot\ConfigurationFiles\DefaultPredicates.xml" />
+     <None Include="Assets\Data\MonthData\February2016.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\MinMaxReduction.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\SSAA.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\RadialBlur.shader" />
@@ -129,7 +131,6 @@
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfField34.shader" />
      <None Include="Assets\Effects\Shaders\SkyFromSpace.shader" />
-     <None Include="Assets\Shortcuts\MonthData\November2015.xml" />
      <None Include="Assets\StreamingAssets\config\Settings.xml" />
      <None Include="Assets\StreamingAssets\config\Substitutions.xml" />
      <None Include="Assets\AIMLBot\AIMLbot\ConfigurationFiles\Person2Substitutions.xml" />
@@ -143,9 +144,11 @@
      <None Include="Assets\Data\google_transit_Aug15_Runboard\routes.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderYUV.shader" />
      <None Include="Assets\Shaders\SkyFromSpace.shader" />
+     <None Include="Assets\Data\MonthData\May2016.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CreaseApply.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ChromaticAberrationShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\GlobalFog.shader" />
+     <None Include="Assets\Data\MonthData\November2015.xml" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLitOutline.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Luminance.shader" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLit.shader" />
@@ -161,8 +164,8 @@
      <None Include="Assets\Data\google_transit_Aug15_Runboard\calendar.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\DLAA.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseAndGrainDX11.shader" />
-     <None Include="Assets\Shortcuts\MonthData\December2015.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BrightPassFilter2.shader" />
+     <None Include="Assets\Data\MonthData\June2016.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableBlur.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\MotionBlurClear.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionEffect.shader" />
@@ -179,6 +182,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BrightPassFilter.shader" />
      <None Include="Assets\Data\google_transit_Aug15_Runboard\stop_times.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAA2.shader" />
+     <None Include="Assets\Data\MonthData\March2016.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrection3DLut.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\LensFlareCreate.shader" />
      <None Include="Assets\Data\google_transit_Aug15_Runboard\shapes.txt" />
@@ -191,7 +195,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SimpleClear.shader" />
      <None Include="Assets\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularDisplacement.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAA3Console.shader" />
-     <None Include="Assets\Shortcuts\MonthData\January2016.xml" />
+     <None Include="Assets\Data\MonthData\April2016.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset2.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlurAndFlares.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendForBloom.shader" />
@@ -201,14 +205,14 @@
  <Reference Include="UnityEngine.Networking">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
- <Reference Include="DDay.iCal">
- <HintPath>C:/Users/Global Enineering/Desktop/All Student Files/Artifact/artifact/Artifact Project/Assets/Scripts/DLLs/DDay.iCal.dll</HintPath>
- </Reference>
  <Reference Include="antlr.runtime">
  <HintPath>C:/Users/Global Enineering/Desktop/All Student Files/Artifact/artifact/Artifact Project/Assets/Scripts/DLLs/antlr.runtime.dll</HintPath>
  </Reference>
  <Reference Include="DDay.Collections">
  <HintPath>C:/Users/Global Enineering/Desktop/All Student Files/Artifact/artifact/Artifact Project/Assets/Scripts/DLLs/DDay.Collections.dll</HintPath>
+ </Reference>
+ <Reference Include="DDay.iCal">
+ <HintPath>C:/Users/Global Enineering/Desktop/All Student Files/Artifact/artifact/Artifact Project/Assets/Scripts/DLLs/DDay.iCal.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Cecil">
  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>

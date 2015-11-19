@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using System;
 using System.IO;
 using System.Collections.Generic;
+using DDay.iCal;
 
 namespace Calendar
 {
@@ -28,6 +29,7 @@ namespace Calendar
         DateTime displayedMonth, firstDayOfMonth;
         string nowFilename;
         int numOfWeek, counter;
+        bool hold;
 
         //Enums and Lists
         enum Months { January = 1, February, March, April, May, June, July, August, September, October, November, December };
@@ -72,7 +74,7 @@ namespace Calendar
             monthText.text = Enum.GetName(typeof(Months), displayedMonth.Month);
             firstDayOfMonth = new DateTime(displayedMonth.Year, displayedMonth.Month, 1);
             numOfWeek = (int)firstDayOfMonth.DayOfWeek;
-            nowFilename = "Assets/Shortcuts/MonthData/" + Enum.GetName(typeof(Months), displayedMonth.Month) + displayedMonth.Year + ".xml";
+            nowFilename = "Assets/Data/MonthData/" + Enum.GetName(typeof(Months), displayedMonth.Month) + displayedMonth.Year + ".xml";
             getDates();
             if (!File.Exists(nowFilename))
                 CreateMonth();
@@ -108,6 +110,12 @@ namespace Calendar
         public void CreateMonth()
         {
             CalendarEventMonth month = new CalendarEventMonth();
+            month.events = ICSReader("http://" + "www.kayaposoft.com/enrico/ics/v1.0?country=usa&fromDate=01-" + 
+                displayedMonth.Month + "-" +
+                displayedMonth.Year + "&toDate=" + 
+                DateTime.DaysInMonth(displayedMonth.Year, displayedMonth.Month) + "-" +
+                displayedMonth.Month + "-" +
+                displayedMonth.Year + "&region=Colorado");
             month.Save(nowFilename);
         }
 
@@ -116,7 +124,7 @@ namespace Calendar
         /// </summary>
         void eventControl()
         {
-            var monthEvents = OpenMonth(new DateTime(displayedMonth.Year, displayedMonth.Month - 1, 1));
+            var monthEvents = OpenMonth(new DateTime(displayedMonth.Year, displayedMonth.Month, 1));
             for (int i = 0; i < 42; i++)
             {
                 eventText[i].fontSize = eventFontSize;
@@ -147,7 +155,7 @@ namespace Calendar
         /// <returns>Events for the month</returns>
         public CalendarEventMonth OpenMonth(DateTime dateTime)
         {
-            string filename = "Assets/Shortcuts/MonthData/" + Enum.GetName(typeof(Months), dateTime.Month + 1) + dateTime.Year + ".xml";
+            string filename = "Assets/Data/MonthData/" + Enum.GetName(typeof(Months), dateTime.Month) + dateTime.Year + ".xml";
             return CalendarEventMonth.Load(filename);
         }
         #endregion
@@ -161,7 +169,7 @@ namespace Calendar
         /// <param name="year">Year Event will be added in</param>
         public void AddEvent(CalendarEvent item, int year, int month)
         {
-            string filename = "Assets/Shortcuts/MonthData/" + Enum.GetName(typeof(Months), month) + year + ".xml";
+            string filename = "Assets/Data/MonthData/" + Enum.GetName(typeof(Months), month) + year + ".xml";
             var monthEvents = CalendarEventMonth.Load(filename);
             monthEvents.events.Add(item);
             monthEvents.Save(filename);
@@ -175,11 +183,30 @@ namespace Calendar
         /// <param name="year">Year Event will be added in</param>
         public void RemoveEvent(CalendarEvent item, int year, int month)
         {
-            string filename = "Assets/Shortcuts/MonthData/" + Enum.GetName(typeof(Months), month) + year + ".xml";
+            string filename = "Assets/Data/MonthData/" + Enum.GetName(typeof(Months), month) + year + ".xml";
             var monthEvents = CalendarEventMonth.Load(filename);
             CalendarEvent toRemove = monthEvents.events.Find(x => x.Info == item.Info);
             monthEvents.events.Remove(toRemove);
             monthEvents.Save(filename);
+        }
+        #endregion
+        
+        #region ICS Controls
+        /// <summary>
+        /// Gives events from Enrico Service during current month
+        /// </summary>
+        /// <param name="uri">Location of ICS file</param>
+        /// <returns>List of events</returns>
+        List<CalendarEvent> ICSReader(string uri)
+        {
+            var events = new List<CalendarEvent>();
+            IICalendarCollection calendars = iCalendar.LoadFromUri(new System.Uri(uri));
+            foreach (IICalendar calendar in calendars)
+            {
+                foreach (IEvent e in calendar.Events)
+                    events.Add(new CalendarEvent(e.Start.Local.Day, e.Summary));
+            }
+            return events;
         }
         #endregion
 
@@ -200,14 +227,21 @@ namespace Calendar
 
         public void AddEventFromInputs()
         {
-            AddEvent(new CalendarEvent(Convert.ToInt32(addDay.text), addField.text), 2000 + Convert.ToInt32(addYear.text), Convert.ToInt32(addMonth.text));
+            int year = !string.Equals(addYear.text, "") ? 2000 + Convert.ToInt32(addYear.text) : displayedMonth.Year;
+            int month = !string.Equals(addMonth.text, "") ? Convert.ToInt32(addMonth.text) : displayedMonth.Month;
+            AddEvent(new CalendarEvent(Convert.ToInt32(addDay.text), addField.text), year, month);
             addField.text = ""; addYear.text = ""; addMonth.text = ""; addDay.text = "";
             DisplayMonth();
         }
 
         public void RemoveEventFromInputs()
         {
-            RemoveEvent(new CalendarEvent(Convert.ToInt32(removeDay.text), removeField.text), 2000 + Convert.ToInt32(removeYear.text), Convert.ToInt32(removeMonth.text));
+            int year = !string.Equals(removeYear.text, "") ? 2000 + Convert.ToInt32(removeYear.text) : displayedMonth.Year;
+            int month = !string.Equals(removeMonth.text, "") ? Convert.ToInt32(removeMonth.text) : displayedMonth.Month;
+            if (!string.Equals(removeDay.text, ""))
+                RemoveEvent(new CalendarEvent(Convert.ToInt32(removeDay.text), removeField.text), year, month);
+            else
+                RemoveEvent(OpenMonth(new DateTime(displayedMonth.Year, displayedMonth.Month, 1)).events.Find(x => x.Info == removeField.text), year, month);
             removeField.text = ""; removeYear.text = ""; removeMonth.text = ""; removeDay.text = "";
             DisplayMonth();
         }

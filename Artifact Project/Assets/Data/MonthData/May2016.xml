@@ -2,8 +2,16 @@
 <Month xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Events>
     <Event>
-      <Day>25</Day>
-      <Info>Christmas</Info>
+      <Day>30</Day>
+      <Info>Memorial Day</Info>
+    </Event>
+    <Event>
+      <Day>1</Day>
+      <Info>Final Exams Begin</Info>
+    </Event>
+    <Event>
+      <Day>7</Day>
+      <Info>Commencement</Info>
     </Event>
   </Events>
 </Month>
