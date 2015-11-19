@@ -218,6 +218,15 @@
  <Reference Include="UnityEditor.OSXStandalone.Extensions">
  <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/macstandalonesupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
  </Reference>
+ <Reference Include="DDay.iCal">
+ <HintPath>C:/Users/Global Enineering/Desktop/All Student Files/Artifact/artifact/Artifact Project/Assets/Scripts/DLLs/DDay.iCal.dll</HintPath>
+ </Reference>
+ <Reference Include="antlr.runtime">
+ <HintPath>C:/Users/Global Enineering/Desktop/All Student Files/Artifact/artifact/Artifact Project/Assets/Scripts/DLLs/antlr.runtime.dll</HintPath>
+ </Reference>
+ <Reference Include="DDay.Collections">
+ <HintPath>C:/Users/Global Enineering/Desktop/All Student Files/Artifact/artifact/Artifact Project/Assets/Scripts/DLLs/DDay.Collections.dll</HintPath>
+ </Reference>
  <Reference Include="Mono.Cecil">
  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>
  </Reference>
