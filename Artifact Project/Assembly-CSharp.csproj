@@ -96,6 +96,7 @@
      <Compile Include="Assets\AIMLBot\DownloadFiles.cs" />
      <Compile Include="Assets\AIMLBot\LoaderFiles.cs" />
      <Compile Include="Assets\AIMLBot\MyScripts\ChatWindowExample1.cs" />
+     <Compile Include="Assets\DecalSystem\DecalSystem\Decal.cs" />
      <Compile Include="Assets\Scripts\Algorithms\Basic.cs" />
      <Compile Include="Assets\Scripts\Algorithms\CustomTypes.cs" />
      <Compile Include="Assets\Scripts\Algorithms\Extension Methods.cs" />

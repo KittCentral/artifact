@@ -4,5 +4,63 @@ Fezzik might crash on occasion.
 When internet is disconnected it begins snowing and squares begin to fall
 Errors and warnings still show up that appear to have no effect but are annoying (might be able to use #pragma)
 It is raining outside and the weather app still says clear (but shows a clear background)
-Optimize the layout, font, and colors for the projected screen once the projector is set up.
 The Project Timeline section the the Artifact Proposal document needs to be updates with the current project schedule.
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+Cleanup:
+
+Optimize the layout, font, and colors for the projected screen once the projector is set up.
+Aesthetic Rework.
+Darwin's script cleanup
+Getting someone else to work on the project
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+Necessary Features:
+
+Campus Map - Requires Darwin
+News Application - Requires Diane Approval
+Weather Application - Requires Darwin
+Kinect SDK - Requires Rhett
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+Ideas:
+Galaxy Scene dedicated to stars positions and visualization.
+-New Data
+-Camera control complete with focusing
+-LOD rendering of stars
+
+Country Info for discovering basic facts about our world and the cultures within it
+-Main menu
+-Country map in red scale
+
+At least ten simplistic games(Pong) - Three done so far
+-George has one
+-Aaron has one
+-Chess needs a computer eventually
+-Pong to use paint explosions
+-Maze to include language controls
+
+Global Run(Temple Run around the world)
+-Lots of models
+-Path algorithm
+-Animation for main player
+
+Sandbox Simulation, a voxel-based game for construction
+-Delauney Triangulation
+-4D Ridged multifractals
+-Literally the entire game
+
+Scene within a scene display on main page 
+-Model of the window and floors
+-Correct click controls
+-futuristic UI
+
+Construction of the Conquistador
+-A lot of modeling and planning
+
+Fezzik Update to get him to use the APIs
+-More APIs
+-Library of questions that lead to APIs
