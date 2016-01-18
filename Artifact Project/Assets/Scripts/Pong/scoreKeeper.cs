@@ -6,16 +6,15 @@ namespace Pong
 {
 	public class scoreKeeper : MonoBehaviour 
 	{
-		//variable assignment
-		#region 
+		#region "Instantiations"
 		public KeyCode reset;
 		public Camera main;
 		public GameObject ball;
-		public Rigidbody ballBody;
+		Rigidbody ballBody;
 		public GameObject p1;
-		public Rigidbody p1Body;
+		Rigidbody p1Body;
 		public GameObject p2;
-		public Rigidbody p2Body;
+		Rigidbody p2Body;
 		public Text scoreboard;
 		public GameObject explosion;
 		public int direction;
@@ -67,7 +66,7 @@ namespace Pong
 				p2.transform.eulerAngles = angles2;
 			}
 
-			paintCamera.DrawOnLine(main.transform.position,ball.transform.position);
+			//paintCamera.DrawOnLine(main.transform.position,ball.transform.position);
 		}
 
 		void ResetPlayers()

@@ -15,8 +15,9 @@ namespace Paint
     {
         #region "Public Instantiations"
         public GameObject brushPrefab, decalPrefab;
-        public GameObject brushCursor, brushContainer; //The cursor that overlaps the model and our container for the brushes painted
+        public GameObject brushCursor, brushContainer, ball; //The cursor that overlaps the model and our container for the brushes painted
         public Camera sceneCamera, canvasCam;  //The camera that looks at the model, and the camera that looks at the canvas.
+        public ParticleSystem sys;
         public Sprite cursorPaint, cursorDecal; // Cursor for the differen functions 
         public RenderTexture canvasTexture; // Render Texture that looks at our Base Texture and the painted brushes
         public Material baseMaterial; // The material of our base texture (Were we will save the painted texture)
@@ -31,11 +32,20 @@ namespace Paint
         #endregion
 
         #region "Methods"
+        void Start()
+        {
+            ParticleSystem.Particle[] particles;
+            particles = new ParticleSystem.Particle[sys.maxParticles];
+            print(particles.Length);
+        }
+
         void Update()
         {
-            if (Input.GetMouseButton(0))
-                AddPaint();
-            UpdateBrushCursor();
+            //if (Input.GetMouseButton(0))
+            //    AddPaint();
+            //UpdateBrushCursor();
+            AddPaintPoint(ball.transform.position);
+            print(saving);
         }
 
         /// <summary>
@@ -46,7 +56,7 @@ namespace Paint
             if (saving)
                 return;
             Vector3 worldPos = Vector3.zero;
-            if (HitTestUVPosition(ref worldPos))
+            if (HitTestCursor(ref worldPos))
             {
                 GameObject brushObj;
                 if (mode == Painter_BrushMode.PAINT)
@@ -62,6 +72,43 @@ namespace Paint
                 brushObj.transform.parent = brushContainer.transform; //Add the brush to our container to be wiped later
                 brushObj.transform.localPosition = worldPos; //The position of the brush (in the UVMap)
                 brushObj.transform.localScale = Vector3.one * brushSize;//The size of the brush
+                brushObj.transform.eulerAngles = new Vector3(90, 0, 0);
+            }
+            brushCounter++; //Add to the max brushes
+            if (brushCounter >= maxBrushCount)
+            { //If we reach the max brushes available, flatten the texture and clear the brushes
+                brushCursor.SetActive(false);
+                saving = true;
+                Invoke("SaveTexture", 0.1f);
+
+            }
+        }
+
+        /// <summary>
+        /// The main action, instantiates a brush or decal entity at the clicked position on the UV map
+        /// </summary>
+        void AddPaintPoint(Vector3 endPos)
+        {
+            if (saving)
+                return;
+            Vector3 worldPos = Vector3.zero;
+            if (HitTestPoint(ref worldPos, endPos))
+            {
+                GameObject brushObj;
+                if (mode == Painter_BrushMode.PAINT)
+                {
+                    brushObj = (GameObject)Instantiate(brushPrefab); //Paint a brush
+                    brushObj.GetComponent<SpriteRenderer>().color = brushColor; //Set the brush color
+                }
+                else
+                {
+                    brushObj = (GameObject)Instantiate(decalPrefab); //Paint a decal
+                }
+                brushColor.a = brushSize * 2.0f; // Brushes have alpha to have a merging effect when painted over.
+                brushObj.transform.parent = brushContainer.transform; //Add the brush to our container to be wiped later
+                brushObj.transform.localPosition = worldPos; //The position of the brush (in the UVMap)
+                brushObj.transform.localScale = Vector3.one * brushSize * .25f;//The size of the brush
+                brushObj.transform.eulerAngles = new Vector3(90, 0, 0);
             }
             brushCounter++; //Add to the max brushes
             if (brushCounter >= maxBrushCount)
@@ -79,7 +126,7 @@ namespace Paint
         void UpdateBrushCursor()
         {
             Vector3 worldPos = Vector3.zero;
-            if (HitTestUVPosition(ref worldPos) && !saving)
+            if (HitTestCursor(ref worldPos) && !saving)
             {
                 brushCursor.SetActive(true);
                 brushCursor.transform.position = worldPos + brushContainer.transform.position;
@@ -93,7 +140,7 @@ namespace Paint
         /// </summary>
         /// <param name="worldPos">Position of the Hit</param>
         /// <returns>Boolean for whether the ray hit</returns>
-        bool HitTestUVPosition(ref Vector3 worldPos)
+        bool HitTestCursor(ref Vector3 worldPos)
         {
             RaycastHit hit;
             Vector3 cursorPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1.0f);
@@ -105,7 +152,32 @@ namespace Paint
                     return false;
                 worldPos.x = hit.point.x;
                 worldPos.y = hit.point.y;
-                worldPos.z = 0.0f;
+                worldPos.z = hit.point.z;
+                return true;
+            }
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// Returns the position on the texturemap according to a hit in the mesh collider
+        /// </summary>
+        /// <param name="worldPos">Position of the Hit</param>
+        /// <returns>Boolean for whether the ray hit</returns>
+        bool HitTestPoint(ref Vector3 worldPos, Vector3 endPos)
+        {
+            RaycastHit hit;
+            int layerMask = 1 << 1;
+            layerMask = ~layerMask;
+            if (Physics.Raycast(sceneCamera.transform.position,endPos-sceneCamera.transform.position, out hit, 20, layerMask))
+            {
+                print(hit.point);
+                MeshCollider meshCollider = hit.collider as MeshCollider;
+                if (meshCollider == null || meshCollider.sharedMesh == null)
+                   return false;
+                worldPos.x = hit.point.x;
+                worldPos.y = hit.point.y;
+                worldPos.z = hit.point.z;
                 return true;
             }
             else
@@ -117,6 +189,7 @@ namespace Paint
         /// </summary>
         void SaveTexture()
         {
+            print("Yeah");
             brushCounter = 0;
             RenderTexture.active = canvasTexture;
             Texture2D tex = new Texture2D(canvasTexture.width, canvasTexture.height, TextureFormat.RGB24, false);
