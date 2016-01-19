@@ -35,13 +35,15 @@ Galaxy Scene dedicated to stars positions and visualization.
 Country Info for discovering basic facts about our world and the cultures within it
 -Main menu
 -Country map in red scale
+-Use red scale as key upon click to open correct country
+-Going to require some kind of zoom
 
-At least ten simplistic games(Pong) - Three done so far
+At least ten simplistic games - Three done so far
 -George has one
 -Aaron has one
 -Chess needs a computer eventually
--Pong to use paint explosions
 -Maze to include language controls
+-3D Tetris?
 
 Global Run(Temple Run around the world)
 -Lots of models
@@ -53,8 +55,10 @@ Sandbox Simulation, a voxel-based game for construction
 -4D Ridged multifractals
 -Literally the entire game
 
-Scene within a scene display on main page 
+Scene within a scene display on main page
+-Sketch out plans 
 -Model of the window and floors
+-Atmospheric Shader
 -Correct click controls
 -futuristic UI
 
@@ -64,3 +68,9 @@ Construction of the Conquistador
 Fezzik Update to get him to use the APIs
 -More APIs
 -Library of questions that lead to APIs
+-RTD Bus Info to be save as xml for parsing by Fezzik
+
+Paint
+-More Brushes
+-Saving for other places
+-Model import and painting

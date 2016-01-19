@@ -6,242 +6,169 @@
 
 
 using UnityEngine;
-using System.Collections;
 
-namespace Paint
+public enum Painter_BrushMode { PAINT, DECAL };
+public static class TexturePainter
 {
-    public enum Painter_BrushMode { PAINT, DECAL };
-    public class TexturePainter : MonoBehaviour
+
+    #region "Other Instantiations"
+    //Painter_BrushMode mode; //Our painter mode (Paint brushes or decals)
+    const float brushSize = 1.0f; //The size of our brush
+    static Color brushColor = new Color(1f, .5f, .5f); //The selected color
+    public static int brushCounter = 0;
+    public static bool saving = false; //Flag to check if we are saving the texture
+    #endregion
+
+    #region "Methods"
+    
+
+    /// <summary>
+    /// The main action, instantiates a brush or decal entity at the clicked position on the UV map
+    /// </summary>
+    public static void AddPaint(GameObject brush, GameObject container, GameObject camera)
     {
-        #region "Public Instantiations"
-        public GameObject brushPrefab, decalPrefab;
-        public GameObject brushCursor, brushContainer, ball; //The cursor that overlaps the model and our container for the brushes painted
-        public Camera sceneCamera, canvasCam;  //The camera that looks at the model, and the camera that looks at the canvas.
-        public ParticleSystem sys;
-        public Sprite cursorPaint, cursorDecal; // Cursor for the differen functions 
-        public RenderTexture canvasTexture; // Render Texture that looks at our Base Texture and the painted brushes
-        public Material baseMaterial; // The material of our base texture (Were we will save the painted texture)
-        #endregion
-
-        #region "Other Instantiations"
-        Painter_BrushMode mode; //Our painter mode (Paint brushes or decals)
-        float brushSize = 1.0f; //The size of our brush
-        Color brushColor = new Color(1f, .5f, .5f); //The selected color
-        int brushCounter = 0, maxBrushCount = 1000; //To avoid having millions of brushes
-        bool saving = false; //Flag to check if we are saving the texture
-        #endregion
-
-        #region "Methods"
-        void Start()
+        if (saving)
+            return;
+        Vector3 worldPos = Vector3.zero;
+        if (HitTestCursor(ref worldPos, camera.GetComponent<Camera>()))
         {
-            ParticleSystem.Particle[] particles;
-            particles = new ParticleSystem.Particle[sys.maxParticles];
-            print(particles.Length);
+            GameObject brushObj;
+            brushObj = (GameObject)UnityEngine.Object.Instantiate(brush); //Paint a brush
+            brushObj.GetComponent<SpriteRenderer>().color = brushColor; //Set the brush color
+            brushColor.a = brushSize * 2.0f; // Brushes have alpha to have a merging effect when painted over.
+            brushObj.transform.parent = container.transform; //Add the brush to our container to be wiped later
+            brushObj.transform.localPosition = worldPos; //The position of the brush (in the UVMap)
+            brushObj.transform.localScale = Vector3.one * brushSize;//The size of the brush
+            brushObj.transform.eulerAngles = new Vector3(90, 0, 0);
         }
-
-        void Update()
-        {
-            //if (Input.GetMouseButton(0))
-            //    AddPaint();
-            //UpdateBrushCursor();
-            AddPaintPoint(ball.transform.position);
-            print(saving);
-        }
-
-        /// <summary>
-        /// The main action, instantiates a brush or decal entity at the clicked position on the UV map
-        /// </summary>
-        void AddPaint()
-        {
-            if (saving)
-                return;
-            Vector3 worldPos = Vector3.zero;
-            if (HitTestCursor(ref worldPos))
-            {
-                GameObject brushObj;
-                if (mode == Painter_BrushMode.PAINT)
-                {
-                    brushObj = (GameObject)Instantiate(brushPrefab); //Paint a brush
-                    brushObj.GetComponent<SpriteRenderer>().color = brushColor; //Set the brush color
-                }
-                else
-                {
-                    brushObj = (GameObject)Instantiate(decalPrefab); //Paint a decal
-                }
-                brushColor.a = brushSize * 2.0f; // Brushes have alpha to have a merging effect when painted over.
-                brushObj.transform.parent = brushContainer.transform; //Add the brush to our container to be wiped later
-                brushObj.transform.localPosition = worldPos; //The position of the brush (in the UVMap)
-                brushObj.transform.localScale = Vector3.one * brushSize;//The size of the brush
-                brushObj.transform.eulerAngles = new Vector3(90, 0, 0);
-            }
-            brushCounter++; //Add to the max brushes
-            if (brushCounter >= maxBrushCount)
-            { //If we reach the max brushes available, flatten the texture and clear the brushes
-                brushCursor.SetActive(false);
-                saving = true;
-                Invoke("SaveTexture", 0.1f);
-
-            }
-        }
-
-        /// <summary>
-        /// The main action, instantiates a brush or decal entity at the clicked position on the UV map
-        /// </summary>
-        void AddPaintPoint(Vector3 endPos)
-        {
-            if (saving)
-                return;
-            Vector3 worldPos = Vector3.zero;
-            if (HitTestPoint(ref worldPos, endPos))
-            {
-                GameObject brushObj;
-                if (mode == Painter_BrushMode.PAINT)
-                {
-                    brushObj = (GameObject)Instantiate(brushPrefab); //Paint a brush
-                    brushObj.GetComponent<SpriteRenderer>().color = brushColor; //Set the brush color
-                }
-                else
-                {
-                    brushObj = (GameObject)Instantiate(decalPrefab); //Paint a decal
-                }
-                brushColor.a = brushSize * 2.0f; // Brushes have alpha to have a merging effect when painted over.
-                brushObj.transform.parent = brushContainer.transform; //Add the brush to our container to be wiped later
-                brushObj.transform.localPosition = worldPos; //The position of the brush (in the UVMap)
-                brushObj.transform.localScale = Vector3.one * brushSize * .25f;//The size of the brush
-                brushObj.transform.eulerAngles = new Vector3(90, 0, 0);
-            }
-            brushCounter++; //Add to the max brushes
-            if (brushCounter >= maxBrushCount)
-            { //If we reach the max brushes available, flatten the texture and clear the brushes
-                brushCursor.SetActive(false);
-                saving = true;
-                Invoke("SaveTexture", 0.1f);
-
-            }
-        }
-
-        /// <summary>
-        /// To update at realtime the painting cursor on the mesh
-        /// </summary>
-        void UpdateBrushCursor()
-        {
-            Vector3 worldPos = Vector3.zero;
-            if (HitTestCursor(ref worldPos) && !saving)
-            {
-                brushCursor.SetActive(true);
-                brushCursor.transform.position = worldPos + brushContainer.transform.position;
-            }
-            else
-                brushCursor.SetActive(false);
-        }
-
-        /// <summary>
-        /// Returns the position on the texturemap according to a hit in the mesh collider
-        /// </summary>
-        /// <param name="worldPos">Position of the Hit</param>
-        /// <returns>Boolean for whether the ray hit</returns>
-        bool HitTestCursor(ref Vector3 worldPos)
-        {
-            RaycastHit hit;
-            Vector3 cursorPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1.0f);
-            Ray cursorRay = sceneCamera.ScreenPointToRay(cursorPos);
-            if (Physics.Raycast(cursorRay, out hit, 200))
-            {
-                MeshCollider meshCollider = hit.collider as MeshCollider;
-                if (meshCollider == null || meshCollider.sharedMesh == null)
-                    return false;
-                worldPos.x = hit.point.x;
-                worldPos.y = hit.point.y;
-                worldPos.z = hit.point.z;
-                return true;
-            }
-            else
-                return false;
-        }
-
-        /// <summary>
-        /// Returns the position on the texturemap according to a hit in the mesh collider
-        /// </summary>
-        /// <param name="worldPos">Position of the Hit</param>
-        /// <returns>Boolean for whether the ray hit</returns>
-        bool HitTestPoint(ref Vector3 worldPos, Vector3 endPos)
-        {
-            RaycastHit hit;
-            int layerMask = 1 << 1;
-            layerMask = ~layerMask;
-            if (Physics.Raycast(sceneCamera.transform.position,endPos-sceneCamera.transform.position, out hit, 20, layerMask))
-            {
-                print(hit.point);
-                MeshCollider meshCollider = hit.collider as MeshCollider;
-                if (meshCollider == null || meshCollider.sharedMesh == null)
-                   return false;
-                worldPos.x = hit.point.x;
-                worldPos.y = hit.point.y;
-                worldPos.z = hit.point.z;
-                return true;
-            }
-            else
-                return false;
-        }
-
-        /// <summary>
-        /// Sets the base material with a our canvas texture, then removes all our brushes
-        /// </summary>
-        void SaveTexture()
-        {
-            print("Yeah");
-            brushCounter = 0;
-            RenderTexture.active = canvasTexture;
-            Texture2D tex = new Texture2D(canvasTexture.width, canvasTexture.height, TextureFormat.RGB24, false);
-            tex.ReadPixels(new Rect(0, 0, canvasTexture.width, canvasTexture.height), 0, 0);
-            tex.Apply();
-            RenderTexture.active = null;
-            baseMaterial.mainTexture = tex;
-            foreach (Transform child in brushContainer.transform)
-                Destroy(child.gameObject);
-            //StartCoroutine ("SaveTextureToFile"); //Do you want to save the texture? This is your method!
-            Invoke("ShowCursor", 0.1f);
-        }
-
-        /// <summary>
-        /// Show again the user cursor (To avoid saving it to the texture)
-        /// </summary>
-        void ShowCursor()
-        {
-            saving = false;
-        }
-        #endregion
-
-        #region "Public Methods"
-
-        public void SetBrushMode(Painter_BrushMode brushMode)
-        { //Sets if we are painting or placing decals
-            mode = brushMode;
-            brushCursor.GetComponent<SpriteRenderer>().sprite = brushMode == Painter_BrushMode.PAINT ? cursorPaint : cursorDecal;
-        }
-        public void SetBrushSize(float newBrushSize)
-        { //Sets the size of the cursor brush or decal
-            brushSize = newBrushSize;
-            brushCursor.transform.localScale = Vector3.one * brushSize;
-        }
-        #endregion
-
-        #region "Optional Methods"
-
-#if !UNITY_WEBPLAYER
-        IEnumerator SaveTextureToFile(Texture2D savedTexture)
-        {
-            brushCounter = 0;
-            string fullPath = System.IO.Directory.GetCurrentDirectory() + "\\UserCanvas\\";
-            string fileName = "CanvasTexture.png";
-            if (!System.IO.Directory.Exists(fullPath))
-                System.IO.Directory.CreateDirectory(fullPath);
-            var bytes = savedTexture.EncodeToPNG();
-            System.IO.File.WriteAllBytes(fullPath + fileName, bytes);
-            Debug.Log("<color=orange>Saved Successfully!</color>" + fullPath + fileName);
-            yield return null;
-        }
-#endif
-        #endregion
     }
+
+    /// <summary>
+    /// The main action, instantiates a brush or decal entity at the clicked position on the UV map
+    /// </summary>
+    public static void AddPaintPoint(Vector3 endPos, GameObject brush, GameObject container, GameObject camera, Color color, float size)
+    {
+        if (saving)
+            return;
+        Vector3 worldPos = Vector3.zero;
+        if (HitTestPoint(ref worldPos, endPos, camera))
+        {
+            GameObject brushObj;
+            brushObj = Object.Instantiate(brush); //Paint a brush
+            brushObj.GetComponent<SpriteRenderer>().color = color; //Set the brush color
+            brushColor.a = brushSize * 2.0f; // Brushes have alpha to have a merging effect when painted over.
+            brushObj.transform.parent = container.transform; //Add the brush to our container to be wiped later
+            brushObj.transform.localPosition = worldPos; //The position of the brush (in the UVMap)
+            brushObj.transform.localScale = Vector3.zero;
+            brushObj.GetComponent<Splatter>().maxSize = size;
+            brushObj.transform.eulerAngles = new Vector3(90, 0, Random.Range(0,359));
+        }
+    }
+
+    /// <summary>
+    /// To update at realtime the painting cursor on the mesh
+    /// </summary>
+    public static void UpdateBrushCursor(Camera camera, GameObject cursor, GameObject container)
+    {
+        Vector3 worldPos = Vector3.zero;
+        if (HitTestCursor(ref worldPos, camera) && !saving)
+        {
+            cursor.SetActive(true);
+            cursor.transform.position = worldPos + container.transform.position;
+        }
+        else
+            cursor.SetActive(false);
+    }
+
+    /// <summary>
+    /// Returns the position on the texturemap according to a hit in the mesh collider
+    /// </summary>
+    /// <param name="worldPos">Position of the Hit</param>
+    /// <returns>Boolean for whether the ray hit</returns>
+    public static bool HitTestCursor(ref Vector3 worldPos, Camera camera)
+    {
+        RaycastHit hit;
+        Vector3 cursorPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1.0f);
+        Ray cursorRay = camera.ScreenPointToRay(cursorPos);
+        if (Physics.Raycast(cursorRay, out hit, 200))
+        {
+            MeshCollider meshCollider = hit.collider as MeshCollider;
+            if (meshCollider == null || meshCollider.sharedMesh == null)
+                return false;
+            worldPos.x = hit.point.x;
+            worldPos.y = hit.point.y;
+            worldPos.z = hit.point.z;
+            return true;
+        }
+        else
+            return false;
+    }
+
+    /// <summary>
+    /// Returns the position on the texturemap according to a hit in the mesh collider
+    /// </summary>
+    /// <param name="worldPos">Position of the Hit</param>
+    /// <returns>Boolean for whether the ray hit</returns>
+    public static bool HitTestPoint(ref Vector3 worldPos, Vector3 endPos, GameObject camera)
+    {
+        RaycastHit hit;
+        int layerMask = 1 << 1;
+        layerMask = ~layerMask;
+        if (Physics.Raycast(camera.transform.position,endPos-camera.transform.position, out hit, 20, layerMask))
+        {
+            MeshCollider meshCollider = hit.collider as MeshCollider;
+            if (meshCollider == null || meshCollider.sharedMesh == null)
+                return false;
+            worldPos.x = hit.point.x;
+            worldPos.y = hit.point.y;
+            worldPos.z = hit.point.z;
+            return true;
+        }
+        else
+            return false;
+    }
+
+    /// <summary>
+    /// Sets the base material with a our canvas texture, then removes all our brushes
+    /// </summary>
+    public static void SaveTexture(RenderTexture canvasTexture, Material baseMaterial, GameObject container)
+    {
+        brushCounter = 0;
+        RenderTexture.active = canvasTexture;
+        Texture2D tex = new Texture2D(canvasTexture.width, canvasTexture.height, TextureFormat.RGB24, false);
+        tex.ReadPixels(new Rect(0, 0, canvasTexture.width, canvasTexture.height), 0, 0);
+        tex.Apply();
+        RenderTexture.active = null;
+        baseMaterial.mainTexture = tex;
+        foreach (Transform child in container.transform)
+            UnityEngine.Object.Destroy(child.gameObject);
+        //StartCoroutine ("SaveTextureToFile"); //Do you want to save the texture? This is your method!
+    }
+
+    /// <summary>
+    /// Show again the user cursor (To avoid saving it to the texture)
+    /// </summary>
+    public static void ShowCursor()
+    {
+        saving = false;
+    }
+    #endregion
+    
+    #region "Optional Methods"
+    /*
+#if !UNITY_WEBPLAYER
+    IEnumerator SaveTextureToFile(Texture2D savedTexture)
+    {
+        brushCounter = 0;
+        string fullPath = System.IO.Directory.GetCurrentDirectory() + "\\UserCanvas\\";
+        string fileName = "CanvasTexture.png";
+        if (!System.IO.Directory.Exists(fullPath))
+            System.IO.Directory.CreateDirectory(fullPath);
+        var bytes = savedTexture.EncodeToPNG();
+        System.IO.File.WriteAllBytes(fullPath + fileName, bytes);
+        Debug.Log("<color=orange>Saved Successfully!</color>" + fullPath + fileName);
+        yield return null;
+    }
+#endif*/
+    #endregion
 }

@@ -143,6 +143,7 @@
      <Compile Include="Assets\Scripts\News RSS\rsstester.cs" />
      <Compile Include="Assets\Scripts\PlanetShading.cs" />
      <Compile Include="Assets\Scripts\Pong\player.cs" />
+     <Compile Include="Assets\Scripts\Pong\pongPainter.cs" />
      <Compile Include="Assets\Scripts\Pong\scoreKeeper.cs" />
      <Compile Include="Assets\Scripts\SceneControl.cs" />
      <Compile Include="Assets\Scripts\SkyDome.cs" />
@@ -169,6 +170,7 @@
      <Compile Include="Assets\Scripts\Weather Scripts\WeatherIcon.cs" />
      <Compile Include="Assets\Scripts\Weather Scripts\WeatherPanel.cs" />
      <Compile Include="Assets\Scripts\followSpotLight.cs" />
+     <Compile Include="Assets\Splatter.cs" />
      <None Include="Assets\Data\google_transit_Aug15_Runboard\trips.txt" />
      <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
