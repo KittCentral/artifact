@@ -64,6 +64,7 @@ Scene within a scene display on main page
 
 Construction of the Conquistador
 -A lot of modeling and planning
+-Armillary
 
 Fezzik Update to get him to use the APIs
 -More APIs
