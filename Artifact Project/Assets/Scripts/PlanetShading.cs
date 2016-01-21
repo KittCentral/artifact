@@ -8,6 +8,7 @@ public class PlanetShading : MonoBehaviour
 {
 	public GameObject sun;
 	public Material groundMaterial;
+    public Material atmoMaterial;
 	
 	public float hdrExposure = 0.8f;
 	public Vector3 waveLength = new Vector3(0.65f,0.57f,0.475f); // Wave length of sun light
@@ -33,12 +34,14 @@ public class PlanetShading : MonoBehaviour
 		outerRadius = outerScaleFactor * radius;
 		
 		InitMaterial(groundMaterial);
-	}
+        InitMaterial(atmoMaterial);
+    }
 	
 	void Update () 
 	{
 		InitMaterial(groundMaterial);
-	}
+        InitMaterial(atmoMaterial);
+    }
 	
 	void InitMaterial(Material mat)
 	{
@@ -63,6 +66,7 @@ public class PlanetShading : MonoBehaviour
 		mat.SetFloat("g2", g*g);
 		mat.SetVector("v3LightPos", sun.transform.forward*-1.0f);
 		mat.SetVector("v3Translate", transform.localPosition);
+        print("sent");
 
 	}
 }
