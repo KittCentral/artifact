@@ -62,11 +62,9 @@ namespace MazeCreator
 				activeCells.RemoveAt(currentIndex);
 				return;
 			}
-
-			print ("Previous " + currentCell.coordinates.x + " " + currentCell.coordinates.y);
+            
 			Direction direction = currentCell.RandomUnitializedDirection;;
 			IntVector2 coord = currentCell.coordinates + direction.ToIntVector2();
-			print ("Current " + coord.x + " " + coord.y);
 
 			if(ContainsCoordinates(coord))
 			{

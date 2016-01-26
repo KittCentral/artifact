@@ -44,7 +44,8 @@ public class pongPainter : MonoBehaviour
                         else
                             index = 5;
                         Color randColor = colors[index];
-                        TexturePainter.AddPaintPoint(particles[ind].position, brushPrefab, brushContainer, sceneCamera.gameObject, randColor, particles[ind].size);
+                        Vector3 pos = sys.gameObject.transform.TransformPoint(particles[ind].position);
+                        TexturePainter.AddPaintPoint(pos, brushPrefab, brushContainer, sceneCamera.gameObject, particles[ind].GetCurrentColor(sys), particles[ind].GetCurrentSize(sys) * 1.5f);
                     }
                 }
                 TexturePainter.brushCounter++; //Add to the max brushes

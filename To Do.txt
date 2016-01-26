@@ -19,14 +19,34 @@ Getting someone else to work on the project
 
 Necessary Features:
 
+<<<<<<< HEAD
+Campus Map
+Calendar Fillout
+News Application
+Weather Application
+Kinect SDK
+=======
 Campus Map - Requires Darwin
 News Application - Requires Diane Approval
 Weather Application - Requires Darwin
 Kinect SDK - Requires Rhett
+>>>>>>> New_Master
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
 Ideas:
+<<<<<<< HEAD
+Galaxy Scene dedicated to stars positions and visualization
+Country Info for discovering basic facts about our world and the cultures within it
+Upgrades for Fezzik allowing Internet access
+At least ten simplistic games(Pong)
+Global Run(Temple Run around the world)
+Sandbox Simulation, a voxel-based game for construction
+Scene within a scene display on main page
+Construction of the Conquistador
+
+---------------------------------------------------------------------------------------------------------------------------------
+=======
 Galaxy Scene dedicated to stars positions and visualization.
 -New Data
 -Camera control complete with focusing
@@ -75,3 +95,4 @@ Paint
 -More Brushes
 -Saving for other places
 -Model import and painting
+>>>>>>> New_Master
