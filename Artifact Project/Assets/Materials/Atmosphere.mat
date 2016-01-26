@@ -45,6 +45,7 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
+<<<<<<< HEAD
           name: _SeconTex
         second:
           m_Texture: {fileID: 0}
@@ -59,6 +60,8 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
+=======
+>>>>>>> 01a8f64bff6b9836520487c975a2043290b1a8d1
           name: _OcclusionMap
         second:
           m_Texture: {fileID: 0}
@@ -104,6 +107,7 @@ Material:
       data:
         first:
           name: _Cutoff
+<<<<<<< HEAD
         second: 0.5
       data:
         first:
@@ -117,6 +121,13 @@ Material:
         first:
           name: _RimPower
         second: 3
+=======
+        second: .5
+      data:
+        first:
+          name: _Parallax
+        second: .0199999996
+>>>>>>> 01a8f64bff6b9836520487c975a2043290b1a8d1
       data:
         first:
           name: _ZWrite
@@ -124,7 +135,11 @@ Material:
       data:
         first:
           name: _Glossiness
+<<<<<<< HEAD
         second: 0.5
+=======
+        second: .5
+>>>>>>> 01a8f64bff6b9836520487c975a2043290b1a8d1
       data:
         first:
           name: _BumpScale
@@ -158,6 +173,7 @@ Material:
         first:
           name: _Color
         second: {r: 1, g: 1, b: 1, a: 1}
+<<<<<<< HEAD
       data:
         first:
           name: _SpecColor
@@ -166,3 +182,5 @@ Material:
         first:
           name: _RimColor
         second: {r: 0.26, g: 0.19, b: 0.16, a: 0}
+=======
+>>>>>>> 01a8f64bff6b9836520487c975a2043290b1a8d1

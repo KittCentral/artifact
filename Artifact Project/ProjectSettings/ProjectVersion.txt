@@ -2,5 +2,9 @@
 m_EditorVersion: 5.3.1f1
 =======
 m_EditorVersion: 5.2.2f1
+<<<<<<< HEAD
 >>>>>>> New_Master
+=======
+>>>>>>> Main_Menu
+>>>>>>> 01a8f64bff6b9836520487c975a2043290b1a8d1
 m_StandardAssetsVersion: 0

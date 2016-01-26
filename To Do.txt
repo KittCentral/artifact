@@ -20,21 +20,35 @@ Getting someone else to work on the project
 Necessary Features:
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 Campus Map
 Calendar Fillout
 News Application
 Weather Application
 Kinect SDK
 =======
+=======
+>>>>>>> 01a8f64bff6b9836520487c975a2043290b1a8d1
 Campus Map - Requires Darwin
 News Application - Requires Diane Approval
 Weather Application - Requires Darwin
 Kinect SDK - Requires Rhett
+<<<<<<< HEAD
 >>>>>>> New_Master
+=======
+=======
+Campus Map
+Calendar Fillout
+News Application
+Weather Application
+Kinect SDK
+>>>>>>> Main_Menu
+>>>>>>> 01a8f64bff6b9836520487c975a2043290b1a8d1
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
 Ideas:
+<<<<<<< HEAD
 <<<<<<< HEAD
 Galaxy Scene dedicated to stars positions and visualization
 Country Info for discovering basic facts about our world and the cultures within it
@@ -47,6 +61,8 @@ Construction of the Conquistador
 
 ---------------------------------------------------------------------------------------------------------------------------------
 =======
+=======
+>>>>>>> 01a8f64bff6b9836520487c975a2043290b1a8d1
 Galaxy Scene dedicated to stars positions and visualization.
 -New Data
 -Camera control complete with focusing
@@ -95,4 +111,19 @@ Paint
 -More Brushes
 -Saving for other places
 -Model import and painting
+<<<<<<< HEAD
 >>>>>>> New_Master
+=======
+=======
+Galaxy Scene dedicated to stars positions and visualization
+Country Info for discovering basic facts about our world and the cultures within it
+Upgrades for Fezzik allowing Internet access
+At least ten simplistic games(Pong)
+Global Run(Temple Run around the world)
+Sandbox Simulation, a voxel-based game for construction
+Scene within a scene display on main page
+Construction of the Conquistador
+
+---------------------------------------------------------------------------------------------------------------------------------
+>>>>>>> Main_Menu
+>>>>>>> 01a8f64bff6b9836520487c975a2043290b1a8d1
