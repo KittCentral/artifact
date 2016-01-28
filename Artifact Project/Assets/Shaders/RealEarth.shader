@@ -5,7 +5,8 @@ Shader "Atmosphere/RealEarth"
 	{
 		_MainTex("Base (RGB)", 2D) = "white" {}
 		_SeconTex("Back (RGB)", 2D) = "black" {}
-		_SpecTex("Specular Image", 2D) = "white" {}
+		_SpecTex("Specular Image", 2D) = "black" {}
+		_SpecColor("Specular Color", Color) = (1,1,1,1)
 		_BumpMap("Normal Map", 2D) = "bump" {}
 		_Shininess("Shininess", Float) = 10
 	}
@@ -27,6 +28,7 @@ Shader "Atmosphere/RealEarth"
 			uniform sampler2D _SeconTex;
 			uniform sampler2D _SpecTex;
 			uniform sampler2D _BumpMap;
+			uniform float4 _SpecColor;
 			uniform float4 _BumpMap_ST;
 			uniform float _Shininess;
 
@@ -152,16 +154,16 @@ Shader "Atmosphere/RealEarth"
 
 				float3 ambientLighting = UNITY_LIGHTMODEL_AMBIENT.rgb * tex2D(_MainTex, input.tex).rgb;
 				float3 viewDirection = normalize(_WorldSpaceCameraPos - input.posWorld.xyz);
-				float3 specularReflection = dot(normalDirection, lightDirection) < 0 ? float3(0.0, 0.0, 0.0) : _LightColor0.rgb * max(0.0, (tex2D(_SpecTex, input.tex).rgb - .5)*-1) * pow(max(0.0, dot(reflect(-lightDirection, normalDirection), viewDirection)), _Shininess) * dot(normalDirection, lightDirection);
+				float3 specularReflection = dot(normalDirection, lightDirection) < 0 ? float3(0.0, 0.0, 0.0) : _SpecColor.rgb * (1.0 - tex2D(_SpecTex, input.tex).r) * pow(max(0.0, dot(reflect(-lightDirection, normalDirection), viewDirection)), _Shininess) * 1.5;
 
 				half3 texel = (diffuseReflection + ambientLighting + specularReflection);
-				half3 texel2 = tex2D(_SeconTex, input.tex).rgb*tex2D(_SeconTex, input.tex).rgb*.2;
+				half3 texel2 = tex2D(_SeconTex, input.tex).rgb;
 				float3 col = input.c0 + 0.25 * input.c1;
 				int colBool = 0;
 				//Adjust color from HDR
 				col = 1.0 - exp(col * -fHdrExposure);
 				texel *= col.b;
-				texel2 *= (.2 - col.b) * 5;
+				texel2 *= (.2 - col.b)*5;
 				if (texel2.b < 0)
 				{
 					texel2.r = 0;
