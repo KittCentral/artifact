@@ -1,5 +1,6 @@
 ﻿// This script turns the skydome's mesh inside out. This way it looks more like a dome than a sphere.
 // This script was originally pulled from the internet. Made by unknown.
+// Not currently in use
 
 using UnityEngine;
 using System.Collections;

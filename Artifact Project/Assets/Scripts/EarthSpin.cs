@@ -1,5 +1,5 @@
 ﻿// This script controls the rotation of the Earth.  The user can rotate and spin it to view is from all sides.
-// It is applied to the SkyDome
+// It is applied to the Space
 
 using UnityEngine;
 using System.Collections;

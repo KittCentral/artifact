@@ -100,7 +100,6 @@ namespace Calendar
                     cubBackground[i].fillCenter = true;
                 }
             }
-            print(displayedMonth.Month);
             BGImage.color = colorList[displayedMonth.Month - 1];
         }
 

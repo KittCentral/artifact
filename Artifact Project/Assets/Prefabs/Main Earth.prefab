@@ -26,6 +26,8 @@ GameObject:
   - 4: {fileID: 412462}
   - 114: {fileID: 11469346}
   - 135: {fileID: 13584682}
+  - 114: {fileID: 11474876}
+  - 114: {fileID: 11463796}
   m_Layer: 0
   m_Name: Main Earth
   m_TagString: Untagged
@@ -281,6 +283,22 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
+--- !u!114 &11463796
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 127594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a823632b44fb3e64697e3798c9a039b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flickSpeed: 1
+  mainCamera: {fileID: 0}
+  offClickRotate: {x: 0, y: 0, z: 0}
+  rotation: {x: 0, y: 0, z: 0, w: 0}
+  Earth: {fileID: 127594}
 --- !u!114 &11469346
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -300,6 +318,17 @@ MonoBehaviour:
   kr: 0.0025
   km: 0.001
   g: -0.99
+--- !u!114 &11474876
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 127594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf73771f235857a4084f0da5720aee2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &13562326
 SphereCollider:
   m_ObjectHideFlags: 1

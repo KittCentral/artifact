@@ -2,6 +2,7 @@
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class SceneControl : MonoBehaviour
 {
@@ -12,10 +13,15 @@ public class SceneControl : MonoBehaviour
     bool loading = false;
     public GameObject screen;
 	
+    void Start ()
+    {
+        //OpenSceneAdditive(7);
+    }
+
 	//Checks if you are in the Loading Scene then opens the approriate Scene
 	void Update () 
 	{
-		if(Application.loadedLevelName == "Loading")
+		if(SceneManager.GetActiveScene().name == "Loading")
 		{
 			targetScene = PlayerPrefs.GetInt("Target");
 			StartCoroutine(Wait(targetScene));
@@ -24,9 +30,10 @@ public class SceneControl : MonoBehaviour
         {
             if (async.isDone && loading == true)
             {
+                print(loading);
+                loading = false;
                 ScreenControl screenScript = screen.GetComponent<ScreenControl>();
                 screenScript.DisplayScene();
-                loading = false;
             }
         }
     }
@@ -36,19 +43,20 @@ public class SceneControl : MonoBehaviour
 	{
 		targetScene = number;
 		PlayerPrefs.SetInt("Target",targetScene);
-		Application.LoadLevel("Loading");
+		SceneManager.LoadScene("Loading");
 	}
 
 	//Lets the Loading run for a while before opening the next Scene
 	IEnumerator Wait(int number)
 	{
 		yield return new WaitForSeconds(3);
-		Application.LoadLevel(Scenes[number]);
+        SceneManager.LoadScene(Scenes[number]);
 	}
 
     public void OpenSceneAdditive(int number)
     {
-        async = Application.LoadLevelAdditiveAsync(number);
+        print("Yeah");
+        async = SceneManager.LoadSceneAsync(number, LoadSceneMode.Additive);
         loading = true;
     }
 }
