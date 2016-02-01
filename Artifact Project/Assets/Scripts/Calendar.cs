@@ -33,9 +33,9 @@ namespace Calendar
 
         //Enums and Lists
         enum Months { January = 1, February, March, April, May, June, July, August, September, October, November, December };
-        Color[] colorList ={new Color(172f/255f,210f/255f,223f/255f),new Color(223f/255f,172f/255f,192f/255f),new Color(160f/255f,238f/255f,158f/255f),new Color(224f/255f,180f/255f,225f/255f),
-        new Color(150f/255f,154f/255f,234f/255f),new Color(223f/255f,221f/255f,172f/255f),new Color(255f/255f,129f/255f,129f/255f),new Color(159f/255f,231f/255f,189f/255f),
-        new Color(250f/255f,255f/255f,156f/255f),new Color(255f/255f,223f/255f,156f/255f),new Color(165f/255f,165f/255f,165f/255f),new Color(255f/255f,255f/255f,255f/255f)};
+        Color[] colorList = {new Color(172f/255f, 210f/255f, 223f/255f, 100f/255f), new Color(223f/255f, 172f/255f, 192f/255f, 100f/255f), new Color(160f/255f, 238f/255f, 158f/255f, 100f/255f), new Color(224f/255f, 180f/255f, 225f/255f, 100f/255f), 
+        new Color(150f/255f, 154f/255f, 234f/255f, 100f/255f), new Color(223f/255f, 221f/255f, 172f/255f, 100f/255f), new Color(255f/255f, 129f/255f, 129f/255f, 100f/255f), new Color(159f/255f, 231f/255f, 189f/255f, 100f/255f), 
+        new Color(250f/255f, 255f/255f, 156f/255f, 100f/255f), new Color(255f/255f, 223f/255f, 156f/255f, 100f/255f), new Color(165f/255f, 165f/255f, 165f/255f, 100f/255f), new Color(255f/255f, 255f/255f, 255f/255f, 100f/255f)};
         #endregion
 
         #region Run at Times Functions

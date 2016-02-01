@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<Month xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Events>
+    <Event>
+      <Day>12</Day>
+      <Info>Columbus Day</Info>
+    </Event>
+  </Events>
+</Month>
