@@ -2,7 +2,6 @@
 // when you have zoomed in on the planet
 
 using UnityEngine;
-using System.Collections;
 
 public class InfoFromCanvas : MonoBehaviour 
 {

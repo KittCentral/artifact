@@ -18,7 +18,6 @@ public class ChatBox : MonoBehaviour
 	Vector2 scrollPosition;
 	int counter;
 
-    public GameObject globalSettings;
     SceneControl sceneControl;
 
 	void Start () 
@@ -26,6 +25,7 @@ public class ChatBox : MonoBehaviour
 		inputField = field.GetComponent<InputField>();
 		messBoard = messBox.GetComponent<Text>();
 		bot = new Chatbot();
+        GameObject globalSettings = GameObject.Find("Global Settings");
         sceneControl = globalSettings.GetComponent<SceneControl>();
 	}
 

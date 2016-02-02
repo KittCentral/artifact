@@ -46,7 +46,7 @@ public class NewsRSS : MonoBehaviour
 		foreach (rssreader.items itm in rdr.rowNews.item)
 		{
 			Rect rect = new Rect(500 * i - 2 * movement + Screen.width, Screen.height * 0.9f, 400, 50);
-			if (GUI.Button(rect, itm.title, myStyle))
+			if (GUI.Button(rect, itm.title))
 			{
 				info = itm.description;
 				StartCoroutine(ButtonWait());

@@ -5,7 +5,7 @@ using System.Collections;
 
 public class WeatherPanel : MonoBehaviour 
 {
-	public GameObject Camera;
+	public GameObject cameraPrime;
 	CameraRay cameraray;
 	
 	public bool earthZoom;
@@ -14,7 +14,8 @@ public class WeatherPanel : MonoBehaviour
 
 	void Start () 
 	{
-		cameraray = Camera.GetComponent<CameraRay> ();
+        cameraPrime = GameObject.Find("Primary Camera");
+        cameraray = cameraPrime.GetComponent<CameraRay> ();
 		anim = GetComponent<Animator> ();
 	}
 
@@ -22,11 +23,5 @@ public class WeatherPanel : MonoBehaviour
 	{
 		hover = onoff;
 		anim.SetBool ("Weather Hover", hover);
-	}
-
-	void Update () 
-	{
-		earthZoom = cameraray.earthZoom;
-		anim.SetBool ("Earth Zoom", earthZoom);
 	}
 }

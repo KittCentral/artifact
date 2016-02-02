@@ -1,10 +1,9 @@
 ﻿// This is one of the most important scripts for the RSS Scene.
 // It controls the actions of each button and menu described in in CameraRay.cs.
-// It also loads several dll to alow this scene to launch other programs and apps.
+// It also loads several dll to allow this scene to launch other programs and apps.
 
 using UnityEngine;
 using System.Collections;
-using System.Diagnostics;
 using System;
 using System.Runtime.InteropServices;
 
@@ -13,9 +12,9 @@ public class GUI_Control : MonoBehaviour
 	//Initialize control variables
 	public bool planetButton;
 	public bool GUIHover;
-	private bool zoomCheck;
+	bool zoomCheck;
 	public bool weatherBackground;
-	private Vector3 targetBGSize;
+	Vector3 targetBGSize;
 	public float planetSize;
 	bool GUIState = true;
 
@@ -25,23 +24,23 @@ public class GUI_Control : MonoBehaviour
 	float targetAlpha;
 	float alpha;
 
-	private const int windowNormal = 1;
-	private const int windowMinimized = 2;
-	private const int windowMaximized = 3;
+	const int windowNormal = 1;
+	const int windowMinimized = 2;
+	const int windowMaximized = 3;
 
 	//Initialize GameObjects and UI Object
-	public GameObject sun;
-	public GameObject earth;
-	public GameObject background;
-	public GameObject BGSphere;
-	public GameObject mainCamera;
+	//public GameObject sun;
+	//public GameObject earth;
+	//public GameObject background;
+	//public GameObject BGSphere;
+	//public GameObject mainCamera;
 	public GameObject RSS;
 	public GameObject News;
 	public GameObject[] ObjectArray = new GameObject[5];
 
 	//Initialize Scripts
 	OurRSS ourRSS;
-	CameraRay cameraRay;
+	//CameraRay cameraRay;
 
 	//Initialize Materials
 	public Material[] earthTextures = new Material[3];
@@ -61,14 +60,15 @@ public class GUI_Control : MonoBehaviour
 		ObjectArray[5].SetActive(false);
 
 		//Link the Script variables
-		cameraRay = mainCamera.GetComponent<CameraRay>();
+		//cameraRay = mainCamera.GetComponent<CameraRay>();
 		ourRSS = RSS.GetComponent<OurRSS>();
 
 		//Set Textures for the Backgrounds
-		background.GetComponent<Renderer>().material = bgTextures[nb];
-		BGSphere.GetComponent<Renderer>().material = bgTextures[nb];
+		//background.GetComponent<Renderer>().material = bgTextures[nb];
+		//BGSphere.GetComponent<Renderer>().material = bgTextures[nb];
 	}
-
+   
+    /*
 	//Function that recenters the rotation
 	public void RotationReset()
 	{
@@ -102,6 +102,7 @@ public class GUI_Control : MonoBehaviour
 		planetButton = true;
 		StartCoroutine(Wait(1));
 	}
+    */
 
 	//Turns on and off parts of the UI
 	public void ObjectControl(int number)
@@ -155,6 +156,7 @@ public class GUI_Control : MonoBehaviour
 		}
 	}
 
+    /*
 	//Toggles whether or not the Background is based on the weather or stars
 	public void changeWeatherBackground()
 	{
@@ -171,7 +173,7 @@ public class GUI_Control : MonoBehaviour
 		background.GetComponent<Renderer>().material = bgTextures[nb];
 		BGSphere.GetComponent<Renderer>().material = bgTextures[nb];
 	}
-
+    
 	void Update () 
 	{
 		alpha = targetAlpha;//Mathf.Lerp (alpha, targetAlpha, Time.deltaTime*10);
@@ -221,4 +223,5 @@ public class GUI_Control : MonoBehaviour
 		}
 		zoomCheck = cameraRay.earthZoom; //Records what state the zoom was for the proceeding frame
 	}
+    */
 }

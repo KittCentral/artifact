@@ -15,7 +15,7 @@ public class SceneControl : MonoBehaviour
 	
     void Start ()
     {
-        OpenSceneAdditive(7);
+        OpenSceneAdditive(9);
     }
 
 	//Checks if you are in the Loading Scene then opens the approriate Scene
