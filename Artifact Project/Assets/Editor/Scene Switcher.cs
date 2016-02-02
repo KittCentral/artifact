@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.IO;
+using UnityEditor.SceneManagement;
 
 public class SceneSwitcher : EditorWindow
 {
@@ -34,9 +35,9 @@ public class SceneSwitcher : EditorWindow
                 var pressed = GUILayout.Button(i + ": " + sceneName, new GUIStyle(GUI.skin.GetStyle("Button")) { alignment = TextAnchor.MiddleLeft });
                 if (pressed)
                 {
-                    if (EditorApplication.SaveCurrentSceneIfUserWantsTo())
+                    if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
                     {
-                        EditorApplication.OpenScene(scene.path);
+                        EditorSceneManager.OpenScene(scene.path);
                     }
                 }
             }

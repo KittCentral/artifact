@@ -12,7 +12,7 @@ public class ScreenControl : MonoBehaviour
         listener.enabled = false;
         Camera cameraNew = newCamera.GetComponent<Camera>();
         cameraNew.targetTexture = tarTex;
-        MeshRenderer rend = gameObject.GetComponent<MeshRenderer>();
-        rend.material = screenMat;
+        //MeshRenderer rend = gameObject.GetComponent<MeshRenderer>();
+        //rend.material = screenMat;
     }
 }

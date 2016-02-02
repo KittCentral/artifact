@@ -58,7 +58,7 @@ public static class TexturePainter
             brushObj.GetComponent<SpriteRenderer>().color = color; //Set the brush color
             brushColor.a = brushSize * 2.0f; // Brushes have alpha to have a merging effect when painted over.
             brushObj.transform.parent = container.transform; //Add the brush to our container to be wiped later
-            brushObj.transform.localPosition = worldPos; //The position of the brush (in the UVMap)
+            brushObj.transform.localPosition = new Vector3(worldPos.x, worldPos.y + 0.2f, worldPos.z); //The position of the brush (in the UVMap)
             brushObj.transform.localScale = Vector3.zero;
             brushObj.GetComponent<Splatter>().maxSize = size;
             brushObj.transform.eulerAngles = new Vector3(90, 0, Random.Range(0,359));

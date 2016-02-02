@@ -158,7 +158,7 @@ GameObject:
   - 65: {fileID: 367118135}
   - 23: {fileID: 367118134}
   - 54: {fileID: 367118138}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -408,8 +408,8 @@ GameObject:
   - 81: {fileID: 591734676}
   - 114: {fileID: 591734681}
   m_Layer: 0
-  m_Name: Main Camera
-  m_TagString: MainCamera
+  m_Name: Camera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -444,7 +444,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0.019607844}
+  m_BackGroundColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 0.019607844}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -480,7 +480,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!114 &591734681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2584,7 +2584,7 @@ GameObject:
   - 65: {fileID: 992387798}
   - 23: {fileID: 992387797}
   - 54: {fileID: 992387801}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3210,9 +3210,10 @@ GameObject:
   - 20: {fileID: 2008405787}
   - 124: {fileID: 2008405790}
   - 92: {fileID: 2008405789}
+  - 81: {fileID: 2008405788}
   m_Layer: 0
-  m_Name: Camera
-  m_TagString: Untagged
+  m_Name: Main Camera
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3226,7 +3227,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0.019607844}
+  m_BackGroundColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 0.019607844}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -3241,7 +3242,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294967279
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -3251,6 +3252,13 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
+--- !u!81 &2008405788
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2008405786}
+  m_Enabled: 0
 --- !u!92 &2008405789
 Behaviour:
   m_ObjectHideFlags: 0
@@ -3272,8 +3280,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2008405786}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 10, z: 0}
+  m_LocalPosition: {x: 0, y: 13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
