@@ -411,7 +411,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 70663257}
-  - 114: {fileID: 1568101205}
+  - 114: {fileID: 70663258}
   m_Layer: 5
   m_Name: Global Settings
   m_TagString: Untagged
@@ -437,6 +437,18 @@ RectTransform:
   m_AnchoredPosition: {x: 286.025, y: 214.625}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &70663258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 70663256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 696a5b93bc947a14faff683508437de9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  screen: {fileID: 564544843}
 --- !u!1001 &456202168
 Prefab:
   m_ObjectHideFlags: 0
@@ -655,20 +667,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
---- !u!114 &1568101205
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11425942, guid: 522291664b60d1344ab1c1751dd87dc3,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 70663256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 696a5b93bc947a14faff683508437de9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetScene: 0
-  screen: {fileID: 564544843}
 --- !u!1 &2144740973
 GameObject:
   m_ObjectHideFlags: 0

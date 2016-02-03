@@ -1362,9 +1362,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: OpenScene
-        m_Mode: 3
+      - m_Target: {fileID: 607567835}
+        m_MethodName: SceneClose
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1394,7 +1394,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 6236729d089b0bd4bb79aba5bba4fa82, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ba0bb157759af3844aaee76fc7a53d55, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

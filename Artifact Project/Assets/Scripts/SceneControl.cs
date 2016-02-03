@@ -3,19 +3,22 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEditor;
+using System.IO;
 
 public class SceneControl : MonoBehaviour
 {
 	//Initialize Scene Names
-	public int targetScene;
-	string[] Scenes = {"RSS Scene", "Loading", "Calendar", "Campus Map", "GPS Scene"};
-    AsyncOperation async;
-    bool loading = false;
+	public static int targetScene;
+    static AsyncOperation async;
+    static bool loading = false;
     public GameObject screen;
-	
+
     void Start ()
     {
+        
         OpenSceneAdditive(9);
+        
     }
 
 	//Checks if you are in the Loading Scene then opens the approriate Scene
@@ -30,7 +33,6 @@ public class SceneControl : MonoBehaviour
         {
             if (async.isDone && loading == true)
             {
-                print(loading);
                 loading = false;
                 ScreenControl screenScript = screen.GetComponent<ScreenControl>();
                 screenScript.DisplayScene();
@@ -39,9 +41,9 @@ public class SceneControl : MonoBehaviour
     }
 
 	//Opens Loading and Puts the target in a place which doesn't change when the scene does
-	public void OpenScene(int number)
+	public static void OpenScene(int i)
 	{
-		targetScene = number;
+		targetScene = i;
 		PlayerPrefs.SetInt("Target",targetScene);
 		SceneManager.LoadScene("Loading");
 	}
@@ -50,13 +52,18 @@ public class SceneControl : MonoBehaviour
 	IEnumerator Wait(int number)
 	{
 		yield return new WaitForSeconds(3);
-        SceneManager.LoadScene(Scenes[number]);
+        SceneManager.LoadScene(Path.GetFileNameWithoutExtension(EditorBuildSettings.scenes[6].path));
 	}
 
-    public void OpenSceneAdditive(int number)
+    public static void OpenSceneAdditive(int i)
     {
-        print("Yeah");
-        async = SceneManager.LoadSceneAsync(number, LoadSceneMode.Additive);
+        string tempName = "";
+        bool addScene = true;
+        try { tempName = SceneManager.GetSceneAt(1).name; }
+        catch { addScene = false; }
+        if(addScene)
+            SceneManager.UnloadScene(tempName);
+        async = SceneManager.LoadSceneAsync(i, LoadSceneMode.Additive);
         loading = true;
     }
 }

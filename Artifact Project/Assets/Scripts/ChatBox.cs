@@ -18,15 +18,11 @@ public class ChatBox : MonoBehaviour
 	Vector2 scrollPosition;
 	int counter;
 
-    SceneControl sceneControl;
-
 	void Start () 
 	{
 		inputField = field.GetComponent<InputField>();
 		messBoard = messBox.GetComponent<Text>();
 		bot = new Chatbot();
-        GameObject globalSettings = GameObject.Find("Global Settings");
-        sceneControl = globalSettings.GetComponent<SceneControl>();
 	}
 
 	//Sends the input to the response tree and saves the response
@@ -37,7 +33,7 @@ public class ChatBox : MonoBehaviour
 		if(counter == 0 && !string.Equals(ask,""))
 		{
             if (ask == "Open Paint")
-                sceneControl.OpenSceneAdditive(5);
+                SceneControl.OpenSceneAdditive(5);
             else
             {
                 mess += "Me: " + ask + "\n" + "\n";

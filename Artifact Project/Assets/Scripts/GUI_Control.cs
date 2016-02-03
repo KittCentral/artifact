@@ -110,6 +110,11 @@ public class GUI_Control : MonoBehaviour
 		ObjectArray[number].SetActive(!ObjectArray[number].activeSelf);
 	}
 
+    public void SceneAdd(int i)
+    {
+        SceneControl.OpenSceneAdditive(i);
+    }
+
 	//These three are tests to control external applications
 	public void MinimizeWindow()
 	{

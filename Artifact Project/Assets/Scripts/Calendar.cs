@@ -244,6 +244,11 @@ namespace Calendar
             removeField.text = ""; removeYear.text = ""; removeMonth.text = ""; removeDay.text = "";
             DisplayMonth();
         }
+
+        public void SceneClose ()
+        {
+            SceneControl.OpenSceneAdditive(9);
+        }
         #endregion
     }
 }
