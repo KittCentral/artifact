@@ -15,6 +15,11 @@ namespace Voxel
 
         }
 
+        public virtual int TypeNum()
+        {
+            return -1;
+        }
+
         #region Texture
         public virtual Tile TexturePosition(Direction direction)
         {

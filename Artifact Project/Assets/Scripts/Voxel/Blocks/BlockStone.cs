@@ -11,5 +11,10 @@ namespace Voxel
         {
 
         }
+
+        public override int TypeNum()
+        {
+            return 1;
+        }
     }
 }

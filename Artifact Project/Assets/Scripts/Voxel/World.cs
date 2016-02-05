@@ -10,6 +10,7 @@ namespace Voxel
 
         public Dictionary<WorldPos, Chunk> chunks = new Dictionary<WorldPos, Chunk>();
         public GameObject chunkPrefab;
+        public Dictionary<WorldPos, Block> queue = new Dictionary<WorldPos, Block>();
 
         public void CreateChunk(WorldPos pos)
         {
@@ -62,7 +63,7 @@ namespace Voxel
         public void SetBlock(WorldPos pos, Block block)
         {
             Chunk chunk = GetChunk(pos);
-            if(chunk != null)
+            if (chunk != null)
             {
                 chunk.SetBlock(new WorldPos(pos.x - chunk.posC.x, pos.y - chunk.posC.y, pos.z - chunk.posC.z), block);
                 chunk.update = true;
@@ -73,6 +74,12 @@ namespace Voxel
                 UpdateIfEqual(pos.y - chunk.posC.y, Chunk.chunkSize - 1, new WorldPos(pos.x, pos.y + 1, pos.z));
                 UpdateIfEqual(pos.z - chunk.posC.z, 0, new WorldPos(pos.x, pos.y, pos.z - 1));
                 UpdateIfEqual(pos.z - chunk.posC.z, Chunk.chunkSize - 1, new WorldPos(pos.x, pos.y, pos.z + 1));
+            }
+            else
+            {
+                if (queue.ContainsKey(pos))
+                    queue.Remove(pos);
+                queue.Add(pos, block);
             }
         }
 
@@ -85,5 +92,5 @@ namespace Voxel
                     chunk.update = true;
             }
         }
-    } 
+    }
 }

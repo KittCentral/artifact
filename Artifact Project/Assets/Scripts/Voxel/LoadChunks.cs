@@ -54,9 +54,10 @@ namespace Voxel
 
         void Update()
         {
+            if (DeleteChunks())
+                return;
             FindChunksToLoad();
             LoadAndRenderChunks();
-            DeleteChunks();
         }
 
         void FindChunksToLoad()
@@ -65,7 +66,7 @@ namespace Voxel
                 Mathf.FloorToInt(transform.position.y / Chunk.chunkSize) * Chunk.chunkSize,
                 Mathf.FloorToInt(transform.position.z / Chunk.chunkSize) * Chunk.chunkSize);
 
-            if (buildList.Count == 0)
+            if (updateList.Count == 0)
             {
                 for (int i = 0; i < chunkPositions.Length; i++)
                 {
@@ -77,7 +78,14 @@ namespace Voxel
                         continue;
                     for (int y = -4; y < 4; y++)
                     {
-                        buildList.Add(new WorldPos(newChunkPos.x, y * Chunk.chunkSize, newChunkPos.z));
+                        for (int x = newChunkPos.x - Chunk.chunkSize; x <= newChunkPos.x + Chunk.chunkSize; x += Chunk.chunkSize)
+                        {
+                            for (int z = newChunkPos.z - Chunk.chunkSize; z <= newChunkPos.z + Chunk.chunkSize; z += Chunk.chunkSize)
+                            {
+                                buildList.Add(new WorldPos(x, y * Chunk.chunkSize, z));
+                            }
+                        }
+                        updateList.Add(new WorldPos(newChunkPos.x, y * Chunk.chunkSize, newChunkPos.z));
                     }
                     return;
                 }
@@ -86,24 +94,11 @@ namespace Voxel
 
         void BuildChunk(WorldPos pos)
         {
-            for (int y = pos.y - Chunk.chunkSize; y <= pos.y + Chunk.chunkSize; y += Chunk.chunkSize)
-            {
-                if (y > 64 || y < -64)
-                    continue;
-
-                for (int x = pos.x - Chunk.chunkSize; x <= pos.x + Chunk.chunkSize; x += Chunk.chunkSize)
-                {
-                    for (int z = pos.z - Chunk.chunkSize; z <= pos.z + Chunk.chunkSize; z += Chunk.chunkSize)
-                    {
-                        if (world.GetChunk(new WorldPos(x, y, z)) == null)
-                            world.CreateChunk(new WorldPos(x, y, z));
-                    }
-                }
-            }
-            updateList.Add(pos);
+            if (world.GetChunk(pos) == null)
+                world.CreateChunk(pos);
         }
 
-        void DeleteChunks()
+        bool DeleteChunks()
         {
             if (timer == 10)
             {
@@ -119,21 +114,24 @@ namespace Voxel
                     world.DestroyChunk(chunk);
                 }
                 timer = 0;
+                return true;
             }
             timer++;
+            return false;
         }
 
         void LoadAndRenderChunks()
         {
-            for (int i = 0; i < 4; i++)
+            if (buildList.Count != 0)
             {
-                if (buildList.Count != 0)
+                for (int i = 0; i < buildList.Count && i < 8; i++)
                 {
                     BuildChunk(buildList[0]);
                     buildList.RemoveAt(0);
                 }
+                return;
             }
-            for (int i = 0; i < updateList.Count; i++)
+            if(updateList.Count != 0)
             {
                 Chunk chunk = world.GetChunk(new WorldPos(updateList[0].x, updateList[0].y, updateList[0].z));
                 if (chunk != null)

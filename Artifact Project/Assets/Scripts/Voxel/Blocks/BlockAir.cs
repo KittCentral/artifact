@@ -12,6 +12,11 @@ namespace Voxel
 
         }
 
+        public override int TypeNum()
+        {
+            return -1;
+        }
+
         public override MeshData Blockdata(Chunk chunk, int x, int y, int z, MeshData meshData)
         {
             return meshData;

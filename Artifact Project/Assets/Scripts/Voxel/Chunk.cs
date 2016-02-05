@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Voxel
 {
@@ -29,7 +30,7 @@ namespace Voxel
         // Update is called once per frame
         void Update()
         {
-            if(update)
+            if (update)
             {
                 update = false;
                 UpdateChunk();
@@ -47,10 +48,7 @@ namespace Voxel
         public Block GetBlock(WorldPos pos)
         {
             if (InRange(pos.x) && InRange(pos.y) && InRange(pos.z))
-            {
-                //print(blocks[0, 1, 0]);
                 return blocks[pos.x, pos.y, pos.z];
-            }
             return world.GetBlock(new WorldPos(posC.x + pos.x, posC.y + pos.y, posC.z + pos.z));
         }
 
