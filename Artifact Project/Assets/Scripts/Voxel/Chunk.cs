@@ -9,11 +9,12 @@ namespace Voxel
 
     public class Chunk : MonoBehaviour
     {
-        Block[,,] blocks = new Block[chunkSize, chunkSize, chunkSize];
+        public Block[,,] blocks = new Block[chunkSize, chunkSize, chunkSize];
         public World world;
         public WorldPos posC;
         public static int chunkSize = 16;
-        public bool update = true;
+        public bool update = false;
+        public bool rendered;
 
         MeshFilter filter;
         MeshCollider coll;
@@ -60,10 +61,18 @@ namespace Voxel
             return true;
         }
 
+        public void SetBlocksUnmodified()
+        {
+            foreach (Block block in blocks)
+            {
+                block.changed = false;
+            }
+        }
+
         void UpdateChunk()
         {
+            rendered = true;
             MeshData meshData = new MeshData();
-
             for (int x = 0; x < chunkSize; x++)
             {
                 for (int y = 0; y < chunkSize; y++)
@@ -74,7 +83,6 @@ namespace Voxel
                     }
                 }
             }
-
             RenderMesh(meshData);
         }
 

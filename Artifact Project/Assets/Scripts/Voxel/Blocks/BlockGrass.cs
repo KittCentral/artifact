@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 namespace Voxel
 {
+    [Serializable]
     public class BlockGrass : Block
     {
         public BlockGrass() : base()

@@ -6,29 +6,10 @@ namespace Voxel
 {
     public class World : MonoBehaviour
     {
+        public string name = "world";
+
         public Dictionary<WorldPos, Chunk> chunks = new Dictionary<WorldPos, Chunk>();
         public GameObject chunkPrefab;
-
-        // Use this for initialization
-        void Start()
-        {
-            for (int x = -2; x < 2; x++)
-            {
-                for (int y = -1; y < 1; y++)
-                {
-                    for (int z = -1; z < 1; z++)
-                    {
-                        CreateChunk(new WorldPos(x * Chunk.chunkSize, y * Chunk.chunkSize, z * Chunk.chunkSize));
-                    }
-                }
-            }
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
 
         public void CreateChunk(WorldPos pos)
         {
@@ -37,19 +18,10 @@ namespace Voxel
             newChunk.posC = pos;
             newChunk.world = this;
             chunks.Add(pos, newChunk);
-            for (int xi = 0; xi < Chunk.chunkSize; xi++)
-            {
-                for (int yi = 0; yi < Chunk.chunkSize; yi++)
-                {
-                    for (int zi = 0; zi < Chunk.chunkSize; zi++)
-                    {
-                        if (yi <= 7)
-                            SetBlock(new WorldPos(pos.x + xi, pos.y + yi, pos.z + zi), new BlockStone());
-                        else
-                            SetBlock(new WorldPos(pos.x + xi, pos.y + yi, pos.z + zi), new BlockAir());
-                    }
-                }
-            }
+            var terrainGen = new TerrainGen();
+            newChunk = terrainGen.ChunkGen(newChunk);
+            newChunk.SetBlocksUnmodified();
+            bool loaded = Serialization.Load(newChunk);
         }
 
         public void DestroyChunk(WorldPos pos)
@@ -57,6 +29,7 @@ namespace Voxel
             Chunk chunk = null;
             if (chunks.TryGetValue(pos, out chunk))
             {
+                Serialization.SaveChunk(chunk);
                 Destroy(chunk.gameObject);
                 chunks.Remove(pos);
             }
@@ -93,6 +66,23 @@ namespace Voxel
             {
                 chunk.SetBlock(new WorldPos(pos.x - chunk.posC.x, pos.y - chunk.posC.y, pos.z - chunk.posC.z), block);
                 chunk.update = true;
+
+                UpdateIfEqual(pos.x - chunk.posC.x, 0, new WorldPos(pos.x - 1, pos.y, pos.z));
+                UpdateIfEqual(pos.x - chunk.posC.x, Chunk.chunkSize - 1, new WorldPos(pos.x + 1, pos.y, pos.z));
+                UpdateIfEqual(pos.y - chunk.posC.y, 0, new WorldPos(pos.x, pos.y - 1, pos.z));
+                UpdateIfEqual(pos.y - chunk.posC.y, Chunk.chunkSize - 1, new WorldPos(pos.x, pos.y + 1, pos.z));
+                UpdateIfEqual(pos.z - chunk.posC.z, 0, new WorldPos(pos.x, pos.y, pos.z - 1));
+                UpdateIfEqual(pos.z - chunk.posC.z, Chunk.chunkSize - 1, new WorldPos(pos.x, pos.y, pos.z + 1));
+            }
+        }
+
+        void UpdateIfEqual(int value1, int value2, WorldPos pos)
+        {
+            if (value1 == value2)
+            {
+                Chunk chunk = GetChunk(pos);
+                if (chunk != null)
+                    chunk.update = true;
             }
         }
     } 
