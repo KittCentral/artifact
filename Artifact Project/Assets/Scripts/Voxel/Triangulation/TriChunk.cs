@@ -49,12 +49,11 @@ namespace Voxel
                     currentPoint.z = z * spacing + posOffset.y;
                     int offset = z % 2;
                     if (offset == 1)
-                    {
                         currentPoint.x -= spacing * 0.5f;
-                    }
-                    currentPoint.y = GetNoise(new Vector3(currentPoint.x, Time.frameCount, currentPoint.z), .04f, (int)maxHeight) + 
-                        GetNoise(new Vector3(currentPoint.x, Time.frameCount, currentPoint.z), .5f, (int)maxHeight / 2) +
-                        GetNoise(new Vector3(currentPoint.x, Time.frameCount, currentPoint.z), .002f, (int)maxHeight * 25);
+                    currentPoint.y = Mathf.Floor(GetNoise(new Vector3(currentPoint.x, Time.frameCount, currentPoint.z), .04f, (int)maxHeight) + 
+                        //GetNoise(new Vector3(currentPoint.x, Time.frameCount, currentPoint.z), .5f, (int)maxHeight / 2) +
+                        GetNoise(new Vector3(currentPoint.x, Time.frameCount, currentPoint.z), .002f, (int)maxHeight * 25));
+                    currentPoint = Distort(currentPoint);
                     verts[z][x] = currentPoint;
                     uvs.Add(new Vector2(x, z));
                     int currentX = x + (1 - offset);
@@ -98,6 +97,14 @@ namespace Voxel
                 mesh.RecalculateNormals();
                 coll.sharedMesh = mesh;
             }
+        }
+
+        public static Vector3 Distort(Vector3 input)
+        {
+            input.x += GetNoise(new Vector3(input.x + 5000, input.y, input.z), .15f, 1);
+            input.y += GetNoise(new Vector3(input.x, input.y + 5000, input.z), .15f, 1);
+            input.z += GetNoise(new Vector3(input.x, input.y, input.z + 5000), .15f, 1);
+            return input;
         }
 
         public static float GetNoise(Vector3 pos, float scale, int max)

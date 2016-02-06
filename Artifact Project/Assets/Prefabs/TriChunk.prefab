@@ -41,7 +41,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: c9e6294c9d11cb8d11006bf944295342, type: 2}
+  - {fileID: 2100000, guid: fb4eff07285c4624aa470e9485820c5e, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -89,7 +89,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colliderBool: 0
   updateCrazy: 0
-  chunkSize: 16
+  chunkSize: 15
   spacing: 1
   maxHeight: 3
   posOffset: {x: 0, y: 0}
@@ -103,10 +103,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: c9e6294c9d11cb8d11006bf944295342, type: 2}
+      objectReference: {fileID: 2100000, guid: fb4eff07285c4624aa470e9485820c5e, type: 2}
     - target: {fileID: 0}
       propertyPath: chunkSize
-      value: 16
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: colliderBool
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: updateCrazy
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
