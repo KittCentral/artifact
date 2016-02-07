@@ -41,7 +41,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: fb4eff07285c4624aa470e9485820c5e, type: 2}
+  - {fileID: 2100000, guid: 025cbf9d232c99f4bb5a2e86929f2cd7, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -88,11 +88,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colliderBool: 0
-  updateCrazy: 0
-  chunkSize: 15
+  dynamic: 0
+  approximate: 1
+  distorted: 0
+  zeroed: 1
+  show: 1
+  chunkSize: 16
+  chunkHeight: 16
   spacing: 1
   maxHeight: 3
   posOffset: {x: 0, y: 0}
+  world: {fileID: 0}
+  point: {fileID: 174596, guid: fc0500db90eab094db02f3ccd88e0b60, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -103,10 +110,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: fb4eff07285c4624aa470e9485820c5e, type: 2}
+      objectReference: {fileID: 2100000, guid: 025cbf9d232c99f4bb5a2e86929f2cd7, type: 2}
     - target: {fileID: 0}
       propertyPath: chunkSize
-      value: 15
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: colliderBool
@@ -114,6 +121,30 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: updateCrazy
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: chunkHeight
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: approximate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: zeroed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: show
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: point
+      value: 
+      objectReference: {fileID: 174596, guid: fc0500db90eab094db02f3ccd88e0b60, type: 2}
+    - target: {fileID: 0}
+      propertyPath: distorted
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

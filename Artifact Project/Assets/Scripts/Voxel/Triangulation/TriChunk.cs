@@ -12,11 +12,19 @@ namespace Voxel
     public class TriChunk : MonoBehaviour
     {
         public bool colliderBool;
-        public bool updateCrazy;
-        public int chunkSize = 16;
-        public float spacing = 1f;
-        public float maxHeight = 3f;
+        public bool dynamic;
+        public bool approximate;
+        public bool distorted;
+        public bool zeroed;
+        public bool show;
+        public int chunkSize;
+        public int chunkHeight;
+        public float spacing;
+        public float maxHeight;
         public Vector2 posOffset = new Vector2();
+        public TriWorld world;
+        public GameObject point;
+        List<Vector3> hits = new List<Vector3>();
 
         // Use this for initialization
         void Start()
@@ -27,7 +35,7 @@ namespace Voxel
         // Update is called once per frame
         void Update()
         {
-            if(updateCrazy)
+            if(dynamic)
                 GenerateMesh(chunkSize);
         }
 
@@ -38,8 +46,7 @@ namespace Voxel
             List<Vector3[]> verts = new List<Vector3[]>();
             List<int> tris = new List<int>();
             List<Vector2> uvs = new List<Vector2>();
-
-            for (int z = 0; z < wid; z++)
+            for (int z = 0; z < wid - 1; z++)
             {
                 verts.Add(new Vector3[wid]);
                 for (int x = 0; x < wid; x++)
@@ -50,20 +57,29 @@ namespace Voxel
                     int offset = z % 2;
                     if (offset == 1)
                         currentPoint.x -= spacing * 0.5f;
-                    currentPoint.y = Mathf.Floor(GetNoise(new Vector3(currentPoint.x, Time.frameCount, currentPoint.z), .04f, (int)maxHeight) + 
-                        //GetNoise(new Vector3(currentPoint.x, Time.frameCount, currentPoint.z), .5f, (int)maxHeight / 2) +
-                        GetNoise(new Vector3(currentPoint.x, Time.frameCount, currentPoint.z), .002f, (int)maxHeight * 25));
-                    currentPoint = Distort(currentPoint);
+                    if (!zeroed)
+                        currentPoint.y = GetNoise(new Vector3(currentPoint.x, Time.frameCount, currentPoint.z), .04f, (int)maxHeight) + 
+                            //GetNoise(new Vector3(currentPoint.x, Time.frameCount, currentPoint.z), .5f, (int)maxHeight / 2) +
+                            GetNoise(new Vector3(currentPoint.x, Time.frameCount, currentPoint.z), .002f, (int)maxHeight * 25);
+                    if (approximate)
+                    {
+                        float tempH = Mathf.Round(currentPoint.y);
+                        currentPoint.y += (2 * x + (offset == 1 ? 2 : 3)) % 3;
+                        currentPoint.y = (tempH - Mathf.Round(currentPoint.y))/3 + tempH;
+                    }
+                    
+                    if (distorted)
+                        currentPoint = Distort(currentPoint);
                     verts[z][x] = currentPoint;
                     uvs.Add(new Vector2(x, z));
                     int currentX = x + (1 - offset);
-                    if (!(currentX - 1 <= 0 || z <= 0 || currentX >= wid))
+                    if (!(currentX <= 0 || z <= 0 || currentX >= wid))
                     {
                         tris.Add(x + z * wid);
                         tris.Add(currentX + (z - 1) * wid);
                         tris.Add((currentX - 1) + (z - 1) * wid);
                     }
-                    if (!(x - 1 <= 0 || z <= 0))
+                    if (!(x <= 0 || z <= 0))
                     {
                         tris.Add(x + z * wid);
                         tris.Add((currentX - 1) + (z - 1) * wid);
@@ -72,13 +88,16 @@ namespace Voxel
                 }
             }
 
-            Vector3[] uVerts = new Vector3[wid * wid];
+            Vector3[] uVerts = new Vector3[wid * (wid - 1)];
             int i = 0;
             foreach (Vector3[] v in verts)
             {
                 v.CopyTo(uVerts, i * wid);
                 i++;
             }
+            if (show)
+                ShowVertices(uVerts);
+            /*
             MeshFilter filter = gameObject.GetComponent<MeshFilter>();
             filter.mesh.Clear();
             filter.mesh.vertices = uVerts;
@@ -97,7 +116,10 @@ namespace Voxel
                 mesh.RecalculateNormals();
                 coll.sharedMesh = mesh;
             }
+            */
         }
+
+        
 
         public static Vector3 Distort(Vector3 input)
         {
@@ -105,6 +127,106 @@ namespace Voxel
             input.y += GetNoise(new Vector3(input.x, input.y + 5000, input.z), .15f, 1);
             input.z += GetNoise(new Vector3(input.x, input.y, input.z + 5000), .15f, 1);
             return input;
+        }
+
+        public void ShowVertices(Vector3[] basePoints)
+        {
+            List<Vector3> verts = new List<Vector3>();
+            List<int> tris = new List<int>();
+            List<Vector2> uvs = new List<Vector2>();
+            hits.Clear();
+
+            int i = 0;
+            foreach (var basePoint in basePoints)
+            {
+                for (int y = 0; y < chunkHeight; y++)
+                {
+                    Vector3 center = new Vector3(basePoint.x, basePoint.y + y, basePoint.z);
+                    if (Land(center))
+                    {
+                        Instantiate(point, center, new Quaternion(0, 0, 0, 0));
+                        hits.Add(center);
+                    }
+                }
+            }
+            
+            foreach (var hit in hits)
+            {
+                FaceBuilder(hit, ref verts, ref tris, ref i);
+            }
+            MeshFilter filter = gameObject.GetComponent<MeshFilter>();
+            filter.mesh.Clear();
+            filter.mesh.vertices = verts.ToArray();
+            filter.mesh.triangles = tris.ToArray();
+            filter.mesh.uv = uvs.ToArray();
+            filter.mesh.RecalculateBounds();
+            filter.mesh.RecalculateNormals();
+        }
+
+        bool Land(Vector3 point)
+        {
+            //return point.y <= 3;
+            return GetNoise(point, .05f, 15) < .75f;
+        }
+
+        void FaceBuilder(Vector3 center, ref List<Vector3> verts, ref List<int> tris, ref int i)
+        {
+            if(TopFlatCheck(center))
+            {
+                verts.Add(center);
+                verts.Add(center + new Vector3(1.5f, 0, 1f));
+                verts.Add(center + new Vector3(1.5f, 0, -1f));
+                for (int index = 0; index < 3; index++) { tris.Add(index + 3 * i);}
+                i++;
+            }
+            if(SideFlatCheck(center))
+            {
+                verts.Add(center);
+                verts.Add(center + new Vector3(1.5f, 0, -1f));
+                verts.Add(center + new Vector3(0, 0, -2f));
+                for (int index = 0; index < 3; index++) { tris.Add(index + 3 * i);}
+                i++;
+            }
+            if (TopFlatCheckD(center))
+            {
+                verts.Add(center);
+                verts.Add(center + new Vector3(1.5f, 0, -1f));
+                verts.Add(center + new Vector3(1.5f, 0, 1f));
+                for (int index = 0; index < 3; index++) { tris.Add(index + 3 * i); }
+                i++;
+            }
+            if (SideFlatCheckD(center))
+            {
+                verts.Add(center);
+                verts.Add(center + new Vector3(0, 0, -2f));
+                verts.Add(center + new Vector3(1.5f, 0, -1f));
+                for (int index = 0; index < 3; index++) { tris.Add(index + 3 * i); }
+                i++;
+            }
+        }
+
+        bool TopFlatCheck(Vector3 center)
+        {
+            return (CheckHit(center + new Vector3(1.5f, 0, 1f)) && CheckHit(center + new Vector3(1.5f, 0, -1f)) && 
+                !CheckHit(center + new Vector3(1f, 1f/3f, 0)));
+        }
+
+        bool SideFlatCheck(Vector3 center)
+        {
+            return (CheckHit(center + new Vector3(1.5f, 0, -1f)) && CheckHit(center + new Vector3(0, 0, -2f)) && 
+                !CheckHit(center + new Vector3(.5f, 2f/3f, -1f)) && !TopFlatCheck(center + new Vector3(-.5f, 1f / 3f, -1f)));
+        }
+
+        bool TopFlatCheckD(Vector3 center)
+        {
+            return (CheckHit(center + new Vector3(1.5f, 0, 1f)) && CheckHit(center + new Vector3(1.5f, 0, -1f)) &&
+                !CheckHit(center + new Vector3(1f, -(2f / 3f), 0)) && !SideFlatCheckD(center + new Vector3(.5f, -(1f / 3f), 1f)));
+        }
+
+        bool SideFlatCheckD(Vector3 center)
+        {
+            return (CheckHit(center + new Vector3(1.5f, 0, -1f)) && CheckHit(center + new Vector3(0, 0, -2f)) &&
+                !CheckHit(center + new Vector3(.5f, -(1f / 3f), -1f)));
         }
 
         public static float GetNoise(Vector3 pos, float scale, int max)
@@ -116,6 +238,16 @@ namespace Voxel
         {
             float y = Mathf.Min(0, maxHeight - Vector2.Distance(Vector2.zero, new Vector2(x, z)));
             return y;
+        }
+
+        bool CheckHit(Vector3 center)
+        {
+            foreach(var hit in hits)
+            {
+                if ((center - hit).magnitude < .5f)
+                    return true;
+            }
+            return false;
         }
     }
 }
