@@ -99,7 +99,7 @@ MonoBehaviour:
   maxHeight: 3
   posOffset: {x: 0, y: 0}
   world: {fileID: 0}
-  point: {fileID: 174596, guid: fc0500db90eab094db02f3ccd88e0b60, type: 2}
+  dot: {fileID: 174596, guid: fc0500db90eab094db02f3ccd88e0b60, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -147,6 +147,10 @@ Prefab:
       propertyPath: distorted
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: dot
+      value: 
+      objectReference: {fileID: 174596, guid: fc0500db90eab094db02f3ccd88e0b60, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 179026}

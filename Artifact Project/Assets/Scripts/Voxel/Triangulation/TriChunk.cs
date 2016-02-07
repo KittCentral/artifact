@@ -23,16 +23,18 @@ namespace Voxel
         public float maxHeight;
         public Vector2 posOffset = new Vector2();
         public TriWorld world;
-        public GameObject point;
-        List<Vector3> hits = new List<Vector3>();
+        public GameObject dot;
+        bool[,,] hits;
 
-        // Use this for initialization
         void Start()
         {
+            hits = new bool[chunkSize, chunkSize, chunkSize - 1];
             GenerateMesh(chunkSize);
+            Vector3 testPoint = new Vector3(1f, -2f / 3f, 2f);
+            print(PosToHex(testPoint).x + ", " + PosToHex(testPoint).y + ", " + PosToHex(testPoint).z);
+            print(HexToPos(PosToHex(testPoint)));
         }
 
-        // Update is called once per frame
         void Update()
         {
             if(dynamic)
@@ -134,7 +136,6 @@ namespace Voxel
             List<Vector3> verts = new List<Vector3>();
             List<int> tris = new List<int>();
             List<Vector2> uvs = new List<Vector2>();
-            hits.Clear();
 
             int i = 0;
             foreach (var basePoint in basePoints)
@@ -144,15 +145,22 @@ namespace Voxel
                     Vector3 center = new Vector3(basePoint.x, basePoint.y + y, basePoint.z);
                     if (Land(center))
                     {
-                        Instantiate(point, center, new Quaternion(0, 0, 0, 0));
-                        hits.Add(center);
+                        GameObject copy = Instantiate(dot, center, new Quaternion(0, 0, 0, 0)) as GameObject;
+                        copy.transform.parent = gameObject.transform;
+                        hits[PosToHex(center).x, PosToHex(center).y, PosToHex(center).z] = true;
                     }
                 }
             }
-            
-            foreach (var hit in hits)
+            for (int x = 0; x < chunkSize; x++)
             {
-                FaceBuilder(hit, ref verts, ref tris, ref i);
+                for (int y = 0; y < chunkSize; y++)
+                {
+                    for (int z = 0; z < chunkSize-1; z++)
+                    {
+                        if(hits[x,y,z])
+                            FaceBuilder(HexToPos(new WorldPos(x, y, z)), ref verts, ref tris, ref i);
+                    }
+                }
             }
             MeshFilter filter = gameObject.GetComponent<MeshFilter>();
             filter.mesh.Clear();
@@ -165,13 +173,15 @@ namespace Voxel
 
         bool Land(Vector3 point)
         {
-            //return point.y <= 3;
-            return GetNoise(point, .05f, 15) < .75f;
+            if(zeroed)
+                return point.y <= 3;
+            else
+                return GetNoise(point, .05f, 15) < .75f;
         }
 
         void FaceBuilder(Vector3 center, ref List<Vector3> verts, ref List<int> tris, ref int i)
         {
-            if(TopFlatCheck(center))
+            if (TopFlatCheck(center))
             {
                 verts.Add(center);
                 verts.Add(center + new Vector3(1.5f, 0, 1f));
@@ -240,14 +250,30 @@ namespace Voxel
             return y;
         }
 
-        bool CheckHit(Vector3 center)
+        bool CheckHit(Vector3 point)
         {
-            foreach(var hit in hits)
-            {
-                if ((center - hit).magnitude < .5f)
-                    return true;
-            }
-            return false;
+            bool output;
+            try { output = hits[PosToHex(point).x, PosToHex(point).y, PosToHex(point).z]; }
+            catch { output = false; }
+            return output;
+        }
+
+        WorldPos PosToHex (Vector3 point)
+        {
+            WorldPos output = new WorldPos(Mathf.CeilToInt(point.x), Mathf.CeilToInt(point.y), (int)point.z);
+            output.x -= (int)posOffset.x;
+            output.z -= (int)posOffset.y;
+            return output;
+        }
+
+        Vector3 HexToPos (WorldPos point)
+        {
+            point.x += (int)posOffset.x;
+            point.z += (int)posOffset.y;
+            float x = point.z % 2 == 0 ? point.x : point.x - 0.5f;
+            float y = point.y - Mathf.Abs(((point.x + Mathf.Abs(point.z % 2f) + 1) % 3f) / 3f);
+            Vector3 output = new Vector3(x,y,point.z);
+            return output;
         }
     }
 }
