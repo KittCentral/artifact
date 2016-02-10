@@ -28,11 +28,12 @@ namespace Voxel
 
         void Start()
         {
+            //print(HexToPos(new WorldPos(0, 0, 0)));
             hits = new bool[chunkSize, chunkSize, chunkSize - 1];
             GenerateMesh(chunkSize);
-            Vector3 testPoint = new Vector3(1f, -2f / 3f, 2f);
-            print(PosToHex(testPoint).x + ", " + PosToHex(testPoint).y + ", " + PosToHex(testPoint).z);
-            print(HexToPos(PosToHex(testPoint)));
+            //Vector3 testPoint = new Vector3(-30.5f, -2f / 3f, -15f);
+            //print(PosToHex(testPoint).x + ", " + PosToHex(testPoint).y + ", " + PosToHex(testPoint).z);
+            
         }
 
         void Update()
@@ -60,9 +61,9 @@ namespace Voxel
                     if (offset == 1)
                         currentPoint.x -= spacing * 0.5f;
                     if (!zeroed)
-                        currentPoint.y = GetNoise(new Vector3(currentPoint.x, Time.frameCount, currentPoint.z), .04f, (int)maxHeight) + 
+                        //currentPoint.y = GetNoise(new Vector3(currentPoint.x, Time.frameCount, currentPoint.z), .04f, (int)maxHeight) + 
                             //GetNoise(new Vector3(currentPoint.x, Time.frameCount, currentPoint.z), .5f, (int)maxHeight / 2) +
-                            GetNoise(new Vector3(currentPoint.x, Time.frameCount, currentPoint.z), .002f, (int)maxHeight * 25);
+                            //GetNoise(new Vector3(currentPoint.x, Time.frameCount, currentPoint.z), .002f, (int)maxHeight * 25);
                     if (approximate)
                     {
                         float tempH = Mathf.Round(currentPoint.y);
@@ -91,12 +92,14 @@ namespace Voxel
             }
 
             Vector3[] uVerts = new Vector3[wid * (wid - 1)];
+            
             int i = 0;
             foreach (Vector3[] v in verts)
             {
                 v.CopyTo(uVerts, i * wid);
                 i++;
             }
+            foreach (var vert in uVerts) { print(vert); }
             if (show)
                 ShowVertices(uVerts);
             /*
@@ -271,7 +274,7 @@ namespace Voxel
             point.x += (int)posOffset.x;
             point.z += (int)posOffset.y;
             float x = point.z % 2 == 0 ? point.x : point.x - 0.5f;
-            float y = point.y - Mathf.Abs(((point.x + Mathf.Abs(point.z % 2f) + 1) % 3f) / 3f);
+            float y = point.y - Mathf.Abs((((point.x + Mathf.Abs(point.z % 2f) - (int)posOffset.x - 15)) % 3f) / 3f);
             Vector3 output = new Vector3(x,y,point.z);
             return output;
         }

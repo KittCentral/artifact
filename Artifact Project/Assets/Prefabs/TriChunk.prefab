@@ -91,7 +91,7 @@ MonoBehaviour:
   dynamic: 0
   approximate: 1
   distorted: 0
-  zeroed: 1
+  zeroed: 0
   show: 1
   chunkSize: 16
   chunkHeight: 16
@@ -133,7 +133,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: zeroed
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: show

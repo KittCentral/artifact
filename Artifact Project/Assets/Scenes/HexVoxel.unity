@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6012a241ad617e4783f286862cef8bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 2
+  size: 8
   chunk: {fileID: 179026, guid: 27ee1994500a51143a47bac4192f7ccf, type: 2}
 --- !u!4 &483342175
 Transform:
