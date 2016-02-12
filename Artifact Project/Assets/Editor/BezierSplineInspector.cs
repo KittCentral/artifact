@@ -43,14 +43,21 @@ public class BezierSplineInspector : Editor
     public override void OnInspectorGUI ()
     {
         spline = target as BezierSpline;
+        EditorGUI.BeginChangeCheck();
+        bool loop = EditorGUILayout.Toggle("Loop", spline.Loop);
+        if (EditorGUI.EndChangeCheck())
+        {
+            Undo.RecordObject(spline, "Toggle Loop");
+            EditorUtility.SetDirty(spline);
+            spline.Loop = loop;
+        }
         if (selectedIndex >= 0 && selectedIndex < spline.ControlPointCount)
             DrawSelectedPointInspector();
         if(GUILayout.Button("Add Curve"))
         {
-            //Undo.RecordObject(spline, "Add Curve");
-            //EditorUtility.SetDirty(spline);
-            //spline.AddCurve();
-            spline.Modes = new BezierControlPointMode[] { BezierControlPointMode.Mirrored, BezierControlPointMode.Mirrored, BezierControlPointMode.Mirrored, BezierControlPointMode.Mirrored };
+            Undo.RecordObject(spline, "Add Curve");
+            EditorUtility.SetDirty(spline);
+            spline.AddCurve();
         }
     }
 
