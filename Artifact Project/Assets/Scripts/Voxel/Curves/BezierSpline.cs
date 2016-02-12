@@ -9,7 +9,7 @@ public class BezierSpline : MonoBehaviour
     Vector3[] points;
 
     [SerializeField]
-    BezierControlPointMode[] modes = { BezierControlPointMode.Mirrored, BezierControlPointMode.Aligned, BezierControlPointMode.Free };
+    BezierControlPointMode[] modes;
 
     public int ControlPointCount
     {
@@ -21,13 +21,19 @@ public class BezierSpline : MonoBehaviour
         get { return (points.Length - 1) / 3; }
     }
 
+    public BezierControlPointMode[] Modes
+    {
+        get{ return modes; }
+        set{ modes = value; }
+    }
+
     public Vector3 GetControlPoint (int i) { return points[i];}
 
     public void SetControlPoint (int i, Vector3 point) { points[i] = point; EnforceMode(i); }
 
-    public BezierControlPointMode GetControlPointMode(int i) { return modes[(i + 1) / 3]; }
+    public BezierControlPointMode GetControlPointMode(int i) { return modes[i / 3]; }
 
-    public void SetControlPointMode(int i, BezierControlPointMode mode) { modes[(i + 1) / 3] = mode; EnforceMode(i); }
+    public void SetControlPointMode(int i, BezierControlPointMode mode) { modes[i / 3] = mode; EnforceMode(i); }
 
     public Vector3 GetPoint(float t)
     {
@@ -84,7 +90,7 @@ public class BezierSpline : MonoBehaviour
 
     void EnforceMode (int i)
     {
-        int modeIndex = (i + 1) / 3;
+        int modeIndex = i / 3;
         BezierControlPointMode mode = modes[modeIndex];
         if (mode == BezierControlPointMode.Free || modeIndex == 0 || modeIndex == modes.Length - 1)
             return;
@@ -93,6 +99,6 @@ public class BezierSpline : MonoBehaviour
     public void Reset()
     {
         points = new Vector3[] { new Vector3(1f, 0f, 0f), new Vector3(2f, 0f, 0f), new Vector3(3f, 0f, 0f), new Vector3(4f, 0f, 0f) };
-        modes = new BezierControlPointMode[] { BezierControlPointMode.Free, BezierControlPointMode.Free };
+        modes = new BezierControlPointMode[] { BezierControlPointMode.Mirrored, BezierControlPointMode.Mirrored };
     }
 }

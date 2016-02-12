@@ -47,9 +47,10 @@ public class BezierSplineInspector : Editor
             DrawSelectedPointInspector();
         if(GUILayout.Button("Add Curve"))
         {
-            Undo.RecordObject(spline, "Add Curve");
-            EditorUtility.SetDirty(spline);
-            spline.AddCurve();
+            //Undo.RecordObject(spline, "Add Curve");
+            //EditorUtility.SetDirty(spline);
+            //spline.AddCurve();
+            spline.Modes = new BezierControlPointMode[] { BezierControlPointMode.Mirrored, BezierControlPointMode.Mirrored, BezierControlPointMode.Mirrored, BezierControlPointMode.Mirrored };
         }
     }
 
@@ -91,7 +92,6 @@ public class BezierSplineInspector : Editor
     {
         Vector3 point = handleTransform.TransformPoint(spline.GetControlPoint(i));
         float size = HandleUtility.GetHandleSize(point);
-        Debug.Log(spline.GetControlPointMode(0));
         Handles.color = modeColors[(int)spline.GetControlPointMode(i)];
         if (Handles.Button(point, handleRotation, size * handleSize, size * pickSize, Handles.DotCap))
         {
