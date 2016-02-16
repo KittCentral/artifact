@@ -8,10 +8,11 @@ namespace Procedural
 
     public static class Noise
     {
-        public static NoiseMethod[][] noiseMethods = { valueMethods, perlinMethods };
         public static NoiseMethod[] perlinMethods = { Perlin1D, Perlin2D, Perlin3D};
         public static NoiseMethod[] valueMethods = { Value1D, Value2D, Value3D };
+        public static NoiseMethod[][] noiseMethods = { valueMethods, perlinMethods };
 
+        #region Hash
         static int[] hash = 
         {
             151,160,137, 91, 90, 15,131, 13,201, 95, 96, 53,194,233,  7,225,
@@ -48,16 +49,25 @@ namespace Procedural
             184, 84,204,176,115,121, 50, 45,127,  4,150,254,138,236,205, 93,
             222,114, 67, 29, 24, 72,243,141,128,195, 78, 66,215, 61,156,180
         };
+        const int hashMask = 255;
+#endregion
 
+        #region Gradients
         static float[] gradients1D = { 1f, -1f };
         const int gradientMask1D = 1;
 
         static Vector2[] gradients2D = { new Vector2(1f, 0f), new Vector2(-1f, 0f), new Vector2(0f, 1f), new Vector2(0f, -1f),
             new Vector2 (1f, 1f).normalized, new Vector2 (-1f, 1f).normalized, new Vector2 (1f, -1f).normalized, new Vector2 (-1f, -1f).normalized};
-        const int gradientsMask2D = 3;
+        const int gradientsMask2D = 7;
 
-        const int hashMask = 255;
+        static Vector3[] gradients3D = {new Vector3( 1f, 1f, 0f), new Vector3(-1f, 1f, 0f), new Vector3( 1f,-1f, 0f), new Vector3(-1f,-1f, 0f),
+                                        new Vector3( 1f, 0f, 1f), new Vector3(-1f, 0f, 1f), new Vector3( 1f, 0f,-1f), new Vector3(-1f, 0f,-1f),
+                                        new Vector3( 0f, 1f, 1f), new Vector3( 0f,-1f, 1f), new Vector3( 0f, 1f,-1f), new Vector3( 0f,-1f,-1f),
+                                        new Vector3( 1f, 1f, 0f), new Vector3(-1f, 1f, 0f), new Vector3( 0f,-1f, 1f), new Vector3( 0f,-1f,-1f)};
+        const int gradientsMask3D = 15;
+        #endregion
 
+        #region Value Noise
         public static float Value1D (Vector3 point, float frequency)
         {
             point *= frequency;
@@ -133,7 +143,9 @@ namespace Procedural
             tz = Smooth(tz);
             return Mathf.Lerp(Mathf.Lerp(Mathf.Lerp(h000, h100, tx), Mathf.Lerp(h010, h110, tx), ty), Mathf.Lerp(Mathf.Lerp(h001, h101, tx), Mathf.Lerp(h011, h111, tx), ty), tz) * (1f / hashMask);
         }
+        #endregion
 
+        #region Perlin Noise
         public static float Perlin1D(Vector3 point, float frequency)
         {
             NoiseMethod[][] noiseMethods = { valueMethods, perlinMethods };
@@ -191,9 +203,12 @@ namespace Procedural
             int ix0 = Mathf.FloorToInt(point.x);
             int iy0 = Mathf.FloorToInt(point.y);
             int iz0 = Mathf.FloorToInt(point.z);
-            float tx = point.x - ix0;
-            float ty = point.y - iy0;
-            float tz = point.z - iz0;
+            float tx0 = point.x - ix0;
+            float ty0 = point.y - iy0;
+            float tz0 = point.z - iz0;
+            float tx1 = tx0 - 1;
+            float ty1 = ty0 - 1;
+            float tz1 = tz0 - 1;
             ix0 &= hashMask;
             iy0 &= hashMask;
             iz0 &= hashMask;
@@ -207,21 +222,32 @@ namespace Procedural
             int h10 = hash[h1 + iy0];
             int h01 = hash[h0 + iy1];
             int h11 = hash[h1 + iy1];
-            int h000 = hash[h00 + iz0];
-            int h100 = hash[h10 + iz0];
-            int h010 = hash[h01 + iz0];
-            int h110 = hash[h11 + iz0];
-            int h001 = hash[h00 + iz1];
-            int h101 = hash[h10 + iz1];
-            int h011 = hash[h01 + iz1];
-            int h111 = hash[h11 + iz1];
+            Vector3 g000 = gradients3D[hash[h00 + iz0] & gradientsMask3D];
+            Vector3 g100 = gradients3D[hash[h10 + iz0] & gradientsMask3D];
+            Vector3 g010 = gradients3D[hash[h01 + iz0] & gradientsMask3D];
+            Vector3 g110 = gradients3D[hash[h11 + iz0] & gradientsMask3D];
+            Vector3 g001 = gradients3D[hash[h00 + iz1] & gradientsMask3D];
+            Vector3 g101 = gradients3D[hash[h10 + iz1] & gradientsMask3D];
+            Vector3 g011 = gradients3D[hash[h01 + iz1] & gradientsMask3D];
+            Vector3 g111 = gradients3D[hash[h11 + iz1] & gradientsMask3D];
 
-            tx = Smooth(tx);
-            ty = Smooth(ty);
-            tz = Smooth(tz);
-            return Mathf.Lerp(Mathf.Lerp(Mathf.Lerp(h000, h100, tx), Mathf.Lerp(h010, h110, tx), ty), Mathf.Lerp(Mathf.Lerp(h001, h101, tx), Mathf.Lerp(h011, h111, tx), ty), tz) * (1f / hashMask);
+            float v000 = Dot(g000, tx0, ty0, tz0);
+            float v100 = Dot(g100, tx1, ty0, tz0);
+            float v010 = Dot(g010, tx0, ty1, tz0);
+            float v110 = Dot(g110, tx1, ty1, tz0);
+            float v001 = Dot(g001, tx0, ty0, tz1);
+            float v101 = Dot(g101, tx1, ty0, tz1);
+            float v011 = Dot(g011, tx0, ty1, tz1);
+            float v111 = Dot(g111, tx1, ty1, tz1);
+
+            float tx = Smooth(tx0);
+            float ty = Smooth(ty0);
+            float tz = Smooth(tz0);
+            return Mathf.Lerp(Mathf.Lerp(Mathf.Lerp(v000, v100, tx), Mathf.Lerp(v010, v110, tx), ty), Mathf.Lerp(Mathf.Lerp(v001, v101, tx), Mathf.Lerp(v011, v111, tx), ty), tz);
         }
+        #endregion
 
+        #region Utility Functions
         static float Smooth(float t)
         {
             return t * t * t * (t * (t * 6f - 15f) + 10f);
@@ -231,5 +257,26 @@ namespace Procedural
         {
             return g.x * x + g.y * y;
         }
+
+        static float Dot(Vector3 g, float x, float y, float z)
+        {
+            return g.x * x + g.y * y + g.z * z;
+        }
+
+        public static float Sum(NoiseMethod method, Vector3 point, float frequency, int octaves, float lacunarity, float persistence)
+        {
+            float sum = method(point, frequency);
+            float amplitude = 1f;
+            float range = 1f;
+            for (int o = 1; o < octaves; o++)
+            {
+                frequency *= lacunarity;
+                amplitude *= persistence;
+                range += amplitude;
+                sum += method(point, frequency) * amplitude;
+            }
+            return sum / range;
+        }
+        #endregion
     }
 }
