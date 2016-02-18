@@ -1,9 +1,5 @@
 ﻿using UnityEngine;
 
-public struct NoiseSample { public float value; public Vector3 derivative; }
-
-public delegate NoiseSample NoiseMethod(Vector3 point, float frequency);
-
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class SurfaceCreator : MonoBehaviour
 {
@@ -41,6 +37,8 @@ public class SurfaceCreator : MonoBehaviour
     public bool damping = false;
 
     public bool showNormals;
+
+    public bool analyticalDerivatives;
 
     Mesh mesh;
     Vector3[] vertices;
@@ -90,25 +88,28 @@ public class SurfaceCreator : MonoBehaviour
             for (int x = 0; x <= res; x++, n++)
             {
                 Vector3 point = Vector3.Lerp(point0, point1, (float)x / res);
-                float sample = Procedural.Noise.Sum(method, point, frequency, octaves, lacunarity, persistence);
+                NoiseSample sample = Procedural.Noise.Sum(method, point, frequency, octaves, lacunarity, persistence);
                 sample = type == Procedural.NoiseMethodType.Value ? (sample - 0.5f) : (sample * 0.5f);
                 if (coloringForStrength)
                 {
-                    colors[n] = coloring.Evaluate(sample + 0.5f);
+                    colors[n] = coloring.Evaluate(sample.value + 0.5f);
                     sample *= amplitude;
                 }
                 else
                 {
                     sample *= amplitude;
-                    colors[n] = coloring.Evaluate(sample + 0.5f);
+                    colors[n] = coloring.Evaluate(sample.value + 0.5f);
                 }
-                vertices[n].y = sample;
+                vertices[n].y = sample.value;
+                if(analyticalDerivatives)
+                    normals[n] = new Vector3(-sample.derivative.x, 1f, -sample.derivative.y).normalized;
             }
         }
         mesh.vertices = vertices;
         mesh.colors = colors;
         mesh.RecalculateNormals();
-        CalculateNormals();
+        if(!analyticalDerivatives)
+            CalculateNormals();
     }
 
     void CreateGrid()
@@ -214,5 +215,71 @@ public class SurfaceCreator : MonoBehaviour
             scale = res;
         }
         return (forward - back) * scale;
+    }
+}
+
+public struct NoiseSample
+{
+    public float value;
+    public Vector3 derivative;
+
+    public static NoiseSample operator +(NoiseSample a, NoiseSample b)
+    {
+        a.value += b.value;
+        a.derivative += b.derivative;
+        return a;
+    }
+
+    public static NoiseSample operator +(float a, NoiseSample b)
+    {
+        b.value += a;
+        return b;
+    }
+
+    public static NoiseSample operator +(NoiseSample a, float b)
+    {
+        a.value += b;
+        return a;
+    }
+
+    public static NoiseSample operator -(NoiseSample a, NoiseSample b)
+    {
+        a.value -= b.value;
+        a.derivative -= b.derivative;
+        return a;
+    }
+
+    public static NoiseSample operator -(float a, NoiseSample b)
+    {
+        b.value = a - b.value;
+        b.derivative = -b.derivative;
+        return b;
+    }
+
+    public static NoiseSample operator -(NoiseSample a, float b)
+    {
+        a.value -= b;
+        return a;
+    }
+
+    public static NoiseSample operator *(NoiseSample a, NoiseSample b)
+    {
+        a.derivative = a.derivative * b.value + b.derivative * a.value;
+        a.value *= b.value;
+        return a;
+    }
+
+    public static NoiseSample operator *(float a, NoiseSample b)
+    {
+        b.value *= a;
+        b.derivative *= a;
+        return b;
+    }
+
+    public static NoiseSample operator *(NoiseSample a, float b)
+    {
+        a.value *= b;
+        a.derivative *= b;
+        return a;
     }
 }

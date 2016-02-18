@@ -2,7 +2,7 @@
 
 namespace Procedural
 {
-    public delegate float NoiseMethod(Vector3 point, float frequency);
+    public delegate NoiseSample NoiseMethod(Vector3 point, float frequency);
 
     public enum NoiseMethodType { Value, Perlin}
 
@@ -68,7 +68,7 @@ namespace Procedural
         #endregion
 
         #region Value Noise
-        public static float Value1D (Vector3 point, float frequency)
+        public static NoiseSample Value1D (Vector3 point, float frequency)
         {
             point *= frequency;
             int i0 = Mathf.FloorToInt(point.x);
@@ -80,7 +80,13 @@ namespace Procedural
             int h1 = hash[i1];
 
             t = Smooth(t);
-            return Mathf.Lerp(h0, h1, t) * (1f / hashMask);
+            NoiseSample sample;
+            sample.value = Mathf.Lerp(h0, h1, t);
+            sample.derivative.x = 0f;
+            sample.derivative.y = 0f;
+            sample.derivative.z = 0f;
+            sample.derivative *= frequency;
+            return sample * (1f / hashMask);
         }
 
         public static float Value2D (Vector3 point, float frequency)
@@ -253,6 +259,11 @@ namespace Procedural
             return t * t * t * (t * (t * 6f - 15f) + 10f);
         }
 
+        static float SmoothDerivative (float t)
+        {
+            return 30f * t * t * (t * (t - 2f) + 1f);
+        }
+
         static float Dot(Vector2 g, float x, float y)
         {
             return g.x * x + g.y * y;
@@ -263,9 +274,9 @@ namespace Procedural
             return g.x * x + g.y * y + g.z * z;
         }
 
-        public static float Sum(NoiseMethod method, Vector3 point, float frequency, int octaves, float lacunarity, float persistence)
+        public static NoiseSample Sum(NoiseMethod method, Vector3 point, float frequency, int octaves, float lacunarity, float persistence)
         {
-            float sum = method(point, frequency);
+            NoiseSample sum = method(point, frequency);
             float amplitude = 1f;
             float range = 1f;
             for (int o = 1; o < octaves; o++)
@@ -275,7 +286,7 @@ namespace Procedural
                 range += amplitude;
                 sum += method(point, frequency) * amplitude;
             }
-            return sum / range;
+            return sum *(1f / range);
         }
         #endregion
     }
