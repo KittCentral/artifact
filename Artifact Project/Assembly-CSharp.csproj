@@ -108,8 +108,10 @@
      <Compile Include="Assets\Scripts\Campus Map Scripts\BasemapMaker.cs" />
      <Compile Include="Assets\Scripts\Campus Map Scripts\BuildingMaker.cs" />
      <Compile Include="Assets\Scripts\Campus Map Scripts\CameraControl.cs" />
+     <Compile Include="Assets\Scripts\Campus Map Scripts\DestinationSearch.cs" />
      <Compile Include="Assets\Scripts\Campus Map Scripts\FadeInOut.cs" />
      <Compile Include="Assets\Scripts\Campus Map Scripts\FootpathsMaker.cs" />
+     <Compile Include="Assets\Scripts\Campus Map Scripts\OptionsTab.cs" />
      <Compile Include="Assets\Scripts\Campus Map Scripts\Zoomer.cs" />
      <Compile Include="Assets\Scripts\ChatBox.cs" />
      <Compile Include="Assets\Scripts\Chess\BoardPosition.cs" />

@@ -158,20 +158,9 @@ public class BasemapMaker : MonoBehaviour {
 				GameObject.Destroy (squaresInView [i] [j]);
 			}
 		}
-		Start ();
+		if (parent.activeSelf) 
+		{
+			Start ();
+		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

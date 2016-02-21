@@ -43,13 +43,13 @@ public class FadeInOut : MonoBehaviour {
 
 	IEnumerator downloadImage(int xLoc, int yLoc)
 	{
-		int zoomLevel = (int)-Camera.main.transform.position.z - 14;
+		int zoomLevel = (int)-Camera.main.transform.position.z-14;//subtracted 14 for the calculations below- it is added again in the url
+		print (zoomLevel);
 		float xLocationForURL = 3399 * Mathf.Pow (2,zoomLevel) + xLoc;
 		float yLocationForURL = 6205 * Mathf.Pow (2,zoomLevel) - yLoc;//their coordinates start in the top left, ours start in the bottom left -> invert the y axis
 
 		string URL = "http://b.tiles.mapbox.com/v3/cuboulder.cu-"+ numbers[2] + "/" + (zoomLevel+14).ToString() + "/" + xLocationForURL.ToString ()
 			+ "/" + yLocationForURL.ToString () + ".png";
-
 		WWW image = new WWW (URL);
 
 		yield return image;
