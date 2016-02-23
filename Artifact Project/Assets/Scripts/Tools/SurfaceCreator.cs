@@ -73,6 +73,7 @@ public class SurfaceCreator : MonoBehaviour
         if (res != currentRes)
             CreateGrid();        
         Quaternion q = Quaternion.Euler(rotation);
+        Quaternion qInv = Quaternion.Inverse(q);
         Vector3 point00 = q * transform.TransformPoint(new Vector3(-0.5f, -0.5f)) + offset;
         Vector3 point10 = q * transform.TransformPoint(new Vector3( 0.5f, -0.5f)) + offset;
         Vector3 point01 = q * transform.TransformPoint(new Vector3(-0.5f,  0.5f)) + offset;
@@ -88,6 +89,7 @@ public class SurfaceCreator : MonoBehaviour
             for (int x = 0; x <= res; x++, n++)
             {
                 Vector3 point = Vector3.Lerp(point0, point1, (float)x / res);
+                //print(point);
                 NoiseSample sample = Procedural.Noise.Sum(method, point, frequency, octaves, lacunarity, persistence);
                 sample = type == Procedural.NoiseMethodType.Value ? (sample - 0.5f) : (sample * 0.5f);
                 if (coloringForStrength)
@@ -101,8 +103,12 @@ public class SurfaceCreator : MonoBehaviour
                     colors[n] = coloring.Evaluate(sample.value + 0.5f);
                 }
                 vertices[n].y = sample.value;
-                if(analyticalDerivatives)
-                    normals[n] = new Vector3(-sample.derivative.x, 1f, -sample.derivative.y).normalized;
+                sample.derivative = qInv * sample.derivative;
+                if (analyticalDerivatives)
+                {
+                    normals[n] = new Vector3(-sample.derivative.z, sample.derivative.y, -sample.derivative.x).normalized;
+                    //print(new Vector3(-sample.derivative.z, sample.derivative.y, -sample.derivative.x).normalized + "     " + new Vector3(x, y, 0));
+                }
             }
         }
         mesh.vertices = vertices;
