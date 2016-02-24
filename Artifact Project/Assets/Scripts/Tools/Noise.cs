@@ -2,7 +2,7 @@
 
 namespace Procedural
 {
-    public delegate float NoiseMethod(Vector3 point, float frequency);
+    public delegate NoiseSample NoiseMethod(Vector3 point, float frequency);
 
     public enum NoiseMethodType { Value, Perlin}
 
@@ -68,7 +68,7 @@ namespace Procedural
         #endregion
 
         #region Value Noise
-        public static float Value1D (Vector3 point, float frequency)
+        public static NoiseSample Value1D (Vector3 point, float frequency)
         {
             point *= frequency;
             int i0 = Mathf.FloorToInt(point.x);
@@ -78,18 +78,28 @@ namespace Procedural
 
             int h0 = hash[i0];
             int h1 = hash[i1];
+            float yint = h0;
+            float slope = h1 - h0;
 
+            float dt = SmoothDerivative(t);
             t = Smooth(t);
-            return Mathf.Lerp(h0, h1, t) * (1f / hashMask);
+            NoiseSample sample;
+            sample.value = yint + slope * t;
+            sample.derivative.x = slope * dt;
+            sample.derivative.y = 0f;
+            sample.derivative.z = 0f;
+            sample.derivative *= frequency;
+            return sample * (1f / hashMask);
         }
 
-        public static float Value2D (Vector3 point, float frequency)
+        public static NoiseSample Value2D (Vector3 point, float frequency)
         {
             point *= frequency;
             int ix0 = Mathf.FloorToInt(point.x);
             int iy0 = Mathf.FloorToInt(point.y);
             float tx = point.x - ix0;
             float ty = point.y - iy0;
+            //Debug.Log("TX= " + tx + "  TY= " + ty);
             ix0 &= hashMask;
             iy0 &= hashMask;
             int ix1 = ix0 + 1;
@@ -102,12 +112,27 @@ namespace Procedural
             int h01 = hash[h0 + iy1];
             int h11 = hash[h1 + iy1];
 
+            float dtx = SmoothDerivative(tx);
+            float dty = SmoothDerivative(ty);
+            
             tx = Smooth(tx);
             ty = Smooth(ty);
-            return Mathf.Lerp(Mathf.Lerp(h00, h10, tx), Mathf.Lerp(h01, h11, tx),ty) * (1f / hashMask);
+
+            float yint = h00;
+            float slopeX = h10 - h00;
+            float slopeY = h01 - h00;
+            float slope = h11 - h10 - h01 + h00;
+
+            NoiseSample sample;
+            sample.value = yint + slopeX * tx + slopeY * ty + slope * tx * ty;
+            sample.derivative.x = (slopeX + slope * ty) * dtx;
+            sample.derivative.y = (slopeY + slope * tx) * dty;
+            sample.derivative.z = 0f;
+            sample.derivative *= frequency;
+            return sample * (1f / hashMask);
         }
 
-        public static float Value3D(Vector3 point, float frequency)
+        public static NoiseSample Value3D(Vector3 point, float frequency)
         {
             point *= frequency;
             int ix0 = Mathf.FloorToInt(point.x);
@@ -138,15 +163,35 @@ namespace Procedural
             int h011 = hash[h01 + iz1];
             int h111 = hash[h11 + iz1];
 
+            float dtx = SmoothDerivative(tx);
+            float dty = SmoothDerivative(ty);
+            float dtz = SmoothDerivative(tz);
+            //Debug.Log(dtx + " " + dty + " " + dtz + " " + point);
             tx = Smooth(tx);
             ty = Smooth(ty);
             tz = Smooth(tz);
-            return Mathf.Lerp(Mathf.Lerp(Mathf.Lerp(h000, h100, tx), Mathf.Lerp(h010, h110, tx), ty), Mathf.Lerp(Mathf.Lerp(h001, h101, tx), Mathf.Lerp(h011, h111, tx), ty), tz) * (1f / hashMask);
+
+            float yint = h000;
+            float slopeX = h100 - h000;
+            float slopeY = h010 - h000;
+            float slopeZ = h001 - h000;
+            float slopeXY = h110 - h010 - h100 + h000;
+            float slopeXZ = h101 - h001 - h100 + h000;
+            float slopeYZ = h011 - h001 - h010 + h000;
+            float slope = h111 - h011 - h101 - h110 + h001 + h010 + h100 - h000;
+
+            NoiseSample sample;
+            sample.value = yint + slopeX * tx + slopeY * ty + slopeZ * tz + slopeXY * tx * ty + slopeXZ * tx * tz + slopeYZ * ty * tz + slope * tx * ty * tz;
+            sample.derivative.x = (slopeX + slopeXY * ty + (slopeXZ + slope * ty) * tz) * dtx;
+            sample.derivative.y = (slopeY + slopeXY * tx + (slopeYZ + slope * tx) * tz) * dty;
+            sample.derivative.z = (slopeZ + slopeXZ * tx + (slopeYZ + slope * tx) * ty) * dtz;
+            sample.derivative *= frequency;
+            return sample * (1f / hashMask);
         }
         #endregion
 
         #region Perlin Noise
-        public static float Perlin1D(Vector3 point, float frequency)
+        public static NoiseSample Perlin1D(Vector3 point, float frequency)
         {
             NoiseMethod[][] noiseMethods = { valueMethods, perlinMethods };
             point *= frequency;
@@ -162,11 +207,24 @@ namespace Procedural
             float v0 = g0 * t0;
             float v1 = g1 * t1;
 
+            float dt = SmoothDerivative(t0);
             float t = Smooth(t0);
-            return Mathf.Lerp(v0, v1, t) * 2f;
+
+            float yint = v0;
+            float dyint = g0;
+            float slope = v1 - v0;
+            float dslope = g1 - g0;
+
+            NoiseSample sample;
+            sample.value = yint + slope * t;
+            sample.derivative.x = dyint + dslope * t +  slope * dt;
+            sample.derivative.y = 0f;
+            sample.derivative.z = 0f;
+            sample.derivative *= frequency;
+            return sample * 2f;
         }
 
-        public static float Perlin2D(Vector3 point, float frequency)
+        public static NoiseSample Perlin2D(Vector3 point, float frequency)
         {
             point *= frequency;
             int ix0 = Mathf.FloorToInt(point.x);
@@ -192,12 +250,32 @@ namespace Procedural
             float v01 = Dot(g01, tx0, ty1);
             float v11 = Dot(g11, tx1, ty1);
 
+            float dtx = SmoothDerivative(tx0);
+            float dty = SmoothDerivative(ty0);
             float tx = Smooth(tx0);
             float ty = Smooth(ty0);
-            return Mathf.Lerp(Mathf.Lerp(v00, v10, tx), Mathf.Lerp(v01, v11, tx), ty) * Mathf.Sqrt(2f);
+
+            float yint = v00;
+            float slopeX = v10 - v00;
+            float slopeY = v01 - v00;
+            float slope = v11 - v01 - v10 + v00;
+
+            Vector2 dyint = g00;
+            Vector2 dslopeX = g10 - g00;
+            Vector2 dslopeY = g01 - g00;
+            Vector2 dslope = g11 - g01 - g10 + g00;
+
+            NoiseSample sample;
+            sample.value = yint + slopeX * tx + (slopeY + slope * tx) * ty;
+            sample.derivative = dyint + dslopeX * tx + (dslopeY + dslope * tx) * ty;
+            sample.derivative.x += (slopeX + slope * ty) * dtx;
+            sample.derivative.y += (slopeY + slope * tx) * dty;
+            sample.derivative.z = 0f;
+            sample.derivative *= frequency;
+            return sample * Mathf.Sqrt(2);
         }
 
-        public static float Perlin3D(Vector3 point, float frequency)
+        public static NoiseSample Perlin3D(Vector3 point, float frequency)
         {
             point *= frequency;
             int ix0 = Mathf.FloorToInt(point.x);
@@ -240,10 +318,39 @@ namespace Procedural
             float v011 = Dot(g011, tx0, ty1, tz1);
             float v111 = Dot(g111, tx1, ty1, tz1);
 
+            float dtx = SmoothDerivative(tx0);
+            float dty = SmoothDerivative(ty0);
+            float dtz = SmoothDerivative(tz0);
             float tx = Smooth(tx0);
             float ty = Smooth(ty0);
             float tz = Smooth(tz0);
-            return Mathf.Lerp(Mathf.Lerp(Mathf.Lerp(v000, v100, tx), Mathf.Lerp(v010, v110, tx), ty), Mathf.Lerp(Mathf.Lerp(v001, v101, tx), Mathf.Lerp(v011, v111, tx), ty), tz);
+
+            float yint = v000;
+            float slopeX = v100 - v000;
+            float slopeY = v010 - v000;
+            float slopeZ = v001 - v000;
+            float slopeXY = v110 - v010 - v100 + v000;
+            float slopeXZ = v101 - v001 - v100 + v000;
+            float slopeYZ = v011 - v001 - v010 + v000;
+            float slope = v111 - v011 - v101 + v001 - v110 + v010 + v100 - v000;
+
+            Vector3 dyint = g000;
+            Vector3 dslopeX = g100 - g000;
+            Vector3 dslopeY = g010 - g000;
+            Vector3 dslopeZ = g001 - g000;
+            Vector3 dslopeXY = g110 - g010 - g100 + g000;
+            Vector3 dslopeXZ = g101 - g001 - g100 + g000;
+            Vector3 dslopeYZ = g011 - g001 - g010 + g000;
+            Vector3 dslope = g111 - g011 - g101 + g001 - g110 + g010 + g100 - g000;
+
+            NoiseSample sample;
+            sample.value = yint + slopeX * tx + (slopeY + slopeXY * tx) * ty + (slopeZ + slopeXZ * tx + (slopeYZ + slope * tx) * ty) * tz;
+            sample.derivative = dyint + dslopeX * tx + (dslopeY + dslopeXY * tx) * ty + (dslopeZ + dslopeXZ * tx + (dslopeYZ + dslope * tx) * ty) * tz;
+            sample.derivative.x += (slopeX + slopeXY * ty + (slopeXZ + slope * ty) * tz) * dtx;
+            sample.derivative.y += (slopeY + slopeXY * tx + (slopeYZ + slope * tx) * tz) * dty;
+            sample.derivative.z += (slopeZ + slopeXZ * tx + (slopeYZ + slope * tx) * ty) * dtz;
+            sample.derivative *= frequency;
+            return sample;
         }
         #endregion
 
@@ -251,6 +358,11 @@ namespace Procedural
         static float Smooth(float t)
         {
             return t * t * t * (t * (t * 6f - 15f) + 10f);
+        }
+
+        static float SmoothDerivative (float t)
+        {
+            return 30f * t * t * (t * (t - 2f) + 1f);
         }
 
         static float Dot(Vector2 g, float x, float y)
@@ -263,9 +375,9 @@ namespace Procedural
             return g.x * x + g.y * y + g.z * z;
         }
 
-        public static float Sum(NoiseMethod method, Vector3 point, float frequency, int octaves, float lacunarity, float persistence)
+        public static NoiseSample Sum(NoiseMethod method, Vector3 point, float frequency, int octaves, float lacunarity, float persistence)
         {
-            float sum = method(point, frequency);
+            NoiseSample sum = method(point, frequency);
             float amplitude = 1f;
             float range = 1f;
             for (int o = 1; o < octaves; o++)
@@ -275,7 +387,7 @@ namespace Procedural
                 range += amplitude;
                 sum += method(point, frequency) * amplitude;
             }
-            return sum / range;
+            return sum * (1f / range);
         }
         #endregion
     }
