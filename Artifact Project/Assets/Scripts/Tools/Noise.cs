@@ -114,7 +114,7 @@ namespace Procedural
 
             float dtx = SmoothDerivative(tx);
             float dty = SmoothDerivative(ty);
-            //Debug.Log(dtx + " " + dty + " " + point);
+            
             tx = Smooth(tx);
             ty = Smooth(ty);
 
@@ -166,6 +166,7 @@ namespace Procedural
             float dtx = SmoothDerivative(tx);
             float dty = SmoothDerivative(ty);
             float dtz = SmoothDerivative(tz);
+            //Debug.Log(dtx + " " + dty + " " + dtz + " " + point);
             tx = Smooth(tx);
             ty = Smooth(ty);
             tz = Smooth(tz);

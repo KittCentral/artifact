@@ -227,7 +227,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1391694373}
   m_LocalRotation: {x: -0.029835394, y: 0.86069584, z: -0.4491913, w: -0.23778106}
-  m_LocalPosition: {x: 2.09, y: 3.62, z: 2.85}
+  m_LocalPosition: {x: 0.373, y: 0.592, z: 0.492}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -261,32 +261,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ab363812e803fb46b0ca9ee7e9b2325, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  res: 4
+  res: 150
   offset: {x: 0, y: 0, z: 0}
   rotation: {x: 0, y: 0, z: 0}
   strength: 1
-  frequency: 0.4
-  octaves: 1
+  frequency: 1.2
+  octaves: 5
   lacunarity: 1.79
   persistence: 0.43
-  dimensions: 2
-  type: 0
+  dimensions: 3
+  type: 1
   coloring:
     key0:
       serializedVersion: 2
-      rgba: 4294967295
+      rgba: 4280424705
     key1:
       serializedVersion: 2
-      rgba: 4286693095
+      rgba: 4287328032
     key2:
       serializedVersion: 2
       rgba: 4038521
     key3:
       serializedVersion: 2
-      rgba: 9137952
+      rgba: 8503015
     key4:
       serializedVersion: 2
-      rgba: 2234625
+      rgba: 16777215
     key5:
       serializedVersion: 2
       rgba: 16777215
@@ -315,8 +315,8 @@ MonoBehaviour:
     m_NumColorKeys: 5
     m_NumAlphaKeys: 2
   coloringForStrength: 1
-  damping: 0
-  showNormals: 1
+  damping: 1
+  showNormals: 0
   analyticalDerivatives: 1
 --- !u!23 &1920536500
 MeshRenderer:
@@ -357,9 +357,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1920536498}
-  m_LocalRotation: {x: 0, y: 0, z: 1, w: -0.00000016292068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2

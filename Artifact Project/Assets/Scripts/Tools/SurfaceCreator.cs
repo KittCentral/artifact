@@ -63,7 +63,7 @@ public class SurfaceCreator : MonoBehaviour
             Gizmos.color = Color.yellow;
             for (int v = 0; v < vertices.Length; v++)
             {
-                Gizmos.DrawRay(5 * new Vector3(-1 * vertices[v].x, -1 * vertices[v].y, vertices[v].z), new Vector3(-1 * normals[v].x, -1 * normals[v].y, normals[v].z) / res);
+                Gizmos.DrawRay(vertices[v],normals[v] / res);
             }
         }
     }
@@ -105,16 +105,13 @@ public class SurfaceCreator : MonoBehaviour
                 vertices[n].y = sample.value;
                 sample.derivative = qInv * sample.derivative;
                 if (analyticalDerivatives)
-                {
-                    normals[n] = new Vector3(-sample.derivative.z, sample.derivative.y, -sample.derivative.x).normalized;
-                    //print(new Vector3(-sample.derivative.z, sample.derivative.y, -sample.derivative.x).normalized + "     " + new Vector3(x, y, 0));
-                }
+                    normals[n] = new Vector3(-sample.derivative.x, 1f, -sample.derivative.y).normalized;
             }
         }
         mesh.vertices = vertices;
         mesh.colors = colors;
         mesh.RecalculateNormals();
-        if(!analyticalDerivatives)
+        if (!analyticalDerivatives)
             CalculateNormals();
     }
 
@@ -122,39 +119,40 @@ public class SurfaceCreator : MonoBehaviour
     {
         currentRes = res;
         mesh.Clear();
-
         vertices = new Vector3[(res + 1) * (res + 1)];
-        normals = new Vector3[vertices.Length];
         colors = new Color[vertices.Length];
-
-        Vector2[] uvs = new Vector2[vertices.Length];
-        int[] tris = new int[res * res * 6];
-        
-        int t, n = 0, triCount = 0;
-        for (int x = 0; x <= res; x++)
+        normals = new Vector3[vertices.Length];
+        Vector2[] uv = new Vector2[vertices.Length];
+        float stepSize = 1f / res;
+        for (int v = 0, z = 0; z <= res; z++)
         {
-            for (int z = 0; z <= res; z++, n++)
+            for (int x = 0; x <= res; x++, v++)
             {
-                vertices[n] = new Vector3(((float)x / res) - 0.5f, 0f, ((float)z / res) - 0.5f);
-                normals[n] = Vector3.down;
-                uvs[n] = new Vector2((float)x / res, (float)z / res);
-                if( x != res && z != res)
-                {
-                    t = x * (res + 1) + z;
-                    tris[6 * triCount] = t;
-                    tris[6 * triCount + 1] = t + res + 1;
-                    tris[6 * triCount + 2] = t + 1;
-                    tris[6 * triCount + 3] = t + 1;
-                    tris[6 * triCount + 4] = t + res + 1;
-                    tris[6 * triCount + 5] = t + res + 2;
-                    triCount++;
-                }
+                vertices[v] = new Vector3(x * stepSize - 0.5f, 0f, z * stepSize - 0.5f);
+                colors[v] = Color.black;
+                normals[v] = Vector3.up;
+                uv[v] = new Vector2(x * stepSize, z * stepSize);
             }
         }
         mesh.vertices = vertices;
+        mesh.colors = colors;
         mesh.normals = normals;
-        mesh.uv = uvs;
-        mesh.triangles = tris;
+        mesh.uv = uv;
+
+        int[] triangles = new int[res * res * 6];
+        for (int t = 0, v = 0, y = 0; y < res; y++, v++)
+        {
+            for (int x = 0; x < res; x++, v++, t += 6)
+            {
+                triangles[t] = v;
+                triangles[t + 1] = v + res + 1;
+                triangles[t + 2] = v + 1;
+                triangles[t + 3] = v + 1;
+                triangles[t + 4] = v + res + 1;
+                triangles[t + 5] = v + res + 2;
+            }
+        }
+        mesh.triangles = triangles;
     }
 
     void CalculateNormals ()
