@@ -68,7 +68,7 @@ namespace Voxel
                     {
                         float tempH = Mathf.Round(currentPoint.y);
                         currentPoint.y += (2 * x + (offset == 1 ? 2 : 3)) % 3;
-                        currentPoint.y = (tempH - Mathf.Round(currentPoint.y))/3 + tempH;
+                        currentPoint.y = 2 * (tempH - Mathf.Round(currentPoint.y))/3 + tempH;
                     }
                     
                     if (distorted)
@@ -99,7 +99,7 @@ namespace Voxel
                 v.CopyTo(uVerts, i * wid);
                 i++;
             }
-            foreach (var vert in uVerts) { print(vert); }
+            //foreach (var vert in uVerts) { print(vert); }
             if (show)
                 ShowVertices(uVerts);
             /*
@@ -145,11 +145,13 @@ namespace Voxel
             {
                 for (int y = 0; y < chunkHeight; y++)
                 {
-                    Vector3 center = new Vector3(basePoint.x, basePoint.y + y, basePoint.z);
+                    Vector3 center = new Vector3(basePoint.x, basePoint.y + 2 * y, basePoint.z);
                     if (Land(center))
                     {
                         GameObject copy = Instantiate(dot, center, new Quaternion(0, 0, 0, 0)) as GameObject;
                         copy.transform.parent = gameObject.transform;
+                        print(center);
+                        print(PosToHex(center).x + ", " + PosToHex(center).y + ", " + PosToHex(center).z);
                         hits[PosToHex(center).x, PosToHex(center).y, PosToHex(center).z] = true;
                     }
                 }
@@ -164,6 +166,12 @@ namespace Voxel
                             FaceBuilder(HexToPos(new WorldPos(x, y, z)), ref verts, ref tris, ref i);
                     }
                 }
+            }
+            i = 0;
+            foreach (var vert in verts)
+            {
+                verts[i] = new Vector3(vert.x, vert.y * 2, vert.z);
+                i++;
             }
             MeshFilter filter = gameObject.GetComponent<MeshFilter>();
             filter.mesh.Clear();
@@ -244,7 +252,7 @@ namespace Voxel
 
         public static float GetNoise(Vector3 pos, float scale, int max)
         {
-            return (Noise.Generate(pos.x * scale, pos.y * scale, pos.z * scale) + 1.0f) * (max / 2.0f);
+            return Procedural.Noise.noiseMethods[1][2](pos, scale * 4).value * 20 + 10;
         }
 
         float GetHeight(float x, float z)
@@ -263,7 +271,7 @@ namespace Voxel
 
         WorldPos PosToHex (Vector3 point)
         {
-            WorldPos output = new WorldPos(Mathf.CeilToInt(point.x), Mathf.CeilToInt(point.y), (int)point.z);
+            WorldPos output = new WorldPos(Mathf.CeilToInt(point.x), Mathf.CeilToInt(point.y / 2f), (int)point.z);
             output.x -= (int)posOffset.x;
             output.z -= (int)posOffset.y;
             return output;
