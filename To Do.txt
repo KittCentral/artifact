@@ -11,9 +11,9 @@ The Project Timeline section the the Artifact Proposal document needs to be upda
 Cleanup:
 
 Optimize the layout, font, and colors for the projected screen once the projector is set up.
-Aesthetic Rework.
-Darwin's script cleanup
-Getting someone else to work on the project
+Aesthetic Rework (Async Scenes, GUI Controlled Overlays, Conquistador Scene)
+Darwin's script cleanup (Bring Branch up to changes)
+Getting someone else to work on the project (Why do I even bother?)
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -36,13 +36,13 @@ Kinect SDK - Requires Rhett
 
 Ideas:
 <<<<<<< HEAD
-Galaxy Scene dedicated to stars positions and visualization
+Galaxy Scene dedicated to stars positions and visualization (Demo Works)
 Country Info for discovering basic facts about our world and the cultures within it
-Upgrades for Fezzik allowing Internet access
-At least ten simplistic games(Pong)
-Global Run(Temple Run around the world)
-Sandbox Simulation, a voxel-based game for construction
-Scene within a scene display on main page
+Upgrades for Fezzik allowing Internet access (Demo Works)
+At least ten simplistic games(Pong, Maze, Chess)
+Global Run
+Sandbox Simulation, a voxel-based game for construction (Demo Works)
+ASync scene display on Main Page (Demo Works)
 Construction of the Conquistador
 
 ---------------------------------------------------------------------------------------------------------------------------------
@@ -59,8 +59,7 @@ Country Info for discovering basic facts about our world and the cultures within
 -Going to require some kind of zoom
 
 At least ten simplistic games - Three done so far
--George has one
--Aaron has one
+-George has one?
 -Chess needs a computer eventually
 -Maze to include language controls
 -3D Tetris?
@@ -71,14 +70,15 @@ Global Run(Temple Run around the world)
 -Animation for main player
 
 Sandbox Simulation, a voxel-based game for construction
--Delauney Triangulation
--4D Ridged multifractals
+-Multithreading
+-LOD
+-Procedural Mesh Generation
 -Literally the entire game
 
 Scene within a scene display on main page
 -Sketch out plans 
 -Model of the window and floors
--Atmospheric Shader
+-Blur Atmosphere
 -Correct click controls
 -futuristic UI
 

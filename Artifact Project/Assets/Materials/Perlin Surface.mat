@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: CanvasMat
-  m_Shader: {fileID: 4800000, guid: ce588a76eb2e790429602cd3743dd2f7, type: 3}
+  m_Name: Perlin Surface
+  m_Shader: {fileID: 4800000, guid: a87c2661eda91544285d4f9ae282e925, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: 2000
@@ -90,7 +90,7 @@ Material:
       data:
         first:
           name: _Cutoff
-        second: 0.449
+        second: 0.5
       data:
         first:
           name: _Parallax
@@ -127,38 +127,6 @@ Material:
         first:
           name: _Metallic
         second: 0
-      data:
-        first:
-          name: _EmissionScaleUI
-        second: 0
-      data:
-        first:
-          name: _Stencil
-        second: 0
-      data:
-        first:
-          name: _StencilComp
-        second: 8
-      data:
-        first:
-          name: _StencilOp
-        second: 0
-      data:
-        first:
-          name: _StencilReadMask
-        second: 255
-      data:
-        first:
-          name: _StencilWriteMask
-        second: 255
-      data:
-        first:
-          name: _ColorMask
-        second: 15
-      data:
-        first:
-          name: _UseUIAlphaClip
-        second: 0
     m_Colors:
       data:
         first:
@@ -167,8 +135,4 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 1, g: 1, b: 1, a: 1}
-      data:
-        first:
-          name: _EmissionColorUI
         second: {r: 1, g: 1, b: 1, a: 1}
