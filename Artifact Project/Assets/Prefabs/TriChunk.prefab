@@ -92,9 +92,9 @@ MonoBehaviour:
   approximate: 1
   distorted: 0
   zeroed: 0
-  show: 1
-  chunkSize: 16
-  chunkHeight: 16
+  show: 0
+  chunkSize: 10
+  chunkHeight: 10
   spacing: 1
   maxHeight: 3
   posOffset: {x: 0, y: 0}
@@ -113,7 +113,7 @@ Prefab:
       objectReference: {fileID: 2100000, guid: 025cbf9d232c99f4bb5a2e86929f2cd7, type: 2}
     - target: {fileID: 0}
       propertyPath: chunkSize
-      value: 16
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: colliderBool
@@ -125,7 +125,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: chunkHeight
-      value: 16
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: approximate
@@ -137,7 +137,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: show
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: point

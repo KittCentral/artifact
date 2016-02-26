@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using SimplexNoise;
 
 namespace Voxel
 {
@@ -25,14 +23,23 @@ namespace Voxel
         public TriWorld world;
         public GameObject dot;
         bool[,,] hits;
+        Vector3[] uVerts;
+
+        float noiseScale = 0.05f;
+
+        Vector3[] tetraPoints = { new Vector3(0, 0, 0), new Vector3(0, 0, 2), new Vector3(Mathf.Sqrt(3), 0, 1), new Vector3(Mathf.Sqrt(3), 0, -1),
+            new Vector3(Mathf.Sqrt(3) / 3, 4f / 3f, 1), new Vector3(Mathf.Sqrt(3) / 3, -2f / 3f, 1),
+            new Vector3(2 * Mathf.Sqrt(3) / 3, 2f / 3f, 0), new Vector3(2 * Mathf.Sqrt(3) / 3, -4f / 3f, 0)};
+        static int[] tetra1 = { 0, 1, 2, 4 };
+        static int[] tetra2 = { 0, 1, 2, 5 };
+        static int[] tetra3 = { 0, 2, 3, 6 };
+        static int[] tetra4 = { 0, 2, 3, 7 };
+        static int[][] tetras = { tetra1, tetra2, tetra3, tetra4 };
 
         void Start()
         {
-            //print(HexToPos(new WorldPos(0, 0, 0)));
             hits = new bool[chunkSize, chunkSize, chunkSize - 1];
             GenerateMesh(chunkSize);
-            //Vector3 testPoint = new Vector3(-30.5f, -2f / 3f, -15f);
-            //print(PosToHex(testPoint).x + ", " + PosToHex(testPoint).y + ", " + PosToHex(testPoint).z);
             
         }
 
@@ -91,7 +98,7 @@ namespace Voxel
                 }
             }
 
-            Vector3[] uVerts = new Vector3[wid * (wid - 1)];
+            uVerts = new Vector3[wid * (wid - 1)];
             
             int i = 0;
             foreach (Vector3[] v in verts)
@@ -99,32 +106,34 @@ namespace Voxel
                 v.CopyTo(uVerts, i * wid);
                 i++;
             }
-            //foreach (var vert in uVerts) { print(vert); }
-            if (show)
-                ShowVertices(uVerts);
-            /*
-            MeshFilter filter = gameObject.GetComponent<MeshFilter>();
-            filter.mesh.Clear();
-            filter.mesh.vertices = uVerts;
-            filter.mesh.triangles = tris.ToArray();
-            filter.mesh.uv = uvs.ToArray();
-            filter.mesh.RecalculateBounds();
-            filter.mesh.RecalculateNormals();
-
-            if (colliderBool)
-            {
-                MeshCollider coll = gameObject.GetComponent<MeshCollider>();
-                coll.sharedMesh = null;
-                Mesh mesh = new Mesh();
-                mesh.vertices = uVerts;
-                mesh.triangles = tris.ToArray();
-                mesh.RecalculateNormals();
-                coll.sharedMesh = mesh;
-            }
-            */
+            ShowVertices(uVerts);
         }
 
-        
+        void OnDrawGizmosSelected ()
+        {
+            for(int i = 0; i < chunkSize; i++)
+            {
+                for (int j = 0; j < chunkSize; j++)
+                {
+                    for (int k = 0; k < chunkSize - 1; k++)
+                    {
+                        if (hits[i, j, k])
+                        {
+                            Vector3 vert = HexToPos(new WorldPos(i, j, k));
+                            vert = new Vector3(vert.x * Mathf.Sqrt(3) / 1.5f, vert.y * 2, vert.z);
+                            //Gizmos.color = Color.gray;
+                           // Gizmos.DrawSphere(vert, .2f);
+                            if (show)
+                            {
+                                Vector3 dir = Procedural.Noise.noiseMethods[1][2](vert, noiseScale).derivative.normalized;
+                                Gizmos.color = Color.yellow;
+                                Gizmos.DrawRay(vert, dir);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         public static Vector3 Distort(Vector3 input)
         {
@@ -146,11 +155,12 @@ namespace Voxel
                 for (int y = 0; y < chunkHeight; y++)
                 {
                     Vector3 center = new Vector3(basePoint.x, basePoint.y + y, basePoint.z);
-                    if (Land(center))
+                    if (Land(center) && GradientCheck(center))
                     {
-                        GameObject copy = Instantiate(dot, new Vector3(center.x * Mathf.Sqrt(3) / 1.5f, center.y * 2, center.z) , new Quaternion(0, 0, 0, 0)) as GameObject;
-                        copy.transform.parent = gameObject.transform;
                         hits[PosToHex(center).x, PosToHex(center).y, PosToHex(center).z] = true;
+                        GameObject copy = Instantiate(dot, new Vector3(center.x * Mathf.Sqrt(3) / 1.5f, center.y * 2, center.z) , new Quaternion(0, 0, 0, 0)) as GameObject;
+
+                        copy.transform.parent = gameObject.transform;
                     }
                 }
             }
@@ -180,16 +190,43 @@ namespace Voxel
             filter.mesh.RecalculateNormals();
         }
 
+        bool GradientCheck(Vector3 point)
+        {
+            Vector3 normal = Procedural.Noise.noiseMethods[1][2](point, noiseScale).derivative.normalized * 2;
+            if (GetNoise(point + normal, noiseScale, 15) > .75f && GetNoise(point - normal, noiseScale, 15) < .75f)
+                return true;
+            return false;
+        }
+
         bool Land(Vector3 point)
         {
             if(zeroed)
                 return point.y <= 3;
             else
-                return GetNoise(point, .05f, 15) < .75f;
+                return GetNoise(point, noiseScale, 15) < .75f;
         }
 
         void FaceBuilder(Vector3 center, ref List<Vector3> verts, ref List<int> tris, ref int i)
         {
+            bool[] checks = new bool[8];
+            for (int index = 0; index < 8; index++)
+            {
+                checks[index] = Land(center + tetraPoints[index]);
+            }
+            for (int index = 0; index < 4; index++)
+            {
+                List<Vector3> points = new List<Vector3>();
+                for (int j = 0; j < 4; j++)
+                {
+                    if (checks[tetras[index][j]])
+                        points.Add(center + tetraPoints[tetras[index][j]]);
+                }
+                if (points.Count == 4)
+                    BuildTetra(points, center);
+                else if (points.Count == 3)
+                    BuildInnerFace(points, center);
+            }
+            /*
             if (TopFlatCheck(center))
             {
                 verts.Add(center);
@@ -222,6 +259,17 @@ namespace Voxel
                 for (int index = 0; index < 3; index++) { tris.Add(index + 3 * i); }
                 i++;
             }
+            */
+        }
+
+        void BuildTetra(List<Vector3> points, Vector3 center)
+        {
+
+        }
+
+        void BuildInnerFace(List<Vector3> points, Vector3 center)
+        {
+
         }
 
         bool TopFlatCheck(Vector3 center)
@@ -250,7 +298,7 @@ namespace Voxel
 
         public static float GetNoise(Vector3 pos, float scale, int max)
         {
-            return Procedural.Noise.noiseMethods[1][2](pos, scale * 4).value * 20 + 10;
+            return Procedural.Noise.noiseMethods[1][2](pos, scale).value * 20 + 10;
         }
 
         float GetHeight(float x, float z)
