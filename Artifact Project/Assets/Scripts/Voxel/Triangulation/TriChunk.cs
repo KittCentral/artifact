@@ -27,9 +27,9 @@ namespace Voxel
 
         float noiseScale = 0.05f;
 
-        Vector3[] tetraPoints = { new Vector3(0, 0, 0), new Vector3(0, 0, 2), new Vector3(Mathf.Sqrt(3), 0, 1), new Vector3(Mathf.Sqrt(3), 0, -1),
-            new Vector3(Mathf.Sqrt(3) / 3, 4f / 3f, 1), new Vector3(Mathf.Sqrt(3) / 3, -2f / 3f, 1),
-            new Vector3(2 * Mathf.Sqrt(3) / 3, 2f / 3f, 0), new Vector3(2 * Mathf.Sqrt(3) / 3, -4f / 3f, 0)};
+        Vector3[] tetraPoints = { new Vector3(0, 0, 0), new Vector3(0, 0, 2), new Vector3(1.5f, 0, 1), new Vector3(1.5f, 0, -1),
+            new Vector3(.5f, 2f / 3f, 1), new Vector3(.5f, -1f / 3f, 1),
+            new Vector3(1, 1f / 3f, 0), new Vector3(1, -2f / 3f, 0)};
         static int[] tetra1 = { 0, 1, 2, 4 };
         static int[] tetra2 = { 0, 1, 2, 5 };
         static int[] tetra3 = { 0, 2, 3, 6 };
@@ -121,8 +121,8 @@ namespace Voxel
                         {
                             Vector3 vert = HexToPos(new WorldPos(i, j, k));
                             vert = new Vector3(vert.x * Mathf.Sqrt(3) / 1.5f, vert.y * 2, vert.z);
-                            //Gizmos.color = Color.gray;
-                           // Gizmos.DrawSphere(vert, .2f);
+                            Gizmos.color = Color.gray;
+                            Gizmos.DrawSphere(vert, .2f);
                             if (show)
                             {
                                 Vector3 dir = Procedural.Noise.noiseMethods[1][2](vert, noiseScale).derivative.normalized;
@@ -158,9 +158,8 @@ namespace Voxel
                     if (Land(center) && GradientCheck(center))
                     {
                         hits[PosToHex(center).x, PosToHex(center).y, PosToHex(center).z] = true;
-                        GameObject copy = Instantiate(dot, new Vector3(center.x * Mathf.Sqrt(3) / 1.5f, center.y * 2, center.z) , new Quaternion(0, 0, 0, 0)) as GameObject;
-
-                        copy.transform.parent = gameObject.transform;
+                        //GameObject copy = Instantiate(dot, new Vector3(center.x * Mathf.Sqrt(3) / 1.5f, center.y * 2, center.z) , new Quaternion(0, 0, 0, 0)) as GameObject;
+                        //copy.transform.parent = gameObject.transform;
                     }
                 }
             }
@@ -168,10 +167,9 @@ namespace Voxel
             {
                 for (int y = 0; y < chunkSize; y++)
                 {
-                    for (int z = 0; z < chunkSize-1; z++)
+                    for (int z = 0; z < chunkSize - 1; z++)
                     {
-                        if(hits[x,y,z])
-                            FaceBuilder(HexToPos(new WorldPos(x, y, z)), ref verts, ref tris, ref i);
+                        FaceBuilder(HexToPos(new WorldPos(x, y, z)), ref verts, ref tris, ref i);
                     }
                 }
             }
@@ -192,7 +190,7 @@ namespace Voxel
 
         bool GradientCheck(Vector3 point)
         {
-            Vector3 normal = Procedural.Noise.noiseMethods[1][2](point, noiseScale).derivative.normalized * 2;
+            Vector3 normal = Procedural.Noise.noiseMethods[1][2](point, noiseScale).derivative.normalized * 2.2f;
             if (GetNoise(point + normal, noiseScale, 15) > .75f && GetNoise(point - normal, noiseScale, 15) < .75f)
                 return true;
             return false;
@@ -209,91 +207,140 @@ namespace Voxel
         void FaceBuilder(Vector3 center, ref List<Vector3> verts, ref List<int> tris, ref int i)
         {
             bool[] checks = new bool[8];
+            bool pullout = true;
+            int vertCount = verts.Count;
             for (int index = 0; index < 8; index++)
             {
-                checks[index] = Land(center + tetraPoints[index]);
+                if (CheckHit(center + tetraPoints[index]))
+                {
+                    checks[index] = true;
+                    pullout = false;
+                }
+                else
+                    checks[index] = false;
+                verts.Add(center + tetraPoints[index]);
             }
-            for (int index = 0; index < 4; index++)
+            if (pullout)
+                return;
+            for (int index = 1; index < 3; index++)
             {
                 List<Vector3> points = new List<Vector3>();
+                int fail = -1;
                 for (int j = 0; j < 4; j++)
                 {
                     if (checks[tetras[index][j]])
                         points.Add(center + tetraPoints[tetras[index][j]]);
+                    else
+                        fail = tetras[index][j];
                 }
                 if (points.Count == 4)
-                    BuildTetra(points, center);
+                {
+                    List<int>[] triTemp = BuildTetra(index);
+                    for(int triSet = 0; triSet < 4; triSet++)
+                    {
+                        foreach(var tri in triTemp[triSet])
+                            tris.Add(tri + vertCount);
+                    }
+                    //GameObject copy = Instantiate(dot, new Vector3(center.x * Mathf.Sqrt(3) / 1.5f, center.y * 2, center.z), new Quaternion(0, 0, 0, 0)) as GameObject;
+                    //copy.transform.parent = gameObject.transform;
+                }
                 else if (points.Count == 3)
-                    BuildInnerFace(points, center);
+                {
+
+                    List<int> triTemp = BuildInnerFace(index, fail);
+                    if(TriNormCheck(center, tetraPoints[fail]))
+                        for (int tri = 0; tri < 3; tri++) { tris.Add(triTemp.ToArray()[tri] + vertCount); }
+                    else
+                        for (int tri = 0; tri < 3; tri++) { tris.Add(triTemp.ToArray()[2-tri] + vertCount); }
+                }
             }
-            /*
-            if (TopFlatCheck(center))
+        }
+
+        List<int>[] BuildTetra(int tetra)
+        {
+            switch (tetra)
             {
-                verts.Add(center);
-                verts.Add(center + new Vector3(1.5f, 0, 1f));
-                verts.Add(center + new Vector3(1.5f, 0, -1f));
-                for (int index = 0; index < 3; index++) { tris.Add(index + 3 * i);}
-                i++;
+                case 0:
+                    return new List<int>[] { new List<int> { 2, 1, 0 }, new List<int> { 2, 4, 1 }, new List<int> { 2, 0, 4 }, new List<int> { 0, 1, 4 } };
+                case 1:
+                    return new List<int>[] { new List<int> { 0, 1, 2 }, new List<int> { 2, 1, 5 }, new List<int> { 2, 5, 0 }, new List<int> { 0, 5, 1 } };
+                case 2:
+                    return new List<int>[] { new List<int> { 3, 2, 0 }, new List<int> { 2, 3, 6 }, new List<int> { 3, 0, 6 }, new List<int> { 0, 2, 6 } };
+                case 3:
+                    return new List<int>[] { new List<int> { 0, 2, 3 }, new List<int> { 3, 2, 7 }, new List<int> { 0, 3, 7 }, new List<int> { 2, 0, 7 } };
+                default:
+                    return new List<int>[] { };
             }
-            if(SideFlatCheck(center))
+        }
+
+        List<int> BuildInnerFace(int tetra, int fail)
+        {
+            switch (tetra)
             {
-                verts.Add(center);
-                verts.Add(center + new Vector3(1.5f, 0, -1f));
-                verts.Add(center + new Vector3(0, 0, -2f));
-                for (int index = 0; index < 3; index++) { tris.Add(index + 3 * i);}
-                i++;
+                case 0:
+                    switch (fail)
+                    {
+                        case 0:
+                            return new List<int> { 2, 1, 4 };
+                        case 1:
+                            return new List<int> { 2, 4, 0 };
+                        case 2:
+                            return new List<int> { 4, 1, 0 };
+                        case 4:
+                            return new List<int> { 2, 0, 1 };
+                        default:
+                            return new List<int> { };
+                    }
+                case 1:
+                    switch (fail)
+                    {
+                        case 0:
+                            return new List<int> { 2, 5, 1 };
+                        case 1:
+                            return new List<int> { 2, 0, 5 };
+                        case 2:
+                            return new List<int> { 5, 0, 1 };
+                        case 5:
+                            return new List<int> { 2, 1, 0 };
+                        default:
+                            return new List<int> { };
+                    }
+                case 2:
+                    switch (fail)
+                    {
+                        case 0:
+                            return new List<int> { 2, 6, 3 };
+                        case 2:
+                            return new List<int> { 3, 6, 0 };
+                        case 3:
+                            return new List<int> { 6, 2, 0 };
+                        case 6:
+                            return new List<int> { 3, 0, 2 };
+                        default:
+                            return new List<int> { };
+                    }
+                case 3:
+                    switch (fail)
+                    {
+                        case 0:
+                            return new List<int> { 3, 7, 2 };
+                        case 2:
+                            return new List<int> { 0, 7, 3 };
+                        case 3:
+                            return new List<int> { 2, 7, 0 };
+                        case 7:
+                            return new List<int> { 0, 3, 2 };
+                        default:
+                            return new List<int> { };
+                    }
+                default:
+                    return new List<int> { };
             }
-            if (TopFlatCheckD(center))
-            {
-                verts.Add(center);
-                verts.Add(center + new Vector3(1.5f, 0, -1f));
-                verts.Add(center + new Vector3(1.5f, 0, 1f));
-                for (int index = 0; index < 3; index++) { tris.Add(index + 3 * i); }
-                i++;
-            }
-            if (SideFlatCheckD(center))
-            {
-                verts.Add(center);
-                verts.Add(center + new Vector3(0, 0, -2f));
-                verts.Add(center + new Vector3(1.5f, 0, -1f));
-                for (int index = 0; index < 3; index++) { tris.Add(index + 3 * i); }
-                i++;
-            }
-            */
         }
 
-        void BuildTetra(List<Vector3> points, Vector3 center)
+        bool TriNormCheck(Vector3 center, Vector3 normal)
         {
-
-        }
-
-        void BuildInnerFace(List<Vector3> points, Vector3 center)
-        {
-
-        }
-
-        bool TopFlatCheck(Vector3 center)
-        {
-            return (CheckHit(center + new Vector3(1.5f, 0, 1f)) && CheckHit(center + new Vector3(1.5f, 0, -1f)) && 
-                !CheckHit(center + new Vector3(1f, 1f/3f, 0)));
-        }
-
-        bool SideFlatCheck(Vector3 center)
-        {
-            return (CheckHit(center + new Vector3(1.5f, 0, -1f)) && CheckHit(center + new Vector3(0, 0, -2f)) && 
-                !CheckHit(center + new Vector3(.5f, 2f/3f, -1f)) && !TopFlatCheck(center + new Vector3(-.5f, 1f / 3f, -1f)));
-        }
-
-        bool TopFlatCheckD(Vector3 center)
-        {
-            return (CheckHit(center + new Vector3(1.5f, 0, 1f)) && CheckHit(center + new Vector3(1.5f, 0, -1f)) &&
-                !CheckHit(center + new Vector3(1f, -(2f / 3f), 0)) && !SideFlatCheckD(center + new Vector3(.5f, -(1f / 3f), 1f)));
-        }
-
-        bool SideFlatCheckD(Vector3 center)
-        {
-            return (CheckHit(center + new Vector3(1.5f, 0, -1f)) && CheckHit(center + new Vector3(0, 0, -2f)) &&
-                !CheckHit(center + new Vector3(.5f, -(1f / 3f), -1f)));
+            return 90 > Vector3.Angle(Procedural.Noise.noiseMethods[1][2](center, noiseScale).derivative, normal);
         }
 
         public static float GetNoise(Vector3 pos, float scale, int max)

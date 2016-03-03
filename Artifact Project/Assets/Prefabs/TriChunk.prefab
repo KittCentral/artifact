@@ -41,7 +41,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: 025cbf9d232c99f4bb5a2e86929f2cd7, type: 2}
+  - {fileID: 2100000, guid: 548e436f7ac689342957b242c1b7c15d, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -93,8 +93,8 @@ MonoBehaviour:
   distorted: 0
   zeroed: 0
   show: 0
-  chunkSize: 10
-  chunkHeight: 10
+  chunkSize: 16
+  chunkHeight: 16
   spacing: 1
   maxHeight: 3
   posOffset: {x: 0, y: 0}
@@ -110,10 +110,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 025cbf9d232c99f4bb5a2e86929f2cd7, type: 2}
+      objectReference: {fileID: 2100000, guid: 548e436f7ac689342957b242c1b7c15d, type: 2}
     - target: {fileID: 0}
       propertyPath: chunkSize
-      value: 10
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: colliderBool
@@ -125,7 +125,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: chunkHeight
-      value: 10
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: approximate
