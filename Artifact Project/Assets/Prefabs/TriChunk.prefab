@@ -41,7 +41,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: 548e436f7ac689342957b242c1b7c15d, type: 2}
+  - {fileID: 2100000, guid: 6954ae7cea23dfb408737e17d91b4869, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -72,7 +72,7 @@ MeshCollider:
   m_GameObject: {fileID: 179026}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Convex: 0
   m_Mesh: {fileID: 0}
@@ -87,16 +87,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e9f54674b7d6cd488aae434c9f81e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderBool: 0
-  dynamic: 0
-  approximate: 1
-  distorted: 0
-  zeroed: 0
-  show: 0
-  chunkSize: 16
-  chunkHeight: 16
-  spacing: 1
-  maxHeight: 3
+  show: 1
   posOffset: {x: 0, y: 0}
   world: {fileID: 0}
   dot: {fileID: 174596, guid: fc0500db90eab094db02f3ccd88e0b60, type: 2}
@@ -110,7 +101,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 548e436f7ac689342957b242c1b7c15d, type: 2}
+      objectReference: {fileID: 2100000, guid: 6954ae7cea23dfb408737e17d91b4869, type: 2}
     - target: {fileID: 0}
       propertyPath: chunkSize
       value: 16
@@ -137,7 +128,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: show
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: point
@@ -151,6 +142,10 @@ Prefab:
       propertyPath: dot
       value: 
       objectReference: {fileID: 174596, guid: fc0500db90eab094db02f3ccd88e0b60, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 179026}

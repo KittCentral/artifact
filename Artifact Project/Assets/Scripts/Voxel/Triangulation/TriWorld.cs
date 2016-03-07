@@ -18,17 +18,11 @@ namespace Voxel
                 {
                     GameObject newChunk = Instantiate(chunk, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0)) as GameObject;
                     TriChunk chunkScript = newChunk.GetComponent<TriChunk>();
-                    int w = chunkScript.chunkSize - 1;
+                    int w = TriChunk.chunkSize - 1;
                     chunkScript.posOffset = new Vector2(x * w, z * (w - 1));
                     chunkScript.world = GetComponent<TriWorld>();
                 }
             }
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
     }
 }
