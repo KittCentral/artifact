@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: ProcHex
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: d657d39878fdf99439c202bf42307c8a, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: 2000
@@ -196,7 +196,7 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 0.7794118, g: 0.7670803, b: 0.3323962, a: 1}
+        second: {r: 0.77205884, g: 0.7563983, b: 0.20436853, a: 1}
       data:
         first:
           name: _SpecColor

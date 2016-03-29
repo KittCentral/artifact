@@ -6,6 +6,8 @@ namespace Voxel
 {
     public class TriWorld : MonoBehaviour
     {
+        public bool pointLoc;
+        public bool show;
         public float size;
         public GameObject chunk;
 

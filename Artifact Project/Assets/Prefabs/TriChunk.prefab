@@ -38,8 +38,8 @@ MeshRenderer:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 179026}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_Materials:
   - {fileID: 2100000, guid: 6954ae7cea23dfb408737e17d91b4869, type: 2}
   m_SubsetIndices: 
@@ -87,7 +87,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e9f54674b7d6cd488aae434c9f81e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  show: 1
   posOffset: {x: 0, y: 0}
   world: {fileID: 0}
   dot: {fileID: 174596, guid: fc0500db90eab094db02f3ccd88e0b60, type: 2}
@@ -144,6 +143,14 @@ Prefab:
       objectReference: {fileID: 174596, guid: fc0500db90eab094db02f3ccd88e0b60, type: 2}
     - target: {fileID: 0}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -34,5 +34,14 @@ namespace Voxel
                 return hash;
             }
         }
+
+        public Vector3 ToVector3()
+        {
+            Vector3 output = new Vector3();
+            output.x = x;
+            output.y = y;
+            output.z = z;
+            return output;
+        }
     }
 }
