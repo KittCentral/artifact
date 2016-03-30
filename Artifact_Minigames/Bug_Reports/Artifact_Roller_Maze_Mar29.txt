@@ -1,0 +1,5 @@
+Bug Report for Unity Project: Artifact_Roller_Maze
+03 29 2016
+
+1. Adding Scripts to buttons casues Unity Editor to crash.
+--Build will freeze on first frame when scripts are enabled. Consider having one level repeating game with no button scripts.
