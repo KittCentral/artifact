@@ -10,43 +10,29 @@ namespace Voxel
 
     public class TriChunk : MonoBehaviour
     {
-        public static int chunkSize = 120;
-        public static int chunkHeight = 24;
+        public static int chunkSize = 16;
+        public static int chunkHeight = 16;
         public Vector2 posOffset = new Vector2();
         public TriWorld world;
         public GameObject dot;
         static bool[,,] hits = new bool[chunkSize, chunkHeight, chunkSize - 1];
         float noiseScale = 0.03f;
 
-        Vector3[] tetraPoints = { new Vector3(0, 0, 0), new Vector3(0, 0, 2), new Vector3(1.5f, 0, 1), new Vector3(1.5f, 0, -1),
-            new Vector3(.5f, 2f / 3f, 1), new Vector3(.5f, -1f / 3f, 1),
-            new Vector3(1, 1f / 3f, 0), new Vector3(1, -2f / 3f, 0)};
-        static int[] tetra1 = { 0, 1, 2, 6 };
-        static int[] tetra2 = { 0, 1, 2, 5 };
-        static int[] tetra3 = { 0, 2, 3, 6 };
-        static int[] tetra4 = { 0, 2, 3, 5 };
+        Vector3[] tetraPoints = { new Vector3(0, 0, 0), new Vector3(1.5f, 0, 1), new Vector3(0, 0, 2), new Vector3(1.5f, 0, -1), new Vector3(.5f, -1f / 3f, 1), new Vector3(1, 1f / 3f, 0)};
+        static int[] tetra1 = { 0, 1, 2, 5 };
+        static int[] tetra2 = { 0, 1, 2, 4 };
+        static int[] tetra3 = { 0, 2, 3, 5 };
+        static int[] tetra4 = { 0, 2, 3, 4 };
         static int[][] tetras = { tetra1, tetra2, tetra3, tetra4 };
 
-        //Holds the tris for any given tetra
-        /*
-        Dictionary<int, List<int>[]> tetraIDs = new Dictionary<int, List<int>[]>
-        {
-            {0, new List<int>[] { new List<int> { 2, 1, 0 }, new List<int> { 2, 4, 1 }, new List<int> { 2, 0, 4 }, new List<int> { 0, 1, 4 } } },
-            {1, new List<int>[] { new List<int> { 0, 1, 2 }, new List<int> { 2, 1, 5 }, new List<int> { 2, 5, 0 }, new List<int> { 0, 5, 1 } } },
-            {2, new List<int>[] { new List<int> { 3, 2, 0 }, new List<int> { 2, 3, 6 }, new List<int> { 3, 0, 6 }, new List<int> { 0, 2, 6 } } },
-            {3, new List<int>[] { new List<int> { 0, 2, 3 }, new List<int> { 3, 2, 7 }, new List<int> { 0, 3, 7 }, new List<int> { 2, 0, 7 } } }
-        };
-        */
 
-        Dictionary<int, List<int>[]> tetraIDsNorm = new Dictionary<int, List<int>[]>
+        Dictionary<int, List<int>[]> tetraIDs = new Dictionary<int, List<int>[]>
         {
             {0, new List<int>[] { new List<int> { 1, 2, 3 }, new List<int> { 0, 3, 2 }, new List<int> { 0, 1, 3 }, new List<int> { 0, 2, 1 } } },
             {1, new List<int>[] { new List<int> { 1, 3, 2 }, new List<int> { 0, 2, 3 }, new List<int> { 0, 3, 1 }, new List<int> { 0, 1, 2 } } },
             {2, new List<int>[] { new List<int> { 1, 2, 3 }, new List<int> { 0, 3, 2 }, new List<int> { 0, 1, 3 }, new List<int> { 0, 2, 1 } } },
             {3, new List<int>[] { new List<int> { 1, 3, 2 }, new List<int> { 0, 2, 3 }, new List<int> { 0, 3, 1 }, new List<int> { 0, 1, 2 } } }
         };
-
-        //int[] triNorm = new int[4] { 3, 0, 1, 2 };
 
         //Type used for face lookup
         class InnerFaceKey : IEquatable<InnerFaceKey>
@@ -63,19 +49,19 @@ namespace Voxel
             {new InnerFaceKey(0, 0),  new List<int> { 0, 2, 1 } },
             {new InnerFaceKey(0, 1),  new List<int> { 0, 1, 2 } },
             {new InnerFaceKey(0, 2),  new List<int> { 0, 2, 1 } },
-            {new InnerFaceKey(0, 6),  new List<int> { 0, 1, 2 } },
+            {new InnerFaceKey(0, 5),  new List<int> { 0, 1, 2 } },
             {new InnerFaceKey(1, 0),  new List<int> { 0, 1, 2 } },
             {new InnerFaceKey(1, 1),  new List<int> { 0, 2, 1 } },
             {new InnerFaceKey(1, 2),  new List<int> { 0, 1, 2 } },
-            {new InnerFaceKey(1, 5),  new List<int> { 0, 2, 1 } },
+            {new InnerFaceKey(1, 4),  new List<int> { 0, 2, 1 } },
             {new InnerFaceKey(2, 0),  new List<int> { 0, 2, 1 } },
             {new InnerFaceKey(2, 2),  new List<int> { 0, 1, 2 } },
             {new InnerFaceKey(2, 3),  new List<int> { 0, 2, 1 } },
-            {new InnerFaceKey(2, 6),  new List<int> { 0, 1, 2 } },
+            {new InnerFaceKey(2, 5),  new List<int> { 0, 1, 2 } },
             {new InnerFaceKey(3, 0),  new List<int> { 0, 1, 2 } },
             {new InnerFaceKey(3, 2),  new List<int> { 0, 2, 1 } },
             {new InnerFaceKey(3, 3),  new List<int> { 0, 1, 2 } },
-            {new InnerFaceKey(3, 5),  new List<int> { 0, 2, 1 } }
+            {new InnerFaceKey(3, 4),  new List<int> { 0, 2, 1 } }
         };
 
 
@@ -229,15 +215,15 @@ namespace Voxel
         /// <param name="center"></param>
         /// <param name="verts"></param>
         /// <param name="tris"></param>
-        void FaceBuilder(Vector3 center, ref List<Vector3> verts, ref List<int> tris, ref List<Vector3> normals)
+        void TetraFaceBuilder(Vector3 center, ref List<Vector3> verts, ref List<int> tris, ref List<Vector3> normals)
         {
             //If point isn't existent
             bool pullout = true;
-            bool[] checks = new bool[8];
+            bool[] checks = new bool[6];
             
             //List<Vector3> vertTemp = new List<Vector3>();
             //Checks hits for each point
-            for (int index = 0; index < 8; index++)
+            for (int index = 0; index < 6; index++)
             {
                 if (CheckHit(center + tetraPoints[index]))
                 {
@@ -252,6 +238,7 @@ namespace Voxel
 
             if (pullout)
                 return;
+
 
             //Checks individual tetrahedra
             for (int tetra = 0; tetra < 4; tetra++)
@@ -274,7 +261,7 @@ namespace Voxel
                 if (vertTemp.Count == 4)
                 {
                     List<int>[] triTemp;
-                    tetraIDsNorm.TryGetValue(tetra, out triTemp);
+                    tetraIDs.TryGetValue(tetra, out triTemp);
                     for (int face = 0; face < 4; face++)
                     {
                         int tetraVertCount = verts.Count;
@@ -310,7 +297,62 @@ namespace Voxel
 
         }
 
-        
+
+        void FaceBuilder(Vector3 center, ref List<Vector3> verts, ref List<int> tris, ref List<Vector3> normals)
+        {
+            List<Vector3> vertTemp = new List<Vector3>();
+            List<int> vertFail = new List<int>();
+            int vertCount = verts.Count;
+
+            foreach (var point in tetraPoints)
+            {
+                Vector3 vert = center + point;
+                if (CheckHit(vert))
+                    vertTemp.Add(new Vector3(vert.x * Mathf.Sqrt(3) / 1.5f, vert.y * 2, vert.z));
+            }
+
+            if(vertTemp.Count == 6)
+            {
+                //Octahedron
+                for (int face = 0; face < 8; face++)
+                {
+                    int[] triTemp = { (face / 2) % 2 == 0 ? 0 : 1, face % 2 == 0 ? 4 : 5, (face / 4) % 2 == 0 ? 2 : 3 };
+                    if (face == 1 || face == 2 || face == 4 || face == 7)
+                        Array.Reverse(triTemp);
+                    int i = 0;
+                    foreach (int tri in triTemp)
+                    {
+                        verts.Add(vertTemp[tri]);
+                        tris.Add(vertCount + 3 * face + i);
+                        normals.Add(Procedural.Noise.noiseMethods[1][2](center, noiseScale).derivative.normalized);
+                        i++;
+                    }
+                }
+            }
+
+            if (vertTemp.Count == 5)
+            {
+                //Rectangular Prism
+            }
+
+            if(vertTemp.Count == 4)
+            {
+                if(vertFail[1] - vertFail[0] == 1 && vertFail[0] % 2 == 0)
+                {
+                    //Square
+                }
+                else
+                {
+                    //Tetrahedron
+                }
+            }
+
+            if(vertTemp.Count == 3)
+            {
+                //Triangle
+            }
+        }
+
         /// <summary>
         /// Checks if a triangle faces the same direction as the noise
         /// </summary>

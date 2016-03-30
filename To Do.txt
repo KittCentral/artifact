@@ -73,6 +73,11 @@ Sandbox Simulation, a voxel-based game for construction
 -Multithreading
 -LOD
 -Procedural Mesh Generation
+	*Switch to octahedral checks
+	*Add check for squares
+	*Add third square
+	*Multiple chunks
+	*Better Algorithm
 -Literally the entire game
 
 Scene within a scene display on main page
