@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointLoc: 0
-  show: 0
+  show: 1
   size: 1
   chunk: {fileID: 179026, guid: 27ee1994500a51143a47bac4192f7ccf, type: 2}
 --- !u!4 &483342175

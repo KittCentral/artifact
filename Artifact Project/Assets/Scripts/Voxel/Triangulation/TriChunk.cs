@@ -304,32 +304,41 @@ namespace Voxel
             List<int> vertFail = new List<int>();
             int vertCount = verts.Count;
 
-            foreach (var point in tetraPoints)
+            for (int i = 0; i < 6; i++)
             {
-                Vector3 vert = center + point;
+                Vector3 vert = center + tetraPoints[i];
                 if (CheckHit(vert))
                     vertTemp.Add(new Vector3(vert.x * Mathf.Sqrt(3) / 1.5f, vert.y * 2, vert.z));
+                else
+                    vertFail.Add(i);
             }
 
             if(vertTemp.Count == 6)
             {
                 //Octahedron
-                for (int face = 0; face < 8; face++)
+                for (int face = 0, faceIndex = 0; face < 8; face++)
                 {
                     int[] triTemp = { (face / 2) % 2 == 0 ? 0 : 1, face % 2 == 0 ? 4 : 5, (face / 4) % 2 == 0 ? 2 : 3 };
                     if (face == 1 || face == 2 || face == 4 || face == 7)
                         Array.Reverse(triTemp);
-                    int i = 0;
-                    foreach (int tri in triTemp)
+                    Vector3 faceVec = Vector3.Cross(tetraPoints[triTemp[1]] - tetraPoints[triTemp[0]], tetraPoints[triTemp[2]] - tetraPoints[triTemp[0]]);
+                    if (TriNormCheck(center, faceVec.normalized))
                     {
-                        verts.Add(vertTemp[tri]);
-                        tris.Add(vertCount + 3 * face + i);
-                        normals.Add(Procedural.Noise.noiseMethods[1][2](center, noiseScale).derivative.normalized);
-                        i++;
+                        
+                        int i = 0;
+                        foreach (int tri in triTemp)
+                        {
+                            verts.Add(vertTemp[tri]);
+                            print(vertCount + ", " + 3 * faceIndex + ", " + i);
+                            tris.Add(vertCount + 3 * faceIndex + i);
+                            normals.Add(Procedural.Noise.noiseMethods[1][2](center, noiseScale).derivative.normalized);
+                            i++;
+                        }
+                        faceIndex++;
                     }
                 }
             }
-
+            
             if (vertTemp.Count == 5)
             {
                 //Rectangular Prism
