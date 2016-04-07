@@ -37,14 +37,14 @@ MeshRenderer:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 199654}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_Materials:
   - {fileID: 2100000, guid: 46d47f2fbfd60724281d3d5a487b458c, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
-  m_ReflectionProbeUsage: 1
+  m_ReflectionProbeUsage: 0
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
@@ -81,6 +81,17 @@ MonoBehaviour:
   minCurveSegmentCount: 4
   maxCurveSegmentCount: 10
   ringDistance: 0.5
+  generators:
+  - {fileID: 11450986, guid: 478e3a0dc8977ec4b84a6205b1618e5c, type: 2}
+  - {fileID: 11417530, guid: 00de6ec862fe1c146bd09446dfa6faa3, type: 2}
+  - {fileID: 11417530, guid: 00de6ec862fe1c146bd09446dfa6faa3, type: 2}
+  - {fileID: 11475876, guid: 896f524aa3e73e346bdfa577595a1fb5, type: 2}
+  - {fileID: 11475876, guid: 896f524aa3e73e346bdfa577595a1fb5, type: 2}
+  - {fileID: 11475876, guid: 896f524aa3e73e346bdfa577595a1fb5, type: 2}
+  - {fileID: 11475876, guid: 896f524aa3e73e346bdfa577595a1fb5, type: 2}
+  - {fileID: 11483404, guid: 31b37b6840f7ee1428f3a03fb924666a, type: 2}
+  - {fileID: 11478846, guid: f96535c60db63c742be074d6c52a3636, type: 2}
+  - {fileID: 11478846, guid: f96535c60db63c742be074d6c52a3636, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -88,6 +99,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: generators.Array.size
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: ringDistance
       value: 0.5
@@ -108,6 +123,68 @@ Prefab:
       propertyPath: maxCurveSegmentCount
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_ReflectionProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: generators.Array.data[0]
+      value: 
+      objectReference: {fileID: 11450986, guid: 478e3a0dc8977ec4b84a6205b1618e5c,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: generators.Array.data[1]
+      value: 
+      objectReference: {fileID: 11417530, guid: 00de6ec862fe1c146bd09446dfa6faa3,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: generators.Array.data[2]
+      value: 
+      objectReference: {fileID: 11417530, guid: 00de6ec862fe1c146bd09446dfa6faa3,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: generators.Array.data[3]
+      value: 
+      objectReference: {fileID: 11475876, guid: 896f524aa3e73e346bdfa577595a1fb5,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: generators.Array.data[4]
+      value: 
+      objectReference: {fileID: 11475876, guid: 896f524aa3e73e346bdfa577595a1fb5,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: generators.Array.data[5]
+      value: 
+      objectReference: {fileID: 11475876, guid: 896f524aa3e73e346bdfa577595a1fb5,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: generators.Array.data[6]
+      value: 
+      objectReference: {fileID: 11475876, guid: 896f524aa3e73e346bdfa577595a1fb5,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: generators.Array.data[7]
+      value: 
+      objectReference: {fileID: 11483404, guid: 31b37b6840f7ee1428f3a03fb924666a,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: generators.Array.data[8]
+      value: 
+      objectReference: {fileID: 11478846, guid: f96535c60db63c742be074d6c52a3636,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: generators.Array.data[9]
+      value: 
+      objectReference: {fileID: 11478846, guid: f96535c60db63c742be074d6c52a3636,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 199654}

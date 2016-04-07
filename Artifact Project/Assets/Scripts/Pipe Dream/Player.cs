@@ -5,13 +5,14 @@ namespace PipeDream
     public class Player : MonoBehaviour
     {
         public PipeSystem pipeSystem;
-        public float velocity;
+        public float velocity, rotationalVelocity;
 
-        Transform world;
+        Transform world, rotater;
 
         float deltaToRotation;
         float systemRotation;
-        float worldRotation;
+        float worldRotation, avatarRotation;
+        float addRotation = 0;
 
         float distanceTravelled;
 
@@ -20,6 +21,7 @@ namespace PipeDream
         void Start()
         {
             world = pipeSystem.transform.parent;
+            rotater = transform.GetChild(0);
             currentPipe = pipeSystem.SetupFirstPipe();
             SetupCurrentPipe();
         }
@@ -37,6 +39,18 @@ namespace PipeDream
                 systemRotation = delta * deltaToRotation;
             }
             pipeSystem.transform.localRotation = Quaternion.Euler(0f, 0f, systemRotation);
+            UpdateAvatarRotation();
+        }
+
+        void UpdateAvatarRotation ()
+        {
+            addRotation = Mathf.Lerp(addRotation, rotationalVelocity * Time.deltaTime * Input.GetAxis("Horizontal"), Mathf.Abs(Input.GetAxis("Horizontal")) * .1f);
+            avatarRotation += addRotation;
+            if (avatarRotation < 0f)
+                avatarRotation += 360f;
+            else if (avatarRotation > 360f)
+                avatarRotation -= 360f;
+            rotater.localRotation = Quaternion.Euler(avatarRotation, 0, 0);
         }
 
         void SetupCurrentPipe ()

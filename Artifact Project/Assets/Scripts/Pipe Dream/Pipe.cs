@@ -10,6 +10,7 @@ namespace PipeDream
         public float minCurveRadius, maxCurveRadius;
         public int minCurveSegmentCount, maxCurveSegmentCount;
         public float ringDistance;
+        public PipeItemGenerator[] generators;
 
         float curveRadius;
         int curveSegmentCount;
@@ -40,6 +41,12 @@ namespace PipeDream
             set{ relativeRotation = value; }
         }
 
+        public int CurveSegmentCount
+        {
+            get{ return curveSegmentCount; }
+            set{ curveSegmentCount = value; }
+        }
+
         void Awake()
         {
             GetComponent<MeshFilter>().mesh = mesh = new Mesh();
@@ -49,7 +56,14 @@ namespace PipeDream
         public void Generate ()
         {
             CurveRadius = Random.Range(minCurveRadius, maxCurveRadius);
-            curveSegmentCount = Random.Range(minCurveSegmentCount, maxCurveSegmentCount);
+            CurveSegmentCount = Random.Range(minCurveSegmentCount, maxCurveSegmentCount);
+            /*
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                Destroy(transform.GetChild(i).gameObject);
+            }
+            */
+            generators[Random.Range(0, generators.Length)].GenerateItems(this);
             mesh.Clear();
             SetVertices();
             SetTriangles();
@@ -73,24 +87,24 @@ namespace PipeDream
         */
         void SetVertices ()
         {
-            verts = new Vector3[pipeSegmentCount * curveSegmentCount * 4];
+            verts = new Vector3[pipeSegmentCount * CurveSegmentCount * 4];
             float uStep = ringDistance / CurveRadius;
-            CurveAngle = uStep * curveSegmentCount * (360f / (2f * Mathf.PI));
+            CurveAngle = uStep * CurveSegmentCount * (360f / (2f * Mathf.PI));
             CreateFirstQuadRing(uStep);
             int iDelta = pipeSegmentCount * 4;
-            for (int u = 2, i = iDelta; u <= curveSegmentCount; u++, i += iDelta)
+            for (int u = 2, i = iDelta; u <= CurveSegmentCount; u++, i += iDelta)
                 CreateQuadRing(u * uStep, i);
             mesh.vertices = verts;
         }
 
         void SetTriangles ()
         {
-            tris = new int[pipeSegmentCount * curveSegmentCount * 6];
+            tris = new int[pipeSegmentCount * CurveSegmentCount * 6];
             for (int t = 0, i = 0; t < tris.Length; t += 6, i += 4)
             {
                 tris[t] = i;
-                tris[t + 1] = tris[t + 4] = i + 1;
-                tris[t + 2] = tris[t + 3] = i + 2;
+                tris[t + 2] = tris[t + 3] = i + 1;
+                tris[t + 1] = tris[t + 4] = i + 2;
                 tris[t + 5] = i + 3;
             }
             mesh.triangles = tris;
@@ -126,7 +140,7 @@ namespace PipeDream
 
         public void AlignWith (Pipe pipe)
         {
-            RelativeRotation = Random.Range(0, curveSegmentCount) * 360f / pipeSegmentCount;
+            RelativeRotation = Random.Range(0, CurveSegmentCount) * 360f / pipeSegmentCount;
 
             transform.SetParent(pipe.transform, false);
             transform.localPosition = Vector3.zero;
