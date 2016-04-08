@@ -4,9 +4,11 @@ namespace PipeDream
 {
     public class PipeSystem : MonoBehaviour
     {
+        public Player player;
         public Pipe pipePrefab;
         public int pipeCount;
         Pipe[] pipes;
+        int emptyPipeCount = 0;
 
         void Awake ()
         {
@@ -15,7 +17,7 @@ namespace PipeDream
             {
                 Pipe pipe = pipes[i] = Instantiate<Pipe>(pipePrefab);
                 pipe.transform.SetParent(transform, false);
-                pipe.Generate();
+                pipe.Generate(i > emptyPipeCount);
                 if (i > 0)
                     pipe.AlignWith(pipes[i - 1]);
             }

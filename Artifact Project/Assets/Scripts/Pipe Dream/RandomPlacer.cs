@@ -9,7 +9,7 @@ namespace PipeDream
         public override void GenerateItems(Pipe pipe)
         {
             float angleStep = pipe.CurveAngle / pipe.CurveSegmentCount;
-            for (int i = 0; i < pipe.CurveSegmentCount; i++)
+            for (int i = 0; i < (int)(pipe.CurveSegmentCount * pipe.transform.GetComponentInParent<PipeSystem>().player.distanceTravelled / 240); i++)
             {
                 PipeItem item = Instantiate(itemPrefabs[Random.Range(0, itemPrefabs.Length)]);
                 float pipeRotation = (Random.Range(0, pipe.pipeSegmentCount) + 0.5f) * 360f / pipe.pipeSegmentCount;

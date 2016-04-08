@@ -76,7 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pipeRadius: 1
   pipeSegmentCount: 10
-  minCurveRadius: 2
+  minCurveRadius: 8
   maxCurveRadius: 20
   minCurveSegmentCount: 4
   maxCurveSegmentCount: 10
@@ -109,7 +109,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: minCurveRadius
-      value: 2
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxCurveRadius

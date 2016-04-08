@@ -14,7 +14,7 @@ namespace PipeDream
         float worldRotation, avatarRotation;
         float addRotation = 0;
 
-        float distanceTravelled;
+        public float distanceTravelled;
 
         Pipe currentPipe;
 
@@ -62,6 +62,11 @@ namespace PipeDream
             else if (worldRotation > 360f)
                 worldRotation -= 360f;
             world.localRotation = Quaternion.Euler(worldRotation, 0f, 0f);
+        }
+
+        public void Die ()
+        {
+            gameObject.SetActive(false);
         }
     }
 }
