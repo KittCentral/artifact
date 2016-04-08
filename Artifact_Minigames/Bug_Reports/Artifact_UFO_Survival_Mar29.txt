@@ -1,0 +1,15 @@
+Bug Report for Unity Project: Artifact_UFO_Survival
+03 29 2016
+
+1. Null Reference Exception on play
+***
+Object reference not set to an instance of an object
+ScoreManager.Update () (at C:/Users/georg_000/Documents/UnityProjects/UFO_Survival/Assets/Scripts/ScoreManager.cs:20)
+***
+-- Consider rewriting ScoreManager.cs, Ssme scripts are repetitive and unnessicary.
+
+2. Laser fires in the wrong place when mouse clicks are faster than .5 seconds apart.
+-- This may not be an issue with the touch screen implementation/usage.
+
+
+ 
