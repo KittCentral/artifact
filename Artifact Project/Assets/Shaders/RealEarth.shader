@@ -9,9 +9,12 @@ Shader "Atmosphere/RealEarth"
 		_SpecColor("Specular Color", Color) = (1,1,1,1)
 		_BumpMap("Normal Map", 2D) = "bump" {}
 		_Shininess("Shininess", Float) = 10
+		_OutlineColor("Outline Color", Color) = (0,0,0,1)
+		_Outline("Outline Width", Range(.002, 0.5)) = .005
 	}
 		SubShader
 	{
+		
 		Pass
 		{
 			Tags{"LightMode" = "ForwardBase"}
@@ -241,6 +244,62 @@ Shader "Atmosphere/RealEarth"
 
 			ENDCG
 		}
+
+		Pass
+		{
+			Tags{ "LightMode" = "Always" }
+			//Cull Front
+			ZWrite On
+			ColorMask RGB
+			Blend SrcAlpha OneMinusSrcAlpha
+
+			CGPROGRAM
+			#pragma vertex vert 
+			#pragma fragment frag 
+			#include "UnityCG.cginc"
+
+			uniform float _Outline;
+			uniform float4 _OutlineColor;
+
+			struct vertexInput
+			{
+				float4 vertex : POSITION;
+				float3 normal : NORMAL;
+			};
+
+			struct vertexOutput
+			{
+				float4 pos : POSITION;
+				float3 vpos : TEXCOORD0;
+				float4 color : COLOR;
+			};
+
+			vertexOutput vert(vertexInput input)
+			{
+				vertexOutput output;
+				output.pos = mul(UNITY_MATRIX_MVP, input.vertex);
+
+				float3 norm = mul((float3x3)UNITY_MATRIX_IT_MV, input.normal);
+				float2 offset = TransformViewToProjection(norm.xy);
+
+				output.pos.xy += offset * output.pos.z * _Outline;
+				output.vpos = input.vertex.xyz;
+				output.color = _OutlineColor;
+				return output;
+			}
+
+			float4 frag(vertexOutput input) : COLOR
+			{
+				float3 gradientCenter = float3(0,0,0);
+				float3 pos = normalize(input.vpos.xyz - gradientCenter.xyz);
+				float4 c = float4(input.color.rgb, -1 * pos.y * input.color.a);
+				return c;
+			}
+
+			ENDCG
+		}
+
+
 	}
 	Fallback "Diffuse"
 }

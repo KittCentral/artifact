@@ -488,6 +488,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11463796, guid: 91c94602e15a8e54ca0ce546c6c6224b, type: 2}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 10}
     - target: {fileID: 2388514, guid: 91c94602e15a8e54ca0ce546c6c6224b, type: 2}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -496,12 +500,7 @@ Prefab:
       propertyPath: m_Name
       value: Space
       objectReference: {fileID: 0}
-    - target: {fileID: 11463796, guid: 91c94602e15a8e54ca0ce546c6c6224b, type: 2}
-      propertyPath: mainCamera
-      value: 
-      objectReference: {fileID: 10}
-    m_RemovedComponents:
-    - {fileID: 11474876, guid: 91c94602e15a8e54ca0ce546c6c6224b, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 91c94602e15a8e54ca0ce546c6c6224b, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &564544843

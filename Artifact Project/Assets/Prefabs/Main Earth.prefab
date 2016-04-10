@@ -26,7 +26,6 @@ GameObject:
   - 4: {fileID: 412462}
   - 114: {fileID: 11469346}
   - 135: {fileID: 13584682}
-  - 114: {fileID: 11474876}
   - 114: {fileID: 11463796}
   m_Layer: 0
   m_Name: Main Earth
@@ -80,6 +79,7 @@ GameObject:
   - 33: {fileID: 3309880}
   - 23: {fileID: 2395908}
   - 135: {fileID: 13562326}
+  - 122: {fileID: 12235364}
   m_Layer: 0
   m_Name: Earth
   m_TagString: Untagged
@@ -318,17 +318,17 @@ MonoBehaviour:
   kr: 0.0025
   km: 0.001
   g: -0.99
---- !u!114 &11474876
-MonoBehaviour:
+--- !u!122 &12235364
+Halo:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 127594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf73771f235857a4084f0da5720aee2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_GameObject: {fileID: 181890}
+  m_Enabled: 0
+  m_Color:
+    serializedVersion: 2
+    rgba: 4294967040
+  m_Size: -0.65
 --- !u!135 &13562326
 SphereCollider:
   m_ObjectHideFlags: 1
