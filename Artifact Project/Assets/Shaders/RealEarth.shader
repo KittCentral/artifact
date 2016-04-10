@@ -237,68 +237,13 @@ Shader "Atmosphere/RealEarth"
 
 				float3 ambientLighting = UNITY_LIGHTMODEL_AMBIENT.rgb * tex2D(_MainTex, input.tex).rgb;
 				float3 viewDirection = normalize(_WorldSpaceCameraPos - input.posWorld.xyz);
-				float3 specularReflection = dot(normalDirection, lightDirection) < 0 ? float3(0.0, 0.0, 0.0) : attenuation * _LightColor0.rgb * max(0.0,(tex2D(_SpecTex, input.tex).rgb - .5)*-1) * pow(max(0.0, dot(reflect(-lightDirection, normalDirection), viewDirection)), _Shininess);
+				float3 specularReflection =  attenuation * _LightColor0.rgb * max(0.0,(tex2D(_SpecTex, input.tex).rgb - .5)*-1) * pow(max(0.0, dot(reflect(-lightDirection, normalDirection), viewDirection)), _Shininess);
 
 				return float4(diffuseReflection + specularReflection, 1.0);
 			}
 
 			ENDCG
 		}
-
-		Pass
-		{
-			Tags{ "LightMode" = "Always" }
-			//Cull Front
-			ZWrite On
-			ColorMask RGB
-			Blend SrcAlpha OneMinusSrcAlpha
-
-			CGPROGRAM
-			#pragma vertex vert 
-			#pragma fragment frag 
-			#include "UnityCG.cginc"
-
-			uniform float _Outline;
-			uniform float4 _OutlineColor;
-
-			struct vertexInput
-			{
-				float4 vertex : POSITION;
-				float3 normal : NORMAL;
-			};
-
-			struct vertexOutput
-			{
-				float4 pos : POSITION;
-				float3 vpos : TEXCOORD0;
-				float4 color : COLOR;
-			};
-
-			vertexOutput vert(vertexInput input)
-			{
-				vertexOutput output;
-				output.pos = mul(UNITY_MATRIX_MVP, input.vertex);
-
-				float3 norm = mul((float3x3)UNITY_MATRIX_IT_MV, input.normal);
-				float2 offset = TransformViewToProjection(norm.xy);
-
-				output.pos.xy += offset * output.pos.z * _Outline;
-				output.vpos = input.vertex.xyz;
-				output.color = _OutlineColor;
-				return output;
-			}
-
-			float4 frag(vertexOutput input) : COLOR
-			{
-				float3 gradientCenter = float3(0,0,0);
-				float3 pos = normalize(input.vpos.xyz - gradientCenter.xyz);
-				float4 c = float4(input.color.rgb, -1 * pos.y * input.color.a);
-				return c;
-			}
-
-			ENDCG
-		}
-
 
 	}
 	Fallback "Diffuse"

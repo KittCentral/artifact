@@ -61,7 +61,7 @@ GameObject:
   - 33: {fileID: 3309164}
   - 135: {fileID: 13593862}
   - 23: {fileID: 2388514}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Clouds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,8 +79,7 @@ GameObject:
   - 33: {fileID: 3309880}
   - 23: {fileID: 2395908}
   - 135: {fileID: 13562326}
-  - 122: {fileID: 12235364}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Earth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -318,17 +317,6 @@ MonoBehaviour:
   kr: 0.0025
   km: 0.001
   g: -0.99
---- !u!122 &12235364
-Halo:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 181890}
-  m_Enabled: 0
-  m_Color:
-    serializedVersion: 2
-    rgba: 4294967040
-  m_Size: -0.65
 --- !u!135 &13562326
 SphereCollider:
   m_ObjectHideFlags: 1
