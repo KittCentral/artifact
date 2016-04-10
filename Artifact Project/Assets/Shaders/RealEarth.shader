@@ -9,9 +9,12 @@ Shader "Atmosphere/RealEarth"
 		_SpecColor("Specular Color", Color) = (1,1,1,1)
 		_BumpMap("Normal Map", 2D) = "bump" {}
 		_Shininess("Shininess", Float) = 10
+		_OutlineColor("Outline Color", Color) = (0,0,0,1)
+		_Outline("Outline Width", Range(.002, 0.5)) = .005
 	}
 		SubShader
 	{
+		
 		Pass
 		{
 			Tags{"LightMode" = "ForwardBase"}
@@ -234,13 +237,14 @@ Shader "Atmosphere/RealEarth"
 
 				float3 ambientLighting = UNITY_LIGHTMODEL_AMBIENT.rgb * tex2D(_MainTex, input.tex).rgb;
 				float3 viewDirection = normalize(_WorldSpaceCameraPos - input.posWorld.xyz);
-				float3 specularReflection = dot(normalDirection, lightDirection) < 0 ? float3(0.0, 0.0, 0.0) : attenuation * _LightColor0.rgb * max(0.0,(tex2D(_SpecTex, input.tex).rgb - .5)*-1) * pow(max(0.0, dot(reflect(-lightDirection, normalDirection), viewDirection)), _Shininess);
+				float3 specularReflection =  attenuation * _LightColor0.rgb * max(0.0,(tex2D(_SpecTex, input.tex).rgb - .5)*-1) * pow(max(0.0, dot(reflect(-lightDirection, normalDirection), viewDirection)), _Shininess);
 
 				return float4(diffuseReflection + specularReflection, 1.0);
 			}
 
 			ENDCG
 		}
+
 	}
 	Fallback "Diffuse"
 }
