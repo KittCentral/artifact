@@ -42,11 +42,15 @@ namespace Flight
             body.AddForce((forwardForce - upForce) * thrust * 100000);
             //Rotates vehicle to appropriate Vector
             body.AddTorque(Vector3.Cross(targetPitch.normalized, body.velocity.normalized) * Mathf.Pow(body.velocity.magnitude, 2));
+
+            if (Input.GetKeyDown(KeyCode.Space) && !hitCheck)
+                Fire();
         }
 
         void Fire()
         {
-            GameObject clone = Instantiate(bullet, transform.position + transform.forward * 3, Quaternion.identity) as GameObject;
+            GameObject clone = Instantiate(bullet, transform.position + transform.forward * 3, transform.rotation) as GameObject;
+            clone.GetComponent<Rigidbody>().velocity = transform.forward * 500;
         }
 
         void OnCollisionEnter (Collision col)
