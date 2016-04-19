@@ -6,7 +6,7 @@ public class ScoreManager : MonoBehaviour
     public int Score;
 
 
-    Text text;
+    public Text text;
 
     
     public void increment(int x)

@@ -1,7 +1,7 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2015
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UFO_Survival.CSharp", "UFO_Survival.CSharp.csproj", "{6E9B3294-57FB-80B2-9017-8A8EC0BF6BF5}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{FEDBB62B-F395-695B-84F1-7DD5297CDDE0}") = "UFO_Survival", "Assembly-CSharp.csproj", "{E19F8252-5F96-A73F-CFC5-E14E259A555F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,12 +9,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6E9B3294-57FB-80B2-9017-8A8EC0BF6BF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6E9B3294-57FB-80B2-9017-8A8EC0BF6BF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6E9B3294-57FB-80B2-9017-8A8EC0BF6BF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6E9B3294-57FB-80B2-9017-8A8EC0BF6BF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E19F8252-5F96-A73F-CFC5-E14E259A555F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E19F8252-5F96-A73F-CFC5-E14E259A555F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E19F8252-5F96-A73F-CFC5-E14E259A555F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E19F8252-5F96-A73F-CFC5-E14E259A555F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
 	EndGlobalSection
 EndGlobal
