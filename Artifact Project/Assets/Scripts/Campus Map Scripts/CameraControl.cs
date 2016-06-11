@@ -13,6 +13,7 @@ public class CameraControl : MonoBehaviour {
 	private bool moveCamera = true; //this is for when the options menu has been clicked on
 	// Use this for initialization
 	void Start () {
+		Camera.main.transform.position = new Vector3 (24.04f, 36.08f, -16.0f);
 		cameraBody = Camera.main.GetComponent<Rigidbody> ();
 	}
 
@@ -43,9 +44,11 @@ public class CameraControl : MonoBehaviour {
 			}
 		}
 	}
+
 	public void MouseIsOnOptions()
 	{
 		moveCamera = false;
+		print ("clicked options!");
 	}
 	public void MouseLeftOptions()
 	{
