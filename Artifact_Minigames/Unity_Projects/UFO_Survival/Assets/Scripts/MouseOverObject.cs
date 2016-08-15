@@ -10,7 +10,7 @@ public class MouseOverObject : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Destroy(gameObject, 0f);
-            scoreManager.increment(100);
+            //scoreManager.increment(100);
         }
     }
 }

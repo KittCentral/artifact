@@ -4,7 +4,7 @@ namespace Flight
 {
     public class Plane : MonoBehaviour
     {
-        public float thrust = 1f;
+        public float thrust = 10f;
         public float rollSpeed = 1f;
         public float pitchSpeed = 1f;
         public float maxVelocity = 200f;
@@ -31,9 +31,9 @@ namespace Flight
             //Ensures a top speed
             float dragSpeedControl = (maxVelocity - body.velocity.magnitude) / maxVelocity;
             //Controls how strong the forward push is
-            Vector3 forwardForce = transform.forward * dragSpeedControl * altitudeSpeedControl;
+            Vector3 forwardForce = transform.forward * (dragSpeedControl > 0 ? dragSpeedControl : 0) * altitudeSpeedControl;
             //It acts kind of like lift although I'm not sure I understand why
-            Vector3 upForce = transform.up * (Input.GetAxis("Vertical") * (hitCheck ? 0 : 1) * body.velocity.magnitude / 100);
+            Vector3 upForce = transform.up * (Input.GetAxis("Vertical") * (hitCheck ? 0 : 1) * (body.velocity.magnitude < 200 ? body.velocity.magnitude : 200) / 200);
             //If you are going slower you will turn faster
             body.angularDrag = (body.velocity.magnitude / 20);
             //Roll Controls
@@ -56,7 +56,7 @@ namespace Flight
         void OnCollisionEnter (Collision col)
         {
             body.AddForce(col.relativeVelocity * 1000);
-            body.velocity = body.velocity / 4;
+            body.velocity = body.velocity / 10;
             thrust = 0;
             hitCheck = true;
         }
