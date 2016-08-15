@@ -7,12 +7,18 @@ namespace Flight
         public float thrust = 10f;
         public float rollSpeed = 1f;
         public float pitchSpeed = 1f;
-        public float maxVelocity = 200f;
+        float maxVelocity = 200f;
 
         public GameObject bullet;
         Rigidbody body;
 
         bool hitCheck = false;
+
+        public float MaxVelocity
+        {
+            get{ return maxVelocity; }
+            set{ maxVelocity = value; }
+        }
 
         // Use this for initialization
         void Start()
@@ -33,7 +39,7 @@ namespace Flight
             //Controls how strong the forward push is
             Vector3 forwardForce = transform.forward * (dragSpeedControl > 0 ? dragSpeedControl : 0) * altitudeSpeedControl;
             //It acts kind of like lift although I'm not sure I understand why
-            Vector3 upForce = transform.up * (Input.GetAxis("Vertical") * (hitCheck ? 0 : 1) * (body.velocity.magnitude < 200 ? body.velocity.magnitude : 200) / 200);
+            Vector3 upForce = transform.up * (Input.GetAxis("Vertical") * (hitCheck ? 0 : 1) * (body.velocity.magnitude < maxVelocity ? body.velocity.magnitude : maxVelocity) / maxVelocity);
             //If you are going slower you will turn faster
             body.angularDrag = (body.velocity.magnitude / 20);
             //Roll Controls
@@ -45,6 +51,12 @@ namespace Flight
 
             if (Input.GetKeyDown(KeyCode.Space) && !hitCheck)
                 Fire();
+
+            if ((maxVelocity > 10 && Input.GetAxis("Mouse ScrollWheel") < 0) || (maxVelocity < 300 && Input.GetAxis("Mouse ScrollWheel") > 0))
+            {
+                maxVelocity += Input.GetAxis("Mouse ScrollWheel") * 30;
+                print(maxVelocity);
+            }
         }
 
         void Fire()

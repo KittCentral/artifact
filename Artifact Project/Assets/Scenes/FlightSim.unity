@@ -710,7 +710,6 @@ MonoBehaviour:
   thrust: 1
   rollSpeed: 2
   pitchSpeed: 1
-  maxVelocity: 200
   bullet: {fileID: 116658, guid: 8c94c8300535a8344aadad94b4d68c3e, type: 2}
 --- !u!4 &1706987004
 Transform:
