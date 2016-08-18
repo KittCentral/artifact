@@ -8,8 +8,14 @@ namespace PlatformJump
         public enum JumpTypes { singleJump, doubleJump, flying };
         public JumpTypes jumpType = JumpTypes.singleJump;
 
+        public bool yLoop;
+
         public float jumpForce;
         Rigidbody body;
+
+        public GameObject gameOverText;
+        public GameObject field;
+        PlatformControl platformControl;
 
         int jump = -1;
 
@@ -17,7 +23,9 @@ namespace PlatformJump
         void Awake()
         {
             body = GetComponent<Rigidbody>();
+            platformControl = field.GetComponent<PlatformControl>();
             JumpReset();
+            gameOverText.SetActive(false);
         }
 
         // Update is called once per frame
@@ -27,6 +35,8 @@ namespace PlatformJump
                 Jump();
             if (transform.position.y < -5)
                 Fall();
+            if (Input.GetKeyDown(KeyCode.Return) && gameOverText.activeInHierarchy)
+                Restart();
         }
 
         void OnCollisionEnter (Collision col)
@@ -52,8 +62,30 @@ namespace PlatformJump
 
         void Fall ()
         {
+            if (yLoop)
+            {
+                body.velocity = Vector3.zero;
+                transform.position = new Vector3(0, 12, 0);
+            }
+            else
+                GameOver();
+        }
+
+        void GameOver()
+        {
+            gameOverText.SetActive(true);
+            platformControl.Stopped = true;
+        }
+
+        void Restart()
+        {
             body.velocity = Vector3.zero;
-            transform.position = new Vector3(0, 12, 0);
+            transform.position = Vector3.zero;
+            transform.rotation = Quaternion.identity;
+            platformControl.KillPlatforms();
+            gameOverText.SetActive(false);
+            platformControl.Stopped = false;
+            platformControl.BeginPlatforms();
         }
     }
 }
