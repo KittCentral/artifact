@@ -451,7 +451,7 @@ GameObject:
   - 23: {fileID: 1383115724}
   - 114: {fileID: 1383115728}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Weather Balloon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -879,6 +879,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07f0fdfea13d39048a1d46b78348678d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyLock: {fileID: 1383115723}
 --- !u!114 &1723765359
 MonoBehaviour:
   m_ObjectHideFlags: 0

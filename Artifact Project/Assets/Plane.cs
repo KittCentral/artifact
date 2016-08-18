@@ -47,7 +47,7 @@ namespace Flight
             //Pushes vehicle
             body.AddForce((forwardForce - upForce) * thrust * 100000);
             //Rotates vehicle to appropriate Vector
-            body.AddTorque(Vector3.Cross(targetPitch.normalized, body.velocity.normalized) * Mathf.Pow(body.velocity.magnitude, 2));
+            body.AddTorque(Vector3.Cross(targetPitch.normalized, body.velocity.normalized) * 2 * Mathf.Pow(body.velocity.magnitude, 2));
 
             if (Input.GetKeyDown(KeyCode.Space) && !hitCheck)
                 Fire();
