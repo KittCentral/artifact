@@ -45,7 +45,7 @@ namespace Runner
             {
                 obj.transform.Translate(Vector3.forward * -Time.deltaTime * courseSpeed);
                 if (obj.transform.position.z < -30f)
-                    obj.transform.position = new Vector3(transform.position.x, transform.position.y, 60f);
+                    obj.transform.position = new Vector3(transform.position.x, transform.position.y, obj.transform.position.z + 90f);
             }
         }
     }
