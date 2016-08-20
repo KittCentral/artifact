@@ -19,34 +19,13 @@ Getting someone else to work on the project (Why do I even bother?)
 
 Necessary Features:
 
-<<<<<<< HEAD
-Campus Map
-Calendar Fillout
-News Application
-Weather Application
-Kinect SDK
-=======
 Campus Map - Requires Darwin
 News Application - Requires Diane Approval
 Weather Application - Requires Darwin
 Kinect SDK - Requires Rhett
->>>>>>> New_Master
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-Ideas:
-<<<<<<< HEAD
-Galaxy Scene dedicated to stars positions and visualization (Demo Works)
-Country Info for discovering basic facts about our world and the cultures within it
-Upgrades for Fezzik allowing Internet access (Demo Works)
-At least ten simplistic games(Pong, Maze, Chess)
-Global Run
-Sandbox Simulation, a voxel-based game for construction (Demo Works)
-ASync scene display on Main Page (Demo Works)
-Construction of the Conquistador
-
----------------------------------------------------------------------------------------------------------------------------------
-=======
 Galaxy Scene dedicated to stars positions and visualization.
 -New Data
 -Camera control complete with focusing
@@ -58,16 +37,22 @@ Country Info for discovering basic facts about our world and the cultures within
 -Use red scale as key upon click to open correct country
 -Going to require some kind of zoom
 
-At least ten simplistic games - Three done so far
--George has one?
+At least ten simplistic games - Six done so far(Chess, Maze, Pipe Run, Runner, Flight Simulator, Platform Jump)
 -Chess needs a computer eventually
 -Maze to include language controls
+-Pipe Run needs a scoreboard and GUI
+-Runner needs flexibility, more gameplay
+-Flight Simulator needs unique models, terrain as well as objectives
+-Platform Jump needs obstacles
 -3D Tetris?
+-George's Game?
+-Tanks?
 
 Global Run(Temple Run around the world)
 -Lots of models
 -Path algorithm
 -Animation for main player
+-Could be an extension of Runner
 
 Sandbox Simulation, a voxel-based game for construction
 -Multithreading
@@ -95,4 +80,3 @@ Paint
 -More Brushes
 -Saving for other places
 -Model import and painting
->>>>>>> New_Master
