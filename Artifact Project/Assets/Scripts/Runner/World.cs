@@ -8,8 +8,10 @@ namespace Runner
         public enum Dimension { Second, Third };
         public Dimension dim;
         public float courseSpeed;
+        public bool pulseRowEnemies;
 
         public GameObject flat2DPrefab;
+        public GameObject enemyPrefab;
 
         List<GameObject> pieces = new List<GameObject>();
 
@@ -35,6 +37,16 @@ namespace Runner
                 GameObject ground = Instantiate(flat2DPrefab, new Vector3(0, 0, 30 * i), Quaternion.identity) as GameObject;
                 ground.transform.parent = transform;
                 pieces.Add(ground);
+            }
+            if(pulseRowEnemies)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 11; j++)
+                    {
+                        GameObject enemy = Instantiate(enemyPrefab, new Vector3(-12 + 2.4f * j, 1, 15 - 3 * i), Quaternion.Euler(90, 0, 0)) as GameObject;
+                    }
+                }
             }
         }
 

@@ -27,7 +27,7 @@ namespace Runner
             PositionLock();
             if(Input.GetKeyDown(KeyCode.Return))
             {
-                GameObject bulletClone = Instantiate(bullet, transform.position, Quaternion.Euler(90f,180f,0f)) as GameObject;
+                GameObject bulletClone = Instantiate(bullet, transform.position, Quaternion.Euler(90f,0f,0f)) as GameObject;
                 bulletClone.GetComponent<Rigidbody>().velocity = Vector3.forward * bulletSpeed;
             }
             if (canJump)
