@@ -89,7 +89,6 @@ public class SurfaceCreator : MonoBehaviour
             for (int x = 0; x <= res; x++, n++)
             {
                 Vector3 point = Vector3.Lerp(point0, point1, (float)x / res);
-                //print(point);
                 NoiseSample sample = Procedural.Noise.Sum(method, point, frequency, octaves, lacunarity, persistence);
                 sample = type == Procedural.NoiseMethodType.Value ? (sample - 0.5f) : (sample * 0.5f);
                 if (coloringForStrength)
