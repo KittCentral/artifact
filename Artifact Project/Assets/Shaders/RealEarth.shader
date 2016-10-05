@@ -1,3 +1,6 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
+
 
 Shader "Atmosphere/RealEarth"
 {
@@ -81,15 +84,15 @@ Shader "Atmosphere/RealEarth"
 			{
 				vertexOutput output;
 
-				float4x4 modelMatrix = _Object2World;
-				float4x4 modelMatrixInverse = _World2Object;
+				float4x4 modelMatrix = unity_ObjectToWorld;
+				float4x4 modelMatrixInverse = unity_WorldToObject;
 
 				float3 v3CameraPos = _WorldSpaceCameraPos - v3Translate;	// The camera's current position
 				float fCameraHeight = length(v3CameraPos);					// The camera's current height
 				float fCameraHeight2 = fCameraHeight*fCameraHeight;			// fCameraHeight^2
 
 				// Get the ray from the camera to the vertex and its length (which is the far point of the ray passing through the atmosphere)
-				float3 v3Pos = mul(_Object2World, input.vertex).xyz - v3Translate;
+				float3 v3Pos = mul(unity_ObjectToWorld, input.vertex).xyz - v3Translate;
 				float3 v3Ray = v3Pos - v3CameraPos;
 				float fFar = length(v3Ray);
 				v3Ray /= fFar;
@@ -215,8 +218,8 @@ Shader "Atmosphere/RealEarth"
 			{
 				vertexOutput output;
 
-				float4x4 modelMatrix = _Object2World;
-				float4x4 modelMatrixInverse = _World2Object;
+				float4x4 modelMatrix = unity_ObjectToWorld;
+				float4x4 modelMatrixInverse = unity_WorldToObject;
 
 				output.pos = mul(UNITY_MATRIX_MVP, input.vertex);
 				output.tex = input.texcoord;
