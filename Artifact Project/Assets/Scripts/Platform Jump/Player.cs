@@ -43,6 +43,8 @@ namespace PlatformJump
         {
             if(col.gameObject.tag == "Field")
                 JumpReset();
+            if (col.gameObject.tag == "Enemy")
+                GameOver();
         }
 
         void Jump ()

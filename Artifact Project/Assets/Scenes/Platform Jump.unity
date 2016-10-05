@@ -459,7 +459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8958c4d6979b71742b6ad13e2c4a701c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpType: 2
+  jumpType: 1
   yLoop: 0
   jumpForce: 3
   gameOverText: {fileID: 1747961616}
@@ -875,7 +875,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1927862902}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -892,6 +892,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   platformPrefab: {fileID: 120712, guid: ab84ce43da9d4724eaec11696348d31f, type: 2}
+  obstaclePrefabs:
+  - {fileID: 168384, guid: a409e6dfda0cbc3429f858efcb187be7, type: 2}
   platCount: 3
   startSpeed: 5
   acceleration: 0.25
