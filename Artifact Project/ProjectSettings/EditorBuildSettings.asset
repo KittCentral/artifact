@@ -40,4 +40,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Platform Jump.unity
   - enabled: 1
-    path: Assets/Scenes/Perlin Test.unity
+    path: Assets/Scenes/Voxel.unity

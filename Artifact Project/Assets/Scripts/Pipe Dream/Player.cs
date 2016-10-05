@@ -63,10 +63,5 @@ namespace PipeDream
                 worldRotation -= 360f;
             world.localRotation = Quaternion.Euler(worldRotation, 0f, 0f);
         }
-
-        public void Die ()
-        {
-            gameObject.SetActive(false);
-        }
     }
 }

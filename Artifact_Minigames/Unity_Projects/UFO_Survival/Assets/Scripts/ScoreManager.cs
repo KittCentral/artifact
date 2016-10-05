@@ -17,6 +17,6 @@ public class ScoreManager : MonoBehaviour
 
     void Update ()
     {
-        text.text = "Score: " + Score;
+        //text.text = "Score: " + Score;
     }
 }
