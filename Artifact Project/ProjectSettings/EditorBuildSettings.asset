@@ -41,3 +41,5 @@ EditorBuildSettings:
     path: Assets/Scenes/Platform Jump.unity
   - enabled: 1
     path: Assets/Scenes/Voxel.unity
+  - enabled: 1
+    path: Assets/Scenes/Fezzik.unity

@@ -39,6 +39,7 @@ public class ChatBox : MonoBehaviour
                 mess += "Me: " + ask + "\n" + "\n";
                 answer = bot.getOutput(ask);
                 mess += "Fezzik: " + answer + "\n" + "\n";
+                WindowsVoice.theVoice.speak(answer);
             }
             inputField.text = "";
         }
