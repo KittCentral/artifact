@@ -12,7 +12,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Calendar.unity
   - enabled: 1
-    path: Assets/Scenes/Campus Map.unity
+    path: Assets/Scenes/Imported Campus Map.unity
   - enabled: 1
     path: Assets/Scenes/GPS Scene.unity
   - enabled: 1
