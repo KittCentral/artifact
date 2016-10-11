@@ -1,20 +1,27 @@
 ﻿using UnityEngine;
+using System.Collections;
+using UnityEditor.Animations;
 
 namespace Runner
 {
     public class Enemy : MonoBehaviour
     {
         public float idleSpeed;
+        public Sprite explosion;
+        public AnimatorController explosionAnim;
+
+        bool stopped = false;
 
         void OnTriggerEnter (Collider col)
         {
             Destroy(col.gameObject);
-            Destroy(gameObject);
+            StartCoroutine(Explode());
         }
 
         void Update()
         {
-            Idle();
+            if(!stopped)
+                Idle();
         }
 
         void Idle()
@@ -26,6 +33,15 @@ namespace Runner
             else
                 transform.position -= changeVector * idleSpeed * Time.deltaTime;
             print((int)(Time.time / 3) % 2 == 0);
+        }
+
+        IEnumerator Explode()
+        {
+            stopped = true;
+            gameObject.GetComponent<SpriteRenderer>().sprite = explosion;
+            gameObject.GetComponent<Animator>().runtimeAnimatorController = explosionAnim;
+            yield return new WaitForSeconds(.5f);
+            Destroy(gameObject);
         }
     }
 }

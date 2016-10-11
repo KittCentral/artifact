@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 
 namespace Runner
 {
@@ -9,6 +10,9 @@ namespace Runner
         public Dimension dim;
         public float courseSpeed;
         public bool pulseRowEnemies;
+
+        public Sprite enemySkins;
+        public AnimatorController[] enemyAnimators;
 
         public GameObject flat2DPrefab;
         public GameObject enemyPrefab;
@@ -45,6 +49,8 @@ namespace Runner
                     for (int j = 0; j < 11; j++)
                     {
                         GameObject enemy = Instantiate(enemyPrefab, new Vector3(-12 + 2.4f * j, 1, 15 - 3 * i), Quaternion.Euler(90, 0, 0)) as GameObject;
+                        enemy.GetComponent<SpriteRenderer>().sprite = enemySkins;
+                        enemy.GetComponent<Animator>().runtimeAnimatorController = enemyAnimators[i];
                     }
                 }
             }
