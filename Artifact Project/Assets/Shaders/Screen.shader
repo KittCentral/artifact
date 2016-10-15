@@ -48,7 +48,7 @@
 			{
 				// sample the texture
 				fixed4 col = tex2D(_MainTex, i.uv);
-				col.a = 1.0f - col.b * col.r;
+				col.a = 1.0f - 5 * col.b * col.r * col.g;
 				// apply fog
 				UNITY_APPLY_FOG(i.fogCoord, col);
 				return col;
