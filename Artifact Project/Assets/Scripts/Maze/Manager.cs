@@ -27,14 +27,14 @@ namespace MazeCreator
 
 		void BeginGame() 
 		{
-			Camera.main.clearFlags = CameraClearFlags.Skybox;
-			Camera.main.rect = new Rect(0f, 0f, 1f, 1f);
+			//Camera.main.clearFlags = CameraClearFlags.Skybox;
+			//Camera.main.rect = new Rect(0f, 0f, 1f, 1f);
 			mazeInstance = Instantiate (mazePrefab) as Maze;
 			mazeInstance.Generate2D();
 			playerInstance = Instantiate(playerPrefab) as MazePlayer;
 			playerInstance.SetLocation(mazeInstance.GetCell(mazeInstance.RandomCoordinates));
-			Camera.main.clearFlags = CameraClearFlags.Depth;
-			Camera.main.rect = new Rect(0f, 0f, 0.5f, 0.5f);
+			//Camera.main.clearFlags = CameraClearFlags.Depth;
+			//Camera.main.rect = new Rect(0f, 0f, 0.5f, 0.5f);
 		}
 
 		void RestartGame() 
