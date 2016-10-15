@@ -6,9 +6,15 @@ namespace Runner
     public class World : MonoBehaviour
     {
         public enum Dimension { Second, Third };
-        public Dimension dim;
+        public enum EnemyOrganization { Block };
+
+        public Dimension dimension;
+        public MovementScheme movementScheme;
+        public EnemyOrganization organization;
+
         public float courseSpeed;
-        public bool pulseRowEnemies;
+        public Vector2 enemyBlockNum;
+        public Vector2 enemyBlockSize;
 
         public GameObject flat2DPrefab;
         public GameObject enemyPrefab;
@@ -18,7 +24,7 @@ namespace Runner
         // Use this for initialization
         void Start()
         {
-            if(dim == Dimension.Second)
+            if(dimension == Dimension.Second)
             {
                 Transform camTran = transform.FindChild("Main Camera");
                 camTran.position = new Vector3(0, 10, 8);
@@ -38,14 +44,15 @@ namespace Runner
                 ground.transform.parent = transform;
                 pieces.Add(ground);
             }
-            if(pulseRowEnemies)
+            if(organization == EnemyOrganization.Block)
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < enemyBlockNum.y; i++)
                 {
-                    for (int j = 0; j < 11; j++)
+                    for (int j = 0; j < enemyBlockNum.x; j++)
                     {
-                        GameObject enemy = Instantiate(enemyPrefab, new Vector3(-12 + 2.4f * j, 1, 15 - 3 * i), Quaternion.Euler(90, 0, 0)) as GameObject;
+                        GameObject enemy = Instantiate(enemyPrefab, new Vector3(-enemyBlockSize.x/2 + enemyBlockSize.x/enemyBlockNum.x * j, 1, 17 - enemyBlockSize.y / enemyBlockNum.y * i), Quaternion.Euler(90, 0, 0)) as GameObject;
                         enemy.GetComponent<Animator>().SetInteger("EnemyID", i);
+                        enemy.GetComponent<Enemy>().movementScheme = movementScheme;
                     }
                 }
             }
@@ -62,4 +69,6 @@ namespace Runner
             }
         }
     }
+
+    public enum MovementScheme { Pulse, Sweep };
 }
