@@ -25,7 +25,6 @@ namespace Galaxy
 		void Start ()
 		{
 			RetrieveData();
-
 		}
 
 		void RetrieveData()
@@ -124,7 +123,6 @@ namespace Galaxy
 									colorMat = new Color(255, 100, 100);
 								else
 									colorMat = new Color(255, 255, 255);
-								print (result);
 							}
 							else
 							{
@@ -152,9 +150,9 @@ namespace Galaxy
 					Location loc = new Location((float)dec,(float)asc,(float)par);
 					clone = Instantiate(star,loc.Coord,new Quaternion(0,0,0,0)) as GameObject;
 					clone.name = name;
-					print (colorMat);
-					clone.GetComponent<ParticleSystem>().startColor = new Color(colorMat.r/255, colorMat.g/255, colorMat.b/255);
-					clone.GetComponent<ParticleSystem>().startSize = (float)size/20;
+                    clone.GetComponent<ParticleSystem>().startColor = Color.white;//new Color(colorMat.r/255, colorMat.g/255, colorMat.b/255);
+					clone.GetComponent<ParticleSystem>().startSize = (float)size/100;
+                    clone.GetComponent<Star>().name = name;
 				}
 			}
 		}
