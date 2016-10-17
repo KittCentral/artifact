@@ -148,11 +148,13 @@ namespace Galaxy
 							break;
 					}
 					Location loc = new Location((float)dec,(float)asc,(float)par);
-					clone = Instantiate(star,loc.Coord,new Quaternion(0,0,0,0)) as GameObject;
+					clone = Instantiate(star,loc.Coord*10,new Quaternion(0,0,0,0)) as GameObject;
 					clone.name = name;
-                    clone.GetComponent<ParticleSystem>().startColor = Color.white;//new Color(colorMat.r/255, colorMat.g/255, colorMat.b/255);
-					clone.GetComponent<ParticleSystem>().startSize = (float)size/100;
+                    clone.GetComponentInChildren<ParticleSystem>().startColor = Color.white;
+					clone.GetComponentInChildren<ParticleSystem>().startSize = (float)size/10;
+                    clone.GetComponentInChildren<StarCloseUp>().color = new Color(colorMat.r / 255, colorMat.g / 255, colorMat.b / 255);
                     clone.GetComponent<Star>().name = name;
+                    clone.transform.GetChild(1).gameObject.SetActive(false);
 				}
 			}
 		}
