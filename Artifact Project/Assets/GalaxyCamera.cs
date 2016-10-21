@@ -12,7 +12,6 @@ namespace Galaxy
         float asc; float originalAsc;
         float rot; float originalRot;
         Vector3 originalMousePos;
-        bool outside;
 
         public Vector3 Focus { get { return focus; } set { focus = value; }}
         public float Distance { get { return distance; } set { distance = value; } }
@@ -25,7 +24,6 @@ namespace Galaxy
             Focus = Vector3.zero;
             focusStar = GameObject.Find("Star").transform;
             Distance = 1;
-            outside = true;
         }
 
         // Update is called once per frame
@@ -33,8 +31,8 @@ namespace Galaxy
         {
             
             Vector3 relativePos = new Vector3(Distance * Mathf.Sin(asc) * Mathf.Cos(rot), Distance * Mathf.Cos(asc), Distance * Mathf.Sin(asc) * Mathf.Sin(rot));
-            if ((interpFocus - Focus).magnitude >= 1)
-                interpFocus -= (interpFocus - Focus).normalized;
+            if ((interpFocus - Focus).magnitude >= 10)
+                interpFocus -= (interpFocus - Focus).normalized * 10;
             else
                 interpFocus = Vector3.Lerp(interpFocus, Focus, .1f);
             transform.position = interpFocus + relativePos;
@@ -51,21 +49,10 @@ namespace Galaxy
             }
             Distance *= Mathf.Pow(1.1f,Input.mouseScrollDelta.y);
             transform.LookAt(Focus);
-            if (outside && Distance < 1)
-            {
-                focusStar.GetComponent<Star>().Inside();
-                outside = false;
-            }
-            else if(!outside && Distance >= 1)
-            {
-                focusStar.GetComponent<Star>().Outside();
-                outside = true;
-            }
         }
 
         public void AlignView (Vector3 target)
         {
-
             Vector3 dif = target - transform.position;
             rot = Mathf.Atan(dif.y / dif.x);
             asc = Mathf.Acos(dif.z / Mathf.Sqrt(Mathf.Pow(dif.x, 2) + Mathf.Pow(dif.y, 2) + Mathf.Pow(dif.z, 2)));

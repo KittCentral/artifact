@@ -90,61 +90,6 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &500992561
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 480962, guid: 8450a95144968774ca3382f93509db6d, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 480962, guid: 8450a95144968774ca3382f93509db6d, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 480962, guid: 8450a95144968774ca3382f93509db6d, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 480962, guid: 8450a95144968774ca3382f93509db6d, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 480962, guid: 8450a95144968774ca3382f93509db6d, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 480962, guid: 8450a95144968774ca3382f93509db6d, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 480962, guid: 8450a95144968774ca3382f93509db6d, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 480962, guid: 8450a95144968774ca3382f93509db6d, type: 2}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 109572, guid: 8450a95144968774ca3382f93509db6d, type: 2}
-      propertyPath: m_Name
-      value: Star
-      objectReference: {fileID: 0}
-    - target: {fileID: 108000012244423210, guid: 8450a95144968774ca3382f93509db6d,
-        type: 2}
-      propertyPath: m_Range
-      value: 0.18
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 8450a95144968774ca3382f93509db6d, type: 2}
-  m_IsPrefabParent: 0
---- !u!4 &500992562 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 480962, guid: 8450a95144968774ca3382f93509db6d, type: 2}
-  m_PrefabInternal: {fileID: 500992561}
 --- !u!1 &602572645
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,6 +105,8 @@ GameObject:
   - 114: {fileID: 602572651}
   - 114: {fileID: 602572652}
   - 114: {fileID: 602572653}
+  - 114: {fileID: 602572654}
+  - 114: {fileID: 602572655}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -205,7 +152,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 1000
+  far clip plane: 10000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -247,7 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoom: 0
-  star: {fileID: 109572, guid: 8450a95144968774ca3382f93509db6d, type: 2}
+  star: {fileID: 1000011775343274, guid: e2bab0d60d8e3af4b8ff1077fbdf3a46, type: 2}
 --- !u!114 &602572652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,7 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ed39cb23b4f09c4797cb8d403d82007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  focusStar: {fileID: 500992562}
+  focusStar: {fileID: 0}
 --- !u!114 &602572653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,6 +224,37 @@ MonoBehaviour:
   blurIterations: 4
   blurType: 0
   fastBloomShader: {fileID: 4800000, guid: 68a00c837b82e4c6d92e7da765dc5f1d, type: 3}
+--- !u!114 &602572654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 602572645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a22b3a7095a744a428c134b5e26ad68e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mode: 0
+  quality: 1
+  blurArea: 5
+  maxBlurSize: 12.3
+  downsample: 0
+  tiltShiftShader: {fileID: 4800000, guid: bf34d2a25450349699e8ae6456fa7ca9, type: 3}
+--- !u!114 &602572655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 602572645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 478a2083ad114a07d000fbfb8d76c639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: e9ba2083ad114a07d000fbfb8d76c639, type: 3}
+  blurAmount: 0.2
+  extraBlur: 0
 --- !u!1 &712637217
 GameObject:
   m_ObjectHideFlags: 0
@@ -532,6 +510,34 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1483019000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1483019001}
+  m_Layer: 0
+  m_Name: Star
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1483019001
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1483019000}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
 --- !u!1 &1608258228
 GameObject:
   m_ObjectHideFlags: 0

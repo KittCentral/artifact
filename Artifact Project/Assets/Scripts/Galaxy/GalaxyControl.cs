@@ -18,6 +18,7 @@ namespace Galaxy
 		char enter = (char)10;
 		string name;
 		double size;
+        float mag;
 		Color colorMat;
 
 		int[] bytePos = {1, 9, 11, 13, 16, 19, 22, 23, 26,31,37,38,44,51,55,67,68,74,75,76,81,82,83,88,89,90,95,96,97,103,109,115,120,122,127,129,132,137,142,147,154,167,177,183,189,257};
@@ -55,106 +56,116 @@ namespace Galaxy
 						string result = System.Text.Encoding.UTF8.GetString(buffer);
 						switch (index)
 						{
-						case (int)byteNames.Name:
-							result = Regex.Replace(result, @"\s+", "");
-							name = result;
-							break;
-						case (int)byteNames.RAh:
-							result = Regex.Replace(result, @"\s+", "");
-							try
-							{
-								asc = Convert.ToDouble(result);
-							}
-							catch
-							{
-								asc = 0;
-							}
-							break;
-						case (int)byteNames.RAm:
-							result = Regex.Replace(result, @"\s+", "");
-							try
-							{
-								asc += Convert.ToDouble(result)/60;
-							}
-							catch
-							{
-								asc = asc;
-							}
-							break;
-						case (int)byteNames.RAs:
-							result = Regex.Replace(result, @"\s+", "");
-							try
-							{
-								asc += Convert.ToDouble(result)/3600;
-							}
-							catch
-							{
-								asc = asc;
-							}
-							break;
-						case (int)byteNames.DEd:
-							result = Regex.Replace(result, @"\s+", "");
-							if(result == "")
-								result = "0";
-							dec *= Convert.ToDouble(result);
-							break;
-						case (int)byteNames.DE:
-							result = Regex.Replace(result, @"\s+", "");
-							if(result == "-")
-								dec = -1;
-							else
-								dec = 1;
-							break;
-						case (int)byteNames.Sp:
-							result = Regex.Replace(result, @"\s+", "");
-							if(result != "")
-							{
-								if (result[0] == 'O' || result[0] == 'o')
-									colorMat = new Color(50, 50, 255);
-								else if (result[0] == 'B' || result[0] == 'b')
-									colorMat = new Color(100, 100, 255);
-								else if (result[0] == 'A' || result[0] == 'a')
-									colorMat = new Color(150, 150, 255);
-								else if (result[0] == 'G' || result[0] == 'g')
-									colorMat = new Color(255, 200, 150);
-								else if (result[0] == 'K' || result[0] == 'k')
-									colorMat = new Color(255, 150, 50);
-								else if (result[0] == 'M' || result[0] == 'M')
-									colorMat = new Color(255, 100, 100);
-								else
-									colorMat = new Color(255, 255, 255);
-							}
-							else
-							{
-								colorMat = Color.white;
-							}
-							break;
-						case (int)byteNames.Mv:
-							result = Regex.Replace(result, @"\s+", "");
-							if(result == "")
-								result = "0";
-							size = Convert.ToDouble(result);
-							break;
-						case (int)byteNames.plx:
-							result = Regex.Replace(result, @"\s+", "");
-							if(result == "")
-								result = "0";
-							par = Convert.ToDouble(result);
-							break;
-						default:
-							break;
+						    case (int)byteNames.Name:
+							    result = Regex.Replace(result, @"\s+", "");
+							    name = result;
+							    break;
+						    case (int)byteNames.RAh:
+							    result = Regex.Replace(result, @"\s+", "");
+							    try
+							    {
+								    asc = Convert.ToDouble(result);
+							    }
+							    catch
+							    {
+								    asc = 0;
+							    }
+							    break;
+						    case (int)byteNames.RAm:
+							    result = Regex.Replace(result, @"\s+", "");
+							    try
+							    {
+								    asc += Convert.ToDouble(result)/60;
+							    }
+							    catch
+							    {
+								    asc = asc;
+							    }
+							    break;
+						    case (int)byteNames.RAs:
+							    result = Regex.Replace(result, @"\s+", "");
+							    try
+							    {
+								    asc += Convert.ToDouble(result)/3600;
+							    }
+							    catch
+							    {
+								    asc = asc;
+							    }
+							    break;
+						    case (int)byteNames.DEd:
+							    result = Regex.Replace(result, @"\s+", "");
+							    if(result == "")
+								    result = "0";
+							    dec *= Convert.ToDouble(result);
+							    break;
+						    case (int)byteNames.DE:
+							    result = Regex.Replace(result, @"\s+", "");
+							    if(result == "-")
+								    dec = -1;
+							    else
+								    dec = 1;
+							    break;
+						    case (int)byteNames.Sp:
+							    result = Regex.Replace(result, @"\s+", "");
+							    if(result != "")
+							    {
+								    if (result[0] == 'O' || result[0] == 'o')
+									    colorMat = new Color(50, 50, 255);
+								    else if (result[0] == 'B' || result[0] == 'b')
+									    colorMat = new Color(100, 100, 255);
+								    else if (result[0] == 'A' || result[0] == 'a')
+									    colorMat = new Color(150, 150, 255);
+								    else if (result[0] == 'G' || result[0] == 'g')
+									    colorMat = new Color(255, 200, 150);
+								    else if (result[0] == 'K' || result[0] == 'k')
+									    colorMat = new Color(255, 150, 50);
+								    else if (result[0] == 'M' || result[0] == 'M')
+									    colorMat = new Color(255, 100, 100);
+								    else
+									    colorMat = new Color(255, 255, 255);
+							    }
+							    else
+							    {
+								    colorMat = Color.white;
+							    }
+							    break;
+						    case (int)byteNames.Mv:
+							    result = Regex.Replace(result, @"\s+", "");
+							    if(result == "")
+								    result = "0";
+							    size = Convert.ToDouble(result);
+                                size = size >= .1f ? size : .1f;
+							    break;
+						    case (int)byteNames.plx:
+							    result = Regex.Replace(result, @"\s+", "");
+							    if(result == "")
+								    result = "0";
+							    par = Convert.ToDouble(result);
+							    break;
+                            default:
+							    break;
 						}
 						if(doubleBreak)
 							break;
 					}
 					Location loc = new Location((float)dec,(float)asc,(float)par);
-					clone = Instantiate(star,loc.Coord*10,new Quaternion(0,0,0,0)) as GameObject;
-					clone.name = name;
-                    clone.GetComponentInChildren<ParticleSystem>().startColor = Color.white;
-					clone.GetComponentInChildren<ParticleSystem>().startSize = (float)size/10;
-                    clone.GetComponentInChildren<StarCloseUp>().color = new Color(colorMat.r / 255, colorMat.g / 255, colorMat.b / 255);
-                    clone.GetComponent<Star>().name = name;
-                    clone.transform.GetChild(1).gameObject.SetActive(false);
+                    if (new Vector3(Mathf.Ceil(loc.Coord.x * 10), Mathf.Ceil(loc.Coord.y * 10), Mathf.Ceil(loc.Coord.z * 10)) != new Vector3(-13, -43, 112))
+                    {
+                        clone = Instantiate(star,loc.Coord*100,new Quaternion(0,0,0,0)) as GameObject;
+					    clone.name = name;
+                        clone.GetComponentInChildren<StarCloseUp>().color = new Color(colorMat.r / 255, colorMat.g / 255, colorMat.b / 255);
+                        clone.GetComponent<Star>().name = name;
+                        float sizeUnLog = Mathf.Pow(10,((float)size)-4.85f);
+
+                        Vector3 sizeVec = new Vector3(((float)size)/48.5f, ((float)size)/ 48.5f, ((float)size) / 48.5f);
+                        clone.transform.GetChild(0).localScale = sizeVec;
+                        clone.transform.GetChild(0).GetComponent<Light>().range *= (float)size / 48.5f;
+                        clone.transform.GetChild(0).GetChild(1).localScale = sizeVec;
+                        clone.transform.GetChild(0).GetChild(1).GetComponent<Light>().range *= (float)size / 9.7f; 
+                        clone.transform.GetChild(0).GetChild(0).localScale = sizeVec;
+                        
+                    }
 				}
 			}
 		}
