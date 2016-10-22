@@ -17,17 +17,5 @@ namespace Galaxy
             cam.AlignView(transform.position);
             print(name);
         }
-
-        public void Inside()
-        {
-            cam.focusStar.GetChild(0).gameObject.SetActive(false);
-            cam.focusStar.GetChild(1).gameObject.SetActive(true);
-        }
-
-        public void Outside()
-        {
-            cam.focusStar.GetChild(1).gameObject.SetActive(false);
-            cam.focusStar.GetChild(0).gameObject.SetActive(true);
-        }
     }
 }
