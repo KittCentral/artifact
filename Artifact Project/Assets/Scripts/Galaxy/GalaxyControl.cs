@@ -12,11 +12,14 @@ namespace Galaxy
 	public class GalaxyControl : MonoBehaviour 
 	{
 		public float zoom;
-		double dec, asc, par;
+        string name;
+        string specType;
+        string otherName;
+        string remarks;
+        double dec, asc, par;
 		public GameObject star;
 		GameObject clone;
 		char enter = (char)10;
-		string name;
 		double size;
         float mag;
 		Color colorMat;
@@ -58,8 +61,10 @@ namespace Galaxy
 						{
 						    case (int)byteNames.Name:
 							    result = Regex.Replace(result, @"\s+", "");
+                                if (result == "NN")
+                                    result = "No Name";
 							    name = result;
-							    break;
+                                break;
 						    case (int)byteNames.RAh:
 							    result = Regex.Replace(result, @"\s+", "");
 							    try
@@ -108,7 +113,8 @@ namespace Galaxy
 							    break;
 						    case (int)byteNames.Sp:
 							    result = Regex.Replace(result, @"\s+", "");
-							    if(result != "")
+                                specType = result;
+                                if (result != "")
 							    {
 								    if (result[0] == 'O' || result[0] == 'o')
 									    colorMat = new Color(50, 50, 255);
@@ -143,6 +149,16 @@ namespace Galaxy
 								    result = "0";
 							    par = Convert.ToDouble(result);
 							    break;
+                            case (int)byteNames.OtherName:
+                                result = Regex.Replace(result, @"\s+", "");
+                                otherName = result;
+                                if (otherName != "" && name == "No Name")
+                                    name = "";
+                                break;
+                            case (int)byteNames.Remarks:
+                                result = Regex.Replace(result, @"\s+", "");
+                                remarks = result;
+                                break;
                             default:
 							    break;
 						}
@@ -155,8 +171,12 @@ namespace Galaxy
                         clone = Instantiate(star,loc.Coord*100,new Quaternion(0,0,0,0)) as GameObject;
 					    clone.name = name;
                         clone.GetComponentInChildren<StarCloseUp>().color = new Color(colorMat.r / 255, colorMat.g / 255, colorMat.b / 255);
-                        clone.GetComponent<Star>().name = name;
                         float sizeUnLog = Mathf.Pow(10,((float)size)-4.85f);
+                        clone.GetComponent<Star>().name = name;
+                        clone.GetComponent<Star>().distance = loc.distance.ToString();
+                        clone.GetComponent<Star>().specType = specType;
+                        clone.GetComponent<Star>().otherName = otherName;
+                        clone.GetComponent<Star>().remarks = remarks;
 
                         Vector3 sizeVec = new Vector3(((float)size)/48.5f, ((float)size)/ 48.5f, ((float)size) / 48.5f);
                         clone.transform.GetChild(0).localScale = sizeVec;
@@ -164,7 +184,8 @@ namespace Galaxy
                         clone.transform.GetChild(0).GetChild(1).localScale = sizeVec;
                         clone.transform.GetChild(0).GetChild(1).GetComponent<Light>().range *= (float)size / 9.7f; 
                         clone.transform.GetChild(0).GetChild(0).localScale = sizeVec;
-                        
+
+
                     }
 				}
 			}

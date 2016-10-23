@@ -6,7 +6,7 @@ namespace Galaxy
 	public class Location : Object
 	{
 		public Vector3 coord;
-		float distance;
+		public float distance;
 
 		public Location(float declination, float ascension, float parallax)
 		{
