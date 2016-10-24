@@ -33,11 +33,11 @@ namespace Flight
             //Aiming Vector for the planes movement
             Vector3 targetPitch = transform.forward + transform.up * (Input.GetAxis("Vertical") * (hitCheck ? 0 : 1));
             //Ensures behavior like stalling
-            float altitudeSpeedControl = (200 - Mathf.Pow(3, transform.position.y / 20) > 0 ? (200 - Mathf.Pow(3, transform.position.y / 20)) : 0);
+            //float altitudeSpeedControl = (400 - Mathf.Pow(3, transform.position.y / 20) > 0 ? (400 - Mathf.Pow(3, transform.position.y / 20)) : 0);
             //Ensures a top speed
             float dragSpeedControl = (maxVelocity - body.velocity.magnitude) / maxVelocity;
             //Controls how strong the forward push is
-            Vector3 forwardForce = transform.forward * (dragSpeedControl > 0 ? dragSpeedControl : 0) * altitudeSpeedControl;
+            Vector3 forwardForce = transform.forward * (dragSpeedControl > 0 ? dragSpeedControl : 0);// * altitudeSpeedControl;
             //It acts kind of like lift although I'm not sure I understand why
             Vector3 upForce = transform.up * (Input.GetAxis("Vertical") * (hitCheck ? 0 : 1) * (body.velocity.magnitude < maxVelocity ? body.velocity.magnitude : maxVelocity) / maxVelocity);
             //If you are going slower you will turn faster

@@ -52,6 +52,8 @@ public class SurfaceCreator : MonoBehaviour
             mesh = new Mesh();
             mesh.name = "Surface Mesh";
             GetComponent<MeshFilter>().mesh = mesh;
+            if (GetComponent<MeshCollider>() != null)
+                GetComponent<MeshCollider>().sharedMesh = mesh;
         }
         Refresh();
     }
@@ -74,18 +76,18 @@ public class SurfaceCreator : MonoBehaviour
             CreateGrid();        
         Quaternion q = Quaternion.Euler(rotation);
         Quaternion qInv = Quaternion.Inverse(q);
-        Vector3 point00 = q * transform.TransformPoint(new Vector3(-0.5f, -0.5f)) + offset;
-        Vector3 point10 = q * transform.TransformPoint(new Vector3( 0.5f, -0.5f)) + offset;
-        Vector3 point01 = q * transform.TransformPoint(new Vector3(-0.5f,  0.5f)) + offset;
-        Vector3 point11 = q * transform.TransformPoint(new Vector3( 0.5f,  0.5f)) + offset;
+        Vector3 point00 = q * transform.TransformPoint(new Vector3(-0.5f, 0f, -0.5f)) + offset;
+        Vector3 point10 = q * transform.TransformPoint(new Vector3( 0.5f, 0f, -0.5f)) + offset;
+        Vector3 point01 = q * transform.TransformPoint(new Vector3(-0.5f, 0f, 0.5f)) + offset;
+        Vector3 point11 = q * transform.TransformPoint(new Vector3( 0.5f, 0f, 0.5f)) + offset;
 
         float amplitude = damping ? strength / frequency : strength;
         Procedural.NoiseMethod method = Procedural.Noise.noiseMethods[(int)type][dimensions - 1];
         int n = 0;
-        for (int y = 0; y <= res; y++)
+        for (int z = 0; z <= res; z++)
         {
-            Vector3 point0 = Vector3.Lerp(point00, point01, (float)y / res);
-            Vector3 point1 = Vector3.Lerp(point10, point11, (float)y / res);
+            Vector3 point0 = Vector3.Lerp(point00, point01, (float)z / res);
+            Vector3 point1 = Vector3.Lerp(point10, point11, (float)z / res);
             for (int x = 0; x <= res; x++, n++)
             {
                 Vector3 point = Vector3.Lerp(point0, point1, (float)x / res);
@@ -110,6 +112,7 @@ public class SurfaceCreator : MonoBehaviour
         mesh.vertices = vertices;
         mesh.colors = colors;
         mesh.RecalculateNormals();
+        mesh.RecalculateBounds();
         if (!analyticalDerivatives)
             CalculateNormals();
     }
