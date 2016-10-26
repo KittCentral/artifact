@@ -9,6 +9,9 @@ public class SurfaceCreator : MonoBehaviour
 
     public Vector3 offset;
 
+    //Length of side relative to normal tile basically anything over 1's size needs to be half of the number tiles you want covered
+    public Vector3 size;
+
     public Vector3 rotation;
 
     [Range(0f, 2f)]
@@ -39,6 +42,14 @@ public class SurfaceCreator : MonoBehaviour
     public bool showNormals;
 
     public bool analyticalDerivatives;
+
+    [Range(0f, 1f)]
+    public float flatBottom;
+
+    public GameObject DecidousTree;
+    public GameObject ConiferTree;
+    public GameObject[] rocks;
+    public GameObject grass;
 
     Mesh mesh;
     Vector3[] vertices;
@@ -91,8 +102,9 @@ public class SurfaceCreator : MonoBehaviour
             for (int x = 0; x <= res; x++, n++)
             {
                 Vector3 point = Vector3.Lerp(point0, point1, (float)x / res);
-                NoiseSample sample = Procedural.Noise.Sum(method, point, frequency, octaves, lacunarity, persistence);
+                NoiseSample sample = Procedural.Noise.Sum(method, Vector3.Scale(point, size), frequency, octaves, lacunarity, persistence);
                 sample = type == Procedural.NoiseMethodType.Value ? (sample - 0.5f) : (sample * 0.5f);
+                sample.value = sample.value < flatBottom - .5f ? flatBottom - .5f : sample.value;
                 if (coloringForStrength)
                 {
                     colors[n] = coloring.Evaluate(sample.value + 0.5f);
@@ -102,6 +114,22 @@ public class SurfaceCreator : MonoBehaviour
                 {
                     sample *= amplitude;
                     colors[n] = coloring.Evaluate(sample.value + 0.5f);
+                }
+                if (Procedural.Noise.Perlin3D(point, 50).value > .4f && sample.value>-4f && sample.value<.5f && sample.derivative.magnitude < 1)
+                {
+                    float ranAngle = Random.Range(0, 2 * Mathf.PI);
+                    float treeControl = Random.Range(0, 2);
+                    Quaternion ranRot = Quaternion.LookRotation(new Vector3(Mathf.Sin(ranAngle),0,Mathf.Cos(ranAngle)), Vector3.up);
+                    GameObject clone = Instantiate(treeControl<.5f?DecidousTree:ConiferTree, new Vector3(point.x,sample.value,point.z), ranRot, transform) as GameObject;
+                    clone.transform.localScale = new Vector3(.005f, .005f, .005f);
+                }
+                if (Procedural.Noise.Perlin3D(new Vector3(point.x,100,point.z), 3).value > .6f && sample.value > -4f)
+                {
+                    float ranAngle = Random.Range(0, 2 * Mathf.PI);
+                    float rockControl = Random.Range(0, 4);
+                    Quaternion ranRot = Random.rotation;
+                    GameObject clone = Instantiate(rocks[Mathf.FloorToInt(rockControl)], new Vector3(point.x, sample.value, point.z), ranRot, transform) as GameObject;
+                    clone.transform.localScale = new Vector3(Random.Range(.2f,2), Random.Range(.2f, 2), Random.Range(.2f, 2));
                 }
                 vertices[n].y = sample.value;
                 sample.derivative = qInv * sample.derivative;
@@ -116,8 +144,8 @@ public class SurfaceCreator : MonoBehaviour
         if (!analyticalDerivatives)
             CalculateNormals();
     }
-
-    void CreateGrid()
+    
+    public void CreateGrid()
     {
         currentRes = res;
         mesh.Clear();
