@@ -37,11 +37,11 @@ namespace Flight
             //Ensures a top speed
             float dragSpeedControl = (maxVelocity - body.velocity.magnitude) / maxVelocity;
             //Controls how strong the forward push is
-            Vector3 forwardForce = transform.forward * (dragSpeedControl > 0 ? dragSpeedControl : 0);// * altitudeSpeedControl;
+            Vector3 forwardForce = transform.forward * (dragSpeedControl > 0 ? dragSpeedControl : 0) * Time.deltaTime * 1000;// * altitudeSpeedControl;
             //It acts kind of like lift although I'm not sure I understand why
             Vector3 upForce = transform.up * (Input.GetAxis("Vertical") * (hitCheck ? 0 : 1) * (body.velocity.magnitude < maxVelocity ? body.velocity.magnitude : maxVelocity) / maxVelocity);
             //If you are going slower you will turn faster
-            body.angularDrag = (body.velocity.magnitude / 20);
+            body.angularDrag = (body.velocity.magnitude / 100);
             //Roll Controls
             transform.Rotate(0.0f, 0.0f, Input.GetAxis("Horizontal") * rollSpeed * -1 * (hitCheck ? 0 : 1));
             //Pushes vehicle
@@ -55,7 +55,6 @@ namespace Flight
             if ((maxVelocity > 10 && Input.GetAxis("Mouse ScrollWheel") < 0) || (maxVelocity < 300 && Input.GetAxis("Mouse ScrollWheel") > 0))
             {
                 maxVelocity += Input.GetAxis("Mouse ScrollWheel") * 30;
-                print(maxVelocity);
             }
         }
 
@@ -71,6 +70,9 @@ namespace Flight
             body.velocity = body.velocity / 10;
             thrust = 0;
             hitCheck = true;
+            if(!transform.GetChild(0).gameObject.GetComponent<AudioSource>().isPlaying)
+                transform.GetChild(0).gameObject.GetComponent<AudioSource>().Play();
+            GetComponent<AudioSource>().enabled = false;
         }
     }
 }
