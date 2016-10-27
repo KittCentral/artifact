@@ -60,13 +60,13 @@ Material:
     m_Floats:
     - first:
         name: _ReflDistort
-      second: 0.44
+      second: 1.5
     - first:
         name: _RefrDistort
       second: 0.4
     - first:
         name: _WaveScale
-      second: 0.063
+      second: 0.1
     m_Colors:
     - first:
         name: WaveSpeed
