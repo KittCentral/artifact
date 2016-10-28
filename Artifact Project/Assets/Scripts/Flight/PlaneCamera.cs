@@ -29,7 +29,7 @@ public class PlaneCamera : MonoBehaviour
             yPot = Mathf.Abs(Mathf.Lerp(yPot, Input.GetAxis("Horizontal") * 3, .05f));
             Quaternion rot = Quaternion.Euler(new Vector3(10 + xRot, 0, zRot));
             transform.localRotation = rot;
-            transform.localPosition = new Vector3(0, 3 + yPot, -5 - 5 * plane.MaxVelocity / 200);
+            transform.localPosition = new Vector3(0, 7 + yPot, -10 - 5 * plane.MaxVelocity / 200);
         }
         else
         {
