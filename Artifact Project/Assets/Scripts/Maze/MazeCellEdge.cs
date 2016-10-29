@@ -21,6 +21,8 @@ namespace MazeCreator
 			transform.localRotation = direction.ToRotation();
 		}
 
+        public virtual void OnPlayerEntered() { }
 
-	}
+        public virtual void OnPlayerExited() { }
+    }
 }

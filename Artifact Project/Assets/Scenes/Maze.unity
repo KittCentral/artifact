@@ -275,7 +275,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!124 &1005176430
 Behaviour:
   m_ObjectHideFlags: 0
@@ -298,14 +298,14 @@ Camera:
   m_GameObject: {fileID: 1005176428}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 3
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0.019607844}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1
-    height: 1
+    width: 0.5
+    height: 0.5
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -547,8 +547,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c2e753b57f1544095f948798b6d302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reset: 32
+  reset: 27
   playerPrefab: {fileID: 11439668, guid: bb8d03374ec29964882bd29c01e9f92a, type: 2}
+  goalPrefab: {fileID: 114000013609972738, guid: d7aac92f0bc798a42ac7e73d4442a2ee,
+    type: 2}
   mazePrefab: {fileID: 11472844, guid: 1fa9cf5e20d87ba4e92580c7e4457e3f, type: 2}
 --- !u!4 &1683338040
 Transform:

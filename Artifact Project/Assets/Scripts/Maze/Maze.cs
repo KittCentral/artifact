@@ -43,6 +43,10 @@ namespace MazeCreator
 			{
 				GenStep(activeCells);
 			}
+            for (int i = 0; i < rooms.Count; i++)
+            {
+                rooms[i].Hide();
+            }
 		}
 
 		void GenStart(List<MazeCell> activeCells)
