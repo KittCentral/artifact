@@ -5385,7 +5385,7 @@
 <category><pattern>WHO ELSE IS *</pattern><template><srai>WHO IS <star/> </srai> </template></category> 
 <category><pattern>WHO ELSE VISITS *</pattern><template><srai>WHO VISITS <star/> </srai> </template></category> 
 <category><pattern>WHO HAS *</pattern><template><srai>WHO <star/> </srai> </template></category> 
-<category><pattern>WHO HAVE YOU * WITH</pattern><template><srai>WHO HAS <star/> WITH YOU</srai> </template></category> 
+<category><pattern>WHO HAVE YOU * WITH</pattern><template><srai>Everyone</srai> </template></category> 
 <category><pattern>WHO ID *</pattern><template><srai>WHO IS <star/> </srai> </template></category> 
 <category><pattern>WHO IN THE WORLD *</pattern><template><srai>WHO IS <star/> </srai> </template></category> 
 <category><pattern>WHO IS ACTUALLY *</pattern><template><srai>WHO IS <star/> </srai> </template></category> 
