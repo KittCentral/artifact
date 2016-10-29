@@ -25,6 +25,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -44,13 +45,13 @@ MonoBehaviour:
   wallPrefab: {fileID: 11490344, guid: 0f65d4f5642262e40b69d2c44f6ab2ad, type: 2}
   doorPrefab: {fileID: 11423314, guid: 9b11ac0f63699ae478ccaf8f70e71dc3, type: 2}
   roomSettings:
-  - floorMaterial: {fileID: 2100000, guid: 69059532fa72bf44d89b1f4b9a1fa8d4, type: 2}
+  - floorMaterial: {fileID: 2100000, guid: cb64d13ab02b3054e883327f7e8a29ec, type: 2}
     wallMaterial: {fileID: 2100000, guid: 32b1989401c55004190f23b854565ee6, type: 2}
-  - floorMaterial: {fileID: 2100000, guid: c3f0dc1649650af41b6132edd17a93ff, type: 2}
+  - floorMaterial: {fileID: 2100000, guid: 650f2cedbe2840945814ce7cb8f34f5e, type: 2}
     wallMaterial: {fileID: 2100000, guid: d99f26bb60433e24ca33cf609e1b102a, type: 2}
-  - floorMaterial: {fileID: 2100000, guid: 7997fc387c82c3c459371a908eb23d44, type: 2}
+  - floorMaterial: {fileID: 2100000, guid: 01defa9ac4f73d5409cd3d2febe6f0ac, type: 2}
     wallMaterial: {fileID: 2100000, guid: df53779b96eef274b9a67a598372541e, type: 2}
-  - floorMaterial: {fileID: 2100000, guid: 848918a99d11f25f110026ca44295342, type: 2}
+  - floorMaterial: {fileID: 2100000, guid: 2699dc05ec9bcec41bb57f10f6b90cae, type: 2}
     wallMaterial: {fileID: 2100000, guid: f0dbfca753204e84dbc590e53e2723d4, type: 2}
   size:
     x: 40

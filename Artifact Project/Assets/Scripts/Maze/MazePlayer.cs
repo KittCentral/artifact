@@ -9,16 +9,32 @@ namespace MazeCreator
 		Direction currentDirection;
 		Quaternion tarRot;
 		Vector3 tarPos;
-		
-		public void SetLocation (MazeCell cell) 
+
+        public MazeCell CurrentCell
+        {
+            get
+            {
+                return currentCell;
+            }
+
+            set
+            {
+                currentCell = value;
+            }
+        }
+
+        public void SetLocation (MazeCell cell) 
 		{
-			currentCell = cell;
+            if (CurrentCell != null)
+                CurrentCell.OnPlayerExited();
+            CurrentCell = cell;
 			tarPos = cell.transform.localPosition;
+            CurrentCell.OnPlayerEntered();
 		}
 		
 		void Move (Direction direction) 
 		{
-			MazeCellEdge edge = currentCell.GetEdge(direction);
+			MazeCellEdge edge = CurrentCell.GetEdge(direction);
 			if (edge is MazePassage)
 				SetLocation(edge.neighborCell);
 		}
@@ -32,7 +48,8 @@ namespace MazeCreator
 		void Start()
 		{
 			tarRot = currentDirection.ToRotation();
-			tarPos = currentCell.transform.localPosition;
+			tarPos = CurrentCell.transform.localPosition;
+            transform.position = tarPos;
 		}
 		
 		void Update () {
