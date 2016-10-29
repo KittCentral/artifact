@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace PipeDream
 {
     public class Avatar : MonoBehaviour
     {
-        public ParticleSystem trail, burst;
+        public ParticleSystem trail, burst, body;
+        public Text score;
         Player player;
 
         public float deathCountdown = -1f;
@@ -23,17 +25,18 @@ namespace PipeDream
                 {
                     deathCountdown = -1f;
                     trail.enableEmission = true;
-                    player.Die();
+                    body.enableEmission = true;
                 }
             }
+            score.text = "Score: " + ((int)Mathf.Pow(1.05f,player.distanceTravelled)*100).ToString();
         }
 
         void OnTriggerEnter (Collider col)
         {
             if (deathCountdown < 0f)
             {
-                print((int)player.distanceTravelled);
                 trail.enableEmission = false;
+                body.enableEmission = false;
                 burst.Emit(burst.maxParticles);
                 player.velocity = 0f; player.rotationalVelocity = 0f;
                 deathCountdown = burst.startLifetime;

@@ -247,7 +247,7 @@ namespace Calendar
 
         public void SceneClose ()
         {
-            SceneControl.OpenSceneAdditive(9);
+            SceneControl.OpenSceneAdditive(10);
         }
         #endregion
     }

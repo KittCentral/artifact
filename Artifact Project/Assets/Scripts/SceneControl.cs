@@ -16,9 +16,8 @@ public class SceneControl : MonoBehaviour
 
     void Start ()
     {
-        
-        OpenSceneAdditive(9);
-        
+        if(SceneManager.GetActiveScene().name == "RSS Scene" && SceneManager.sceneCount == 1)
+            OpenSceneAdditive(10);
     }
 
 	//Checks if you are in the Loading Scene then opens the approriate Scene
@@ -29,7 +28,7 @@ public class SceneControl : MonoBehaviour
 			targetScene = PlayerPrefs.GetInt("Target");
 			StartCoroutine(Wait(targetScene));
 		}
-        if (async != null)
+        if (async != null && screen != null)
         {
             if (async.isDone && loading == true)
             {
@@ -44,7 +43,9 @@ public class SceneControl : MonoBehaviour
 	public static void OpenScene(int i)
 	{
 		targetScene = i;
-		PlayerPrefs.SetInt("Target",targetScene);
+		PlayerPrefs.SetInt("Target", targetScene);
+        for (int sceneIndex = 2; sceneIndex <= SceneManager.sceneCount; sceneIndex++)
+            SceneManager.UnloadScene(10);
 		SceneManager.LoadScene("Loading");
 	}
 
@@ -52,7 +53,7 @@ public class SceneControl : MonoBehaviour
 	IEnumerator Wait(int number)
 	{
 		yield return new WaitForSeconds(3);
-        SceneManager.LoadScene(Path.GetFileNameWithoutExtension(EditorBuildSettings.scenes[6].path));
+        SceneManager.LoadScene(Path.GetFileNameWithoutExtension(EditorBuildSettings.scenes[number].path));
 	}
 
     public static void OpenSceneAdditive(int i)
