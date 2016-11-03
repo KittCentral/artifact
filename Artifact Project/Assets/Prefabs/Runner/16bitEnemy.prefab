@@ -14,7 +14,7 @@ GameObject:
   - 95: {fileID: 95000011592554652}
   m_Layer: 0
   m_Name: 16bitEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56,8 +56,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idleSpeed: 0.1
-  explosion: {fileID: 21300000, guid: 67f40cc69bbf76c44a96ce9ee25a9185, type: 3}
-  explosionAnim: {fileID: 9100000, guid: 00495392bf7b07144b1f4f070d0863ea, type: 2}
+  speed: 0
+  movementScheme: 0
+  canFire: 0
+  bulletSpeed: 20
+  level: 0
+  column: 0
+  bullet: {fileID: 1000011686859406, guid: f80cb21d1bad0044baa0ef6f5cd67942, type: 2}
 --- !u!212 &21220156
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
+using System.Collections;
 
 namespace Runner
 {
@@ -13,18 +15,31 @@ namespace Runner
         public EnemyOrganization organization;
 
         public float courseSpeed;
-        public Vector2 enemyBlockNum;
-        public Vector2 enemyBlockSize;
-
+        
         public GameObject flat2DPrefab;
-        public GameObject enemyPrefab;
+        public GameObject player;
+
+        public GameObject levelObj; public int level = 1;
+        public GameObject scoreObj;
+        int score;
+        public int Score { get { return score; } set
+            {
+                score += value * level;
+                if (value == 0)
+                    score = 0;
+                scoreObj.GetComponent<Text>().text = "Score: " + score;
+            } }
 
         List<GameObject> pieces = new List<GameObject>();
+
+        bool gameOver;
+        public bool GameOver { get { return gameOver; } set { gameOver = value; } }
 
         // Use this for initialization
         void Start()
         {
-            if(dimension == Dimension.Second)
+            StartCoroutine(ShowLevel());
+            if (dimension == Dimension.Second)
             {
                 Transform camTran = transform.FindChild("Main Camera");
                 camTran.position = new Vector3(0, 10, 8);
@@ -44,18 +59,6 @@ namespace Runner
                 ground.transform.parent = transform;
                 pieces.Add(ground);
             }
-            if(organization == EnemyOrganization.Block)
-            {
-                for (int i = 0; i < enemyBlockNum.y; i++)
-                {
-                    for (int j = 0; j < enemyBlockNum.x; j++)
-                    {
-                        GameObject enemy = Instantiate(enemyPrefab, new Vector3(-enemyBlockSize.x/2 + enemyBlockSize.x/enemyBlockNum.x * j, 1, 17 - enemyBlockSize.y / enemyBlockNum.y * i), Quaternion.Euler(90, 0, 0)) as GameObject;
-                        enemy.GetComponent<Animator>().SetInteger("EnemyID", i);
-                        enemy.GetComponent<Enemy>().movementScheme = movementScheme;
-                    }
-                }
-            }
         }
 
         // Update is called once per frame
@@ -67,6 +70,40 @@ namespace Runner
                 if (obj.transform.position.z < -30f)
                     obj.transform.position = new Vector3(transform.position.x, transform.position.y, obj.transform.position.z + 90f);
             }
+            if (GameOver && Input.GetKeyDown(KeyCode.Return))
+                Reset();
+        }
+
+        void Reset()
+        {
+            level = 1;
+            Score = 0;
+            GameObject playerInstance = Instantiate(player, new Vector3(0, 1, 0), Quaternion.Euler(90, 0, 0)) as GameObject;
+            GameObject.Find("Enemies").GetComponent<Enemies>().Reset();
+            GameOver = false;
+            foreach (var obj in GameObject.FindGameObjectsWithTag("Projectile"))
+            {
+                Destroy(obj.transform.parent.gameObject);
+            }
+        }
+
+        public void LevelUp()
+        {
+            GameObject.Find("Enemies").GetComponent<Enemies>().Reset();
+            foreach (var obj in GameObject.FindGameObjectsWithTag("Projectile"))
+            {
+                Destroy(obj.transform.parent.gameObject);
+            }
+            level++;
+            StartCoroutine(ShowLevel());
+        }
+
+        IEnumerator ShowLevel()
+        {
+            levelObj.SetActive(true);
+            levelObj.GetComponent<Text>().text = "Level " + level;
+            yield return new WaitForSeconds(1f);
+            levelObj.SetActive(false);
         }
     }
 

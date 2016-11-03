@@ -16,6 +16,7 @@ namespace Runner
             player.jump = EditorGUILayout.Toggle("Allow Jumping", player.jump);
             player.bullet = EditorGUILayout.ObjectField(player.bullet, typeof(GameObject), false) as GameObject;
             player.bulletSpeed = EditorGUILayout.FloatField(player.bulletSpeed);
+            player.fireDelay = EditorGUILayout.FloatField(player.fireDelay);
         }
     }
 }
