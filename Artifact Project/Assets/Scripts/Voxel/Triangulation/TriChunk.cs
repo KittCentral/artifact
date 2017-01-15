@@ -16,7 +16,8 @@ namespace Voxel
         public TriWorld world;
         public GameObject dot;
         static bool[,,] hits = new bool[chunkSize, chunkHeight, chunkSize - 1];
-        float noiseScale = 0.03f;
+        float noiseScale = 0.06f;
+        public float threshold = 0.75f;
 
         Vector3[] tetraPoints = { new Vector3(0, 0, 0), new Vector3(1.5f, 0, 1), new Vector3(0, 0, 2), new Vector3(1.5f, 0, -1), new Vector3(.5f, -1f / 3f, 1), new Vector3(1, 1f / 3f, 0)};
         static int[] tetra1 = { 0, 1, 2, 5 };
@@ -126,7 +127,7 @@ namespace Voxel
                             Gizmos.DrawSphere(vert, .2f);
                             if (world.show)
                             {
-                                Vector3 dir = Procedural.Noise.noiseMethods[1][2](vert, noiseScale).derivative.normalized;
+                                Vector3 dir = Procedural.Noise.noiseMethods[0][2](vert, noiseScale).derivative.normalized;
                                 Gizmos.color = Color.yellow;
                                 Gizmos.DrawRay(vert, dir);
                             }
@@ -183,7 +184,7 @@ namespace Voxel
             filter.mesh.triangles = tris.ToArray();
             filter.mesh.normals = normals.ToArray();
             filter.mesh.RecalculateBounds();
-            //filter.mesh.RecalculateNormals();
+            filter.mesh.RecalculateNormals();
         }
 
         /// <summary>
@@ -193,8 +194,8 @@ namespace Voxel
         /// <returns>Boolean</returns>
         bool GradientCheck(Vector3 point)
         {
-            Vector3 normal = Procedural.Noise.noiseMethods[1][2](point, noiseScale).derivative.normalized * 2f;
-            if (GetNoise(point + normal, noiseScale) > .75f && GetNoise(point - normal, noiseScale) < .75f)
+            Vector3 normal = Procedural.Noise.noiseMethods[0][2](point, noiseScale).derivative.normalized * 2f;
+            if (GetNoise(point + normal, noiseScale) > threshold && GetNoise(point - normal, noiseScale) < threshold)
                 return true;
             return false;
         }
@@ -206,7 +207,8 @@ namespace Voxel
         /// <returns>Boolean</returns>
         bool Land(Vector3 point)
         {
-            return GetNoise(point, noiseScale) < .75f;
+            //print(GetNoise(point, noiseScale));
+            return GetNoise(point, noiseScale) < threshold;
         }
 
         /// <summary>
@@ -271,7 +273,7 @@ namespace Voxel
                             {
                                 verts.Add(vertTemp[triTemp[face][i]]);
                                 tris.Add(i + tetraVertCount);
-                                normals.Add(Procedural.Noise.noiseMethods[1][2](center, noiseScale).derivative.normalized);
+                                normals.Add(Procedural.Noise.noiseMethods[0][2](center, noiseScale).derivative.normalized);
                             }
                         }
                     }
@@ -282,7 +284,7 @@ namespace Voxel
                     foreach (var vert in vertTemp)
                     {
                         verts.Add(vert);
-                        normals.Add(Procedural.Noise.noiseMethods[1][2](center, noiseScale).derivative.normalized);
+                        normals.Add(Procedural.Noise.noiseMethods[0][2](center, noiseScale).derivative.normalized);
                     }
                     List<int> triTemp;
                     if (!innerFaceIDs.TryGetValue(new InnerFaceKey(tetra, fail), out triTemp))
@@ -302,20 +304,25 @@ namespace Voxel
         {
             List<Vector3> vertTemp = new List<Vector3>();
             List<int> vertFail = new List<int>();
+            List<int> vertSuccess = new List<int>();
             int vertCount = verts.Count;
 
             for (int i = 0; i < 6; i++)
             {
                 Vector3 vert = center + tetraPoints[i];
                 if (CheckHit(vert))
+                {
                     vertTemp.Add(new Vector3(vert.x * Mathf.Sqrt(3) / 1.5f, vert.y * 2, vert.z));
+                    vertSuccess.Add(i);
+                }
                 else
                     vertFail.Add(i);
             }
-
+            
             if(vertTemp.Count == 6)
             {
                 //Octahedron
+
                 for (int face = 0, faceIndex = 0; face < 8; face++)
                 {
                     int[] triTemp = { (face / 2) % 2 == 0 ? 0 : 1, face % 2 == 0 ? 4 : 5, (face / 4) % 2 == 0 ? 2 : 3 };
@@ -324,42 +331,151 @@ namespace Voxel
                     Vector3 faceVec = Vector3.Cross(tetraPoints[triTemp[1]] - tetraPoints[triTemp[0]], tetraPoints[triTemp[2]] - tetraPoints[triTemp[0]]);
                     if (TriNormCheck(center, faceVec.normalized))
                     {
-                        
                         int i = 0;
                         foreach (int tri in triTemp)
                         {
                             verts.Add(vertTemp[tri]);
-                            print(vertCount + ", " + 3 * faceIndex + ", " + i);
+                            //print(vertCount + ", " + 3 * faceIndex + ", " + i);
                             tris.Add(vertCount + 3 * faceIndex + i);
-                            normals.Add(Procedural.Noise.noiseMethods[1][2](center, noiseScale).derivative.normalized);
+                            normals.Add(Procedural.Noise.noiseMethods[0][2](center, noiseScale).derivative.normalized);
                             i++;
                         }
                         faceIndex++;
                     }
                 }
             }
-            
+            /*
             if (vertTemp.Count == 5)
             {
                 //Rectangular Prism
+                for (int face = 0, faceIndex = 0; face < 4; face++)
+                {
+                    int[] triTemp = { (face / 2) % 2 == 0 ? 0 : 1, face % 2 == 0 ? 4 : 5, (face / 4) % 2 == 0 ? 2 : 3 };
+                    if (face == 1 || face == 2 || face == 4 || face == 7)
+                        Array.Reverse(triTemp);
+                    Vector3 faceVec = Vector3.Cross(tetraPoints[triTemp[1]] - tetraPoints[triTemp[0]], tetraPoints[triTemp[2]] - tetraPoints[triTemp[0]]);
+                    if (TriNormCheck(center, faceVec.normalized))
+                    {
+                        int i = 0;
+                        foreach (int tri in triTemp)
+                        {
+                            verts.Add(vertTemp[vertFail[0]<tri?tri-1:tri]);
+                            //print(vertCount + ", " + 3 * faceIndex + ", " + i);
+                            tris.Add(vertCount + 3 * faceIndex + i);
+                            normals.Add(Procedural.Noise.noiseMethods[0][2](center, noiseScale).derivative.normalized);
+                            i++;
+                        }
+                        faceIndex++;
+                    }
+                }
             }
-
+            */
             if(vertTemp.Count == 4)
             {
-                if(vertFail[1] - vertFail[0] == 1 && vertFail[0] % 2 == 0)
+                
+                if (vertFail[0] == 4 && vertFail[1] == 5)
                 {
-                    //Square
+                    //Horizontal Square
+                    for (int i = 0; i < 3; i++)
+                    {
+                        verts.Add(vertTemp[i]);
+                        normals.Add(Procedural.Noise.noiseMethods[0][2](center, noiseScale).derivative.normalized);
+                        Vector3 faceVec = Vector3.Cross(tetraPoints[1] - tetraPoints[0], tetraPoints[2] - tetraPoints[0]);
+                        if (TriNormCheck(center, faceVec.normalized))
+                            tris.Add(vertCount + i);
+                        else
+                            tris.Add(vertCount + 2 - i);
+                    }
+                    for (int i = 0; i < 3; i++)
+                    {
+                        int iTemp = i == 2 ? 3 : i;
+                        verts.Add(vertTemp[i]);
+                        normals.Add(Procedural.Noise.noiseMethods[0][2](center, noiseScale).derivative.normalized);
+                        Vector3 faceVec = Vector3.Cross(tetraPoints[1] - tetraPoints[0], tetraPoints[3] - tetraPoints[0]);
+                        if (TriNormCheck(center, faceVec.normalized))
+                            tris.Add(vertCount + 3 + i);
+                        else
+                            tris.Add(vertCount + 5 - i);
+                    }
+                    //Can't find Horizontal Square
+                }
+                else if(vertFail[0] == 2 && vertFail[1] == 3)
+                {
+                    
+                    //Point Slanted Square
+                    
+                    for (int i = 0; i < 3; i++)
+                    {
+                        verts.Add(vertTemp[i]);
+                        normals.Add(Procedural.Noise.noiseMethods[0][2](center, noiseScale).derivative.normalized);
+                        Vector3 faceVec = Vector3.Cross(tetraPoints[1] - tetraPoints[0], tetraPoints[4] - tetraPoints[0]);
+                        if (TriNormCheck(center, faceVec.normalized))
+                            tris.Add(vertCount + i);
+                        else
+                            tris.Add(vertCount + 2 - i);
+                    }
+                    for (int i = 0; i < 3; i++)
+                    {
+                        int iTemp = i == 2 ? 3 : i;
+                        verts.Add(vertTemp[iTemp]);
+                        normals.Add(Procedural.Noise.noiseMethods[0][2](center, noiseScale).derivative.normalized);
+                        Vector3 faceVec = Vector3.Cross(tetraPoints[1] - tetraPoints[0], tetraPoints[5] - tetraPoints[0]);
+                        if (TriNormCheck(center, faceVec.normalized))
+                            tris.Add(vertCount + 3 + i);
+                        else
+                            tris.Add(vertCount + 5 - i);
+                    }
                 }
                 else
                 {
                     //Tetrahedron
+                    string temp = "";
+                    foreach (var vert in vertSuccess)
+                    {
+                        temp = temp + ", " + vert;
+                    }
+                    print(temp);
+                    int corner = vertSuccess[2];
+                    int point = vertSuccess[3];
+                    int[] triTemp = { 0, corner, 1, 0, 1, point, 0, point, corner, 1, corner, point};
+                    int i = 0;
+                    for (int face = 0; face < 4; face++)
+                    {
+                        Vector3 faceVec = Vector3.Cross(tetraPoints[triTemp[1 + 3 * face]] - tetraPoints[triTemp[3 * face]], tetraPoints[triTemp[2 + 3 * face]] - tetraPoints[triTemp[3 * face]]);
+                        if (TriNormCheck(center, faceVec.normalized))
+                        {
+                            for (int j = 0; j < 3; j++)
+                            {
+                                if (triTemp[3 * face + j] == corner)
+                                    verts.Add(vertTemp[2]);
+                                else if (triTemp[3 * face + j] == point)
+                                    verts.Add(vertTemp[3]);
+                                else
+                                    verts.Add(vertTemp[triTemp[3 * face + j]]);
+                                tris.Add(vertCount + i);
+                                normals.Add(Procedural.Noise.noiseMethods[0][2](center, noiseScale).derivative.normalized);
+                                i++;
+                            }
+                        }
+                    }
                 }
+                
             }
-
             if(vertTemp.Count == 3)
             {
                 //Triangle
+                for (int i = 0; i < 3; i++)
+                {
+                    verts.Add(vertTemp[i]);
+                    normals.Add(Procedural.Noise.noiseMethods[0][2](center, noiseScale).derivative.normalized);
+                    Vector3 faceVec = Vector3.Cross(tetraPoints[vertSuccess[1]] - tetraPoints[vertSuccess[0]], tetraPoints[vertSuccess[2]] - tetraPoints[vertSuccess[0]]);
+                    if (TriNormCheck(center, faceVec.normalized))
+                        tris.Add(vertCount + i);
+                    else
+                        tris.Add(vertCount + 2 - i);
+                }
             }
+            
         }
 
         /// <summary>
@@ -370,7 +486,7 @@ namespace Voxel
         /// <returns>Boolean</returns>
         bool TriNormCheck(Vector3 center, Vector3 normal)
         {
-            return 90 > Vector3.Angle(Procedural.Noise.noiseMethods[1][2](center, noiseScale).derivative, normal);
+            return 90 > Vector3.Angle(Procedural.Noise.noiseMethods[0][2](center, noiseScale).derivative, normal);
         }
 
         /// <summary>
@@ -381,7 +497,7 @@ namespace Voxel
         /// <returns>Value of the noise</returns>
         public static float GetNoise(Vector3 pos, float scale)
         {
-            return Procedural.Noise.noiseMethods[1][2](pos, scale).value * 20 + 10;
+            return Procedural.Noise.noiseMethods[0][2](pos, scale).value * 20 + 10;
         }
 
         /// <summary>

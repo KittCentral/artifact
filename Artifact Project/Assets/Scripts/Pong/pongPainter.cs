@@ -36,7 +36,7 @@ public class pongPainter : MonoBehaviour
                 {
                     int ind = i + counter;
                     ind = ind >= particles.Length ? ind % particles.Length : ind;
-                    if (particles[ind].lifetime > 4)
+                    if (particles[ind].remainingLifetime > 4)
                     {
                         int index;
                         if ((int)((particles[ind].velocity.magnitude - 5) / 3) < 7 && (int)((particles[ind].velocity.magnitude - 5) / 3) > -1)
